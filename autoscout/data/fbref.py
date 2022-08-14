@@ -16,6 +16,23 @@ def get_data(
     vs: bool = False,
     sleep_seconds: float = 5.0,
 ) -> pd.DataFrame:
+    """
+    Obtain player or team data for statistics specified in the configuration, from the
+    fbref website, across several categories.
+
+    Args:
+        config: Dict defining statistics per-category from fbref.
+        top: Start section of the relevant competition URL for fbref.
+        end: Final section of the relevant competition URL for fbref.
+        team: Obtain team-level data if `True`, else player-level data.
+        vs: For team-level data, obtain statistics against each team if `True` or for
+            each team if `False`.
+        sleep_seconds: Seconds to pause between each request to fbref.
+
+    Returns:
+        Downloaded and transformed DataFrame.
+    """
+
     df = pd.concat(
         [
             sleep_and_return(
@@ -37,6 +54,23 @@ def get_data_for_category(
     team: bool = False,
     vs: bool = False,
 ) -> pd.DataFrame:
+    """
+    Obtain player or team data for statistics specified in `features`, from the fbref
+    website, within a single category.
+
+    Args:
+        category: ID of the category to obtain statistics from.
+        top: Start section of the relevant competition URL for fbref.
+        end: Final section of the relevant competition URL for fbref.
+        features: IDs of the statistics within the category to obtain.
+        team: Obtain team-level data if `True`, else player-level data.
+        vs: For team-level data, obtain statistics against each team if `True` or for
+            each team if `False`.
+
+    Returns:
+        Downloaded DataFrame for the given statistics in this category.
+    """
+
     url = top + category + end
     player_table, team_table = get_tables(url, vs=vs)
     table = team_table if team else player_table
@@ -46,6 +80,18 @@ def get_data_for_category(
 def get_data_from_table(
     features: Sequence[str], table, team: bool = False
 ) -> pd.DataFrame:
+    """
+    Extract data from a single HTML table on the fbref website.
+
+    Args:
+        features: IDs of statistics to extract.
+        table: HTML table.
+        team: Obtain team-level data if `True`, else player-level data.
+
+    Returns:
+        Extracted DataFrame from the table.
+    """
+
     pre_df: Dict[str, Sequence[Any]] = dict()
     rows = table.find_all("tr")
 
@@ -91,6 +137,17 @@ def get_data_from_table(
 
 
 def get_tables(url: str, vs: bool = False) -> Tuple:
+    """
+    Obtain team and player HTML tables from a competition page on the fbref website.
+
+    Args:
+        url: URL to the page containing the tables.
+        vs: If `True`, obtain statistics against the teams table, instead of for.
+
+    Returns:
+        Tuple of two tables, player and team, of statistics.
+    """
+
     res = requests.get(url)
     # avoid issue with comments breaking parsing
     comm = re.compile("<!--|-->")

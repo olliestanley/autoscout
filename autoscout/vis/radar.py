@@ -12,7 +12,24 @@ def plot_radar_from_config(
     data: pd.DataFrame,
     config: Dict[str, Sequence[str]],
     index: Union[str, int],
+    **kwargs,
 ) -> Tuple[Radar, mpl.figure.Figure, mpl.axes.Axes]:
+    """
+    Plot a radar chart in `matplotlib` for a single row (team or player) in `data`,
+    using specified `columns`. Radar limits are set by 5th and 95th percentile of the
+    `columns` over the whole DataFrame.
+
+    Args:
+        data: Full DataFrame.
+        config: Dict specifying the configuration for the radar chart.
+        index: Index of the row to plot data for. Can be integer index, or name of
+            player or team.
+        **kwargs: Passed to `mplsoccer.Radar.__init__()`.
+
+    Returns:
+        Tuple of Radar, PyPlot Figure, and PyPlot Axes.
+    """
+
     if "normalize" in config and len(config["normalize"]):
         data = tabular.adjust_per_90(data, config["normalize"])
 
@@ -22,6 +39,7 @@ def plot_radar_from_config(
         index,
         config["display"],
         config["lower_is_better"],
+        **kwargs,
     )
 
 
@@ -33,6 +51,25 @@ def plot_radar(
     lower_is_better: Sequence[str] = None,
     **kwargs,
 ) -> Tuple[Radar, mpl.figure.Figure, mpl.axes.Axes]:
+    """
+    Plot a radar chart in `matplotlib` for a single row (team or player) in `data`,
+    using specified `columns`. Radar limits are set by 5th and 95th percentile of the
+    `columns` over the whole DataFrame.
+
+    Args:
+        data: Full DataFrame.
+        columns: Names of columns to include in the chart.
+        index: Index of the row to plot data for. Can be integer index, or name of
+            player or team.
+        columns_display: Display names to replace column names with on the chart.
+        lower_is_better: Names of columns for which lower should be considered better
+            for the radar chart.
+        **kwargs: Passed to `mplsoccer.Radar.__init__()`.
+
+    Returns:
+        Tuple of Radar, PyPlot Figure, and PyPlot Axes.
+    """
+
     if columns_display:
         mapper = dict(zip(columns, columns_display))
         data = data.rename(mapper, axis=1)

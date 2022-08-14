@@ -12,6 +12,17 @@ def adjust_per_90(
     data: pd.DataFrame,
     columns: Sequence[str],
 ) -> pd.DataFrame:
+    """
+    Adjust selected columns from the given DataFrame to be per 90 minutes played.
+
+    Args:
+        data: DataFrame to adjust from.
+        columns: Columns to apply adjustment to.
+
+    Returns:
+        Adjusted DataFrame.
+    """
+
     data = data.copy(deep=True)
     data[columns] = data[columns].div(data.minutes, axis=0).mul(90, axis=0)
     return data
