@@ -1,4 +1,4 @@
-from typing import Sequence, Tuple, Union
+from typing import Dict, Sequence, Tuple, Union
 
 import matplotlib as mpl
 import pandas as pd
@@ -8,22 +8,20 @@ from autoscout.preprocess import tabular
 from autoscout.vis import constant
 
 
-def plot_midfield_radar(
+def plot_radar_from_config(
     data: pd.DataFrame,
+    config: Dict[str, Sequence[str]],
     index: Union[str, int],
-    adjust_per_90: bool = True,
-    **kwargs,
 ) -> Tuple[Radar, mpl.figure.Figure, mpl.axes.Axes]:
-    if adjust_per_90:
-        data = tabular.adjust_per_90(data, constant.MIDFIELD_NORMALIZE_COLUMNS)
+    if "normalize" in config and len(config["normalize"]):
+        data = tabular.adjust_per_90(data, config["normalize"])
 
     return plot_radar(
         data,
-        constant.MIDFIELD_COLUMNS,
+        config["columns"],
         index,
-        constant.MIDFIELD_DISPLAY_COLUMNS,
-        constant.MIDFIELD_LOWER_IS_BETTER,
-        **kwargs,
+        config["display"],
+        config["lower_is_better"],
     )
 
 

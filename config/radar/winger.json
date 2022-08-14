@@ -1,0 +1,38 @@
+{
+    "columns": [
+        "xg_per90",
+        "shots_total_per90",
+        "touches_att_pen_area",
+        "passes_pct",
+        "sca_per90",
+        "xa_per90",
+        "fouled",
+        "dribbles_completed",
+        "dispossessed",
+        "pressure_regains",
+        "npxg_per_shot"
+    ],
+    "display": [
+        "xG",
+        "Shots",
+        "Touches in Box",
+        "Pass Completion",
+        "Shot Creations",
+        "xG Assisted",
+        "Fouls Won",
+        "Dribbles Completed",
+        "Turnovers",
+        "Pressure Regains",
+        "xG/Shot"
+    ],
+    "normalize": [
+        "touches_att_pen_area",
+        "fouled",
+        "dribbles_completed",
+        "dispossessed",
+        "pressure_regains"
+    ],
+    "lower_is_better": [
+        "dispossessed"
+    ]
+}

@@ -1,0 +1,41 @@
+{
+    "columns": [
+        "passes_pct",
+        "passes_into_final_third",
+        "carries_into_final_third",
+        "xa_per90",
+        "dribbles_completed",
+        "fouled",
+        "dispossessed",
+        "pressure_regains",
+        "tackles_won",
+        "pressures",
+        "interceptions"
+    ],
+    "display": [
+        "Pass Completion",
+        "Passes into Final Third",
+        "Carries into Final Third",
+        "xG Assisted",
+        "Dribbles Completed",
+        "Fouls Won",
+        "Turnovers",
+        "Pressure Regains",
+        "Pressures",
+        "Tackles Won"
+    ],
+    "normalize": [
+        "passes_into_final_third",
+        "carries_into_final_third",
+        "dribbles_completed",
+        "fouled",
+        "dispossessed",
+        "pressure_regains",
+        "tackles_won",
+        "pressures",
+        "interceptions"
+    ],
+    "lower_is_better": [
+        "dispossessed"
+    ]
+}
