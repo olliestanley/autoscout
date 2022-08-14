@@ -1,7 +1,30 @@
 # autoscout
 Football (soccer) scouting via publicly available data.
 
-### fbref
+### Structure
+
+```
+├── LICENSE
+├── README.md
+├── requirements.txt
+├── .gitignore
+├── setup.py
+│
+├── autoscout          <- Python source root for autoscout
+│   ├── data           <- Code for acquiring data
+│   ├── preprocess     <- Code for processing data
+│   └── vis            <- Code for visualising data
+│
+├── config             <- Configuration values for feeding to autoscout functions
+│
+├── scripts            <- Reusable scripts for using autoscout
+│   └── data           <- Scripts for acquiring data for analysis via command line
+│
+├── data               <- Downloaded data, not included in source control
+└── notebooks          <- Experimental notebooks, not included in source control
+```
+
+### Functionality
 
 Currently, `autoscout` has a Python API containing functionality to download data from `fbref.com` into CSV files. Player and team data can be acquired, and the process should work for any competition and season for which `fbref` has data.
 
