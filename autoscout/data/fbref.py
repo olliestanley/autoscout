@@ -112,8 +112,6 @@ def get_df_team(
 
 
 def get_tables(url: str, vs: bool = False) -> Tuple:
-    print(url)
-
     res = requests.get(url)
     # avoid issue with comments breaking parsing
     comm = re.compile("<!--|-->")
