@@ -1,8 +1,20 @@
 import datetime
+import json
 from pathlib import Path
-from typing import Union
+from typing import Any, Dict, Union
 
 import pandas as pd
+
+
+def load_json(
+    file_path: Union[str, Path],
+) -> Dict[str, Any]:
+    file_path = Path(file_path)
+
+    with open(file_path, "r") as f:
+        loaded_json = json.load(f)
+
+    return loaded_json
 
 
 def write_dated_csv(
