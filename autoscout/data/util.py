@@ -1,9 +1,15 @@
 import datetime
 import json
 from pathlib import Path
+from time import sleep
 from typing import Any, Dict, Union
 
 import pandas as pd
+
+
+def sleep_and_return(result: Any, sleep_seconds: float) -> Any:
+    sleep(sleep_seconds)
+    return result
 
 
 def load_json(

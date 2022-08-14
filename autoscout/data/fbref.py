@@ -5,17 +5,36 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
+from autoscout.data.util import sleep_and_return
 
-def get_data(config: Dict[str, Sequence[str]], top, end, team: bool = False, vs: bool = False) -> pd.DataFrame:
+
+def get_data(
+    config: Dict[str, Sequence[str]],
+    top: str,
+    end: str,
+    team: bool = False,
+    vs: bool = False,
+    sleep_seconds: float = 10.0,
+) -> pd.DataFrame:
     df = pd.concat([
-        get_data_for_category(k, top, end, v, team=team, vs=vs)
+        sleep_and_return(
+            get_data_for_category(k, top, end, v, team=team, vs=vs),
+            sleep_seconds
+        )
         for k, v in config.items()
     ], axis=1)
 
     return df.loc[:, ~df.columns.duplicated()]
 
 
-def get_data_for_category(category: str, top, end, features: Sequence[str], team: bool = False, vs: bool = False) -> pd.DataFrame:
+def get_data_for_category(
+    category: str,
+    top: str,
+    end: str,
+    features: Sequence[str],
+    team: bool = False,
+    vs: bool = False
+) -> pd.DataFrame:
     url = top + category + end
     player_table, team_table = get_tables(url, vs=vs)
 
@@ -25,7 +44,10 @@ def get_data_for_category(category: str, top, end, features: Sequence[str], team
     )
 
 
-def get_df_player(features: Sequence[str], player_table) -> pd.DataFrame:
+def get_df_player(
+    features: Sequence[str],
+    player_table
+) -> pd.DataFrame:
     pre_df_player = dict()
     rows = player_table.find_all("tr")
 
@@ -39,7 +61,7 @@ def get_df_player(features: Sequence[str], player_table) -> pd.DataFrame:
 
             if text == "":
                 text = "0"
-            if feat not in ("player", "nationality", "position", "squad", "age", "birth_year"):
+            if feat not in ("player", "nationality", "position", "team", "age", "birth_year"):
                 text = float(text.replace(",", ""))
 
             if feat in pre_df_player:
@@ -50,7 +72,10 @@ def get_df_player(features: Sequence[str], player_table) -> pd.DataFrame:
     return pd.DataFrame.from_dict(pre_df_player)
 
 
-def get_df_team(features: Sequence[str], team_table) -> pd.DataFrame:
+def get_df_team(
+    features: Sequence[str],
+    team_table
+) -> pd.DataFrame:
     pre_df_squad = dict()
     # features does not contain squad name, needs special treatment
     rows = team_table.find_all("tr")
@@ -75,7 +100,7 @@ def get_df_team(features: Sequence[str], team_table) -> pd.DataFrame:
 
             if text == "":
                 text = "0"
-            if feat not in ("player", "nationality", "position", "squad", "age", "birth_year"):
+            if feat not in ("player", "nationality", "position", "team", "age", "birth_year"):
                 text = float(text.replace(",", ""))
 
             if feat in pre_df_squad:
@@ -87,6 +112,8 @@ def get_df_team(features: Sequence[str], team_table) -> pd.DataFrame:
 
 
 def get_tables(url: str, vs: bool = False) -> Tuple:
+    print(url)
+
     res = requests.get(url)
     # avoid issue with comments breaking parsing
     comm = re.compile("<!--|-->")
