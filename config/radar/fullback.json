@@ -1,0 +1,44 @@
+{
+    "columns": [
+        "tackles_won",
+        "interceptions",
+        "pressures",
+        "passes_into_final_third",
+        "carries_into_final_third",
+        "passes_pct",
+        "xa_per90",
+        "dribbles_completed",
+        "dispossessed",
+        "aerials_won",
+        "fouls",
+        "dribble_tackles_pct"
+    ],
+    "display": [
+        "Tackles Won",
+        "Interceptions",
+        "Pressures",
+        "Passes into Final Third",
+        "Carries into Final Third",
+        "Pass Completion",
+        "xG Assisted",
+        "Dribbles Completed",
+        "Turnovers",
+        "Aerials Won",
+        "Fouls",
+        "Dribbler Tackle Rate"
+    ],
+    "normalize": [
+        "tackles_won",
+        "interceptions",
+        "pressures",
+        "passes_into_final_third",
+        "carries_into_final_third",
+        "dribbles_completed",
+        "dispossessed",
+        "aerials_won",
+        "fouls"
+    ],
+    "lower_is_better": [
+        "dispossessed"
+    ]
+}

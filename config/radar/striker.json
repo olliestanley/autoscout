@@ -1,0 +1,39 @@
+{
+    "columns": [
+        "xg_per90",
+        "shots_total_per90",
+        "touches_att_pen_area",
+        "sca_per90",
+        "xa_per90",
+        "pressure_regains",
+        "pressures",
+        "aerials_won",
+        "dispossessed",
+        "dribbles_completed",
+        "npxg_per_shot"
+    ],
+    "display": [
+        "xG",
+        "Shots",
+        "Touches in Box",
+        "Shot Creations",
+        "xG Assisted",
+        "Pressure Regains",
+        "Pressures",
+        "Aerials Won",
+        "Turnovers",
+        "Dribbles Completed",
+        "xG/Shot"
+    ],
+    "normalize": [
+        "touches_att_pen_area",
+        "pressure_regains",
+        "pressures",
+        "aerials_won",
+        "dispossessed",
+        "dribbles_completed"
+    ],
+    "lower_is_better": [
+        "dispossessed"
+    ]
+}

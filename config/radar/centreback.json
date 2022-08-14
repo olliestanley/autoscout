@@ -1,0 +1,41 @@
+{
+    "columns": [
+        "passes_pct",
+        "pressures",
+        "fouls",
+        "dribble_tackles_pct",
+        "tackles_won",
+        "interceptions",
+        "aerials_won",
+        "aerials_won_pct",
+        "progressive_passes",
+        "progressive_carries",
+        "dispossessed"
+    ],
+    "display": [
+        "Pass Completion",
+        "Pressures",
+        "Fouls",
+        "Dribbler Tackle Rate",
+        "Tackles Won",
+        "Interceptions",
+        "Aerials Won",
+        "Aerial Win Rate",
+        "Progressive Passes",
+        "Progressive Carries",
+        "Turnovers"
+    ],
+    "normalize": [
+        "pressures",
+        "fouls",
+        "tackles_won",
+        "interceptions",
+        "aerials_won",
+        "progressive_passes",
+        "progressive_carries",
+        "dispossessed"
+    ],
+    "lower_is_better": [
+        "dispossessed"
+    ]
+}
