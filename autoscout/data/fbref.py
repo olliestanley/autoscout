@@ -37,23 +37,32 @@ def get_data_for_category(
 ) -> pd.DataFrame:
     url = top + category + end
     player_table, team_table = get_tables(url, vs=vs)
-
-    return (
-        get_df_team(features, team_table) if team
-        else get_df_player(features, player_table)
-    )
+    table = team_table if team else player_table
+    return get_data_from_table(features, table, team)
 
 
-def get_df_player(
+def get_data_from_table(
     features: Sequence[str],
-    player_table
+    table,
+    team: bool = False
 ) -> pd.DataFrame:
-    pre_df_player = dict()
-    rows = player_table.find_all("tr")
+    pre_df = dict()
+    rows = table.find_all("tr")
 
     for row in rows:
         if row.find("th", {"scope": "row"}) is None:
             continue
+
+        if team:
+            name = (
+                row.find("th", {"data-stat": "team"})
+                .text.strip().encode().decode("utf-8")
+            )
+
+            if "team" in pre_df:
+                pre_df["team"].append(name)
+            else:
+                pre_df["team"] = [name]
 
         for feat in features:
             cell = row.find("td", {"data-stat": feat})
@@ -64,51 +73,12 @@ def get_df_player(
             if feat not in ("player", "nationality", "position", "team", "age", "birth_year"):
                 text = float(text.replace(",", ""))
 
-            if feat in pre_df_player:
-                pre_df_player[feat].append(text)
+            if feat in pre_df:
+                pre_df[feat].append(text)
             else:
-                pre_df_player[feat] = [text]
+                pre_df[feat] = [text]
 
-    return pd.DataFrame.from_dict(pre_df_player)
-
-
-def get_df_team(
-    features: Sequence[str],
-    team_table
-) -> pd.DataFrame:
-    pre_df_team = dict()
-    # features does not contain squad name, needs special treatment
-    rows = team_table.find_all("tr")
-
-    for row in rows:
-        if row.find("th", {"scope": "row"}) is None:
-            continue
-
-        name = (
-            row.find("th", {"data-stat": "team"})
-            .text.strip().encode().decode("utf-8")
-        )
-
-        if "team" in pre_df_team:
-            pre_df_team["team"].append(name)
-        else:
-            pre_df_team["team"] = [name]
-
-        for feat in features:
-            cell = row.find("td", {"data-stat": feat})
-            text = cell.text.strip().encode().decode("utf-8")
-
-            if text == "":
-                text = "0"
-            if feat not in ("player", "nationality", "position", "team", "age", "birth_year"):
-                text = float(text.replace(",", ""))
-
-            if feat in pre_df_team:
-                pre_df_team[feat].append(text)
-            else:
-                pre_df_team[feat] = [text]
-
-    return pd.DataFrame.from_dict(pre_df_team)
+    return pd.DataFrame.from_dict(pre_df)
 
 
 def get_tables(url: str, vs: bool = False) -> Tuple:
