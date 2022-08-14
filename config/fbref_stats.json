@@ -1,10 +1,10 @@
 {
-    "individual": {
-        "std": [
+    "outfield": {
+        "stats": [
             "player",
             "nationality",
             "position",
-            "squad",
+            "team",
             "age",
             "birth_year",
             "games",
@@ -30,60 +30,7 @@
             "npxg_per90",
             "npxg_xa_per90"
         ],
-        "gk": [
-            "player",
-            "nationality",
-            "position",
-            "squad",
-            "age",
-            "birth_year",
-            "games_gk",
-            "games_starts_gk",
-            "minutes_gk",
-            "goals_against_gk",
-            "goals_against_per90_gk",
-            "shots_on_target_against",
-            "saves",
-            "save_pct",
-            "wins_gk",
-            "draws_gk",
-            "losses_gk",
-            "clean_sheets",
-            "clean_sheets_pct",
-            "pens_att_gk",
-            "pens_allowed",
-            "pens_saved",
-            "pens_missed_gk"
-        ],
-        "gkadv": [
-            "minutes_90s",
-            "goals_against_gk",
-            "pens_allowed",
-            "free_kick_goals_against_gk",
-            "corner_kick_goals_against_gk",
-            "own_goals_against_gk",
-            "psxg_gk",
-            "psnpxg_per_shot_on_target_against",
-            "psxg_net_gk",
-            "psxg_net_per90_gk",
-            "passes_completed_launched_gk",
-            "passes_launched_gk",
-            "passes_pct_launched_gk",
-            "passes_gk",
-            "passes_throws_gk",
-            "pct_passes_launched_gk",
-            "passes_length_avg_gk",
-            "goal_kicks",
-            "pct_goal_kicks_launched",
-            "goal_kick_length_avg",
-            "crosses_gk",
-            "crosses_stopped_gk",
-            "crosses_stopped_pct_gk",
-            "def_actions_outside_pen_area_gk",
-            "def_actions_outside_pen_area_per90_gk",
-            "avg_distance_def_actions_gk"
-        ],
-        "shoot": [
+        "shooting": [
             "minutes_90s",
             "goals",
             "pens_made",
@@ -102,7 +49,7 @@
             "xg_net",
             "npxg_net"
         ],
-        "pass": [
+        "passing": [
             "passes_completed",
             "passes",
             "passes_pct",
@@ -126,7 +73,7 @@
             "crosses_into_penalty_area",
             "progressive_passes"
         ],
-        "passtype": [
+        "passing_types": [
             "passes",
             "passes_live",
             "passes_dead",
@@ -170,7 +117,7 @@
             "gca_fouled",
             "gca_defense"
         ],
-        "def": [
+        "defense": [
             "tackles",
             "tackles_won",
             "tackles_def_3rd",
@@ -194,7 +141,7 @@
             "clearances",
             "errors"
         ],
-        "possess": [
+        "possession": [
             "touches",
             "touches_def_pen_area",
             "touches_def_3rd",
@@ -238,8 +185,63 @@
             "aerials_won_pct"
         ]
     },
+    "keeper": {
+        "keepers": [
+            "player",
+            "nationality",
+            "position",
+            "team",
+            "age",
+            "birth_year",
+            "gk_games",
+            "gk_games_starts",
+            "gk_minutes",
+            "gk_goals_against",
+            "gk_goals_against_per90",
+            "gk_shots_on_target_against",
+            "gk_saves",
+            "gk_save_pct",
+            "gk_wins",
+            "gk_ties",
+            "gk_losses",
+            "gk_clean_sheets",
+            "gk_clean_sheets_pct",
+            "gk_pens_att",
+            "gk_pens_allowed",
+            "gk_pens_saved",
+            "gk_pens_missed"
+        ],
+        "keepersadv": [
+            "minutes_90s",
+            "gk_goals_against",
+            "gk_pens_allowed",
+            "gk_free_kick_goals_against",
+            "gk_corner_kick_goals_against",
+            "gk_own_goals_against",
+            "gk_psxg",
+            "gk_psnpxg_per_shot_on_target_against",
+            "gk_psxg_net",
+            "gk_psxg_net_per90",
+            "gk_passes_completed_launched",
+            "gk_passes_launched",
+            "gk_passes_pct_launched",
+            "gk_passes",
+            "gk_passes_throws",
+            "gk_pct_passes_launched",
+            "gk_passes_length_avg",
+            "gk_goal_kicks",
+            "gk_pct_goal_kicks_launched",
+            "gk_goal_kick_length_avg",
+            "gk_crosses",
+            "gk_crosses_stopped",
+            "gk_crosses_stopped_pct",
+            "gk_def_actions_outside_pen_area",
+            "gk_def_actions_outside_pen_area_per90",
+            "gk_avg_distance_def_actions"
+        ]
+    },
     "team": {
-        "std": [
+        "stats": [
             "players_used",
             "possession",
             "games",
@@ -265,55 +267,55 @@
             "npxg_per90",
             "npxg_xa_per90"
         ],
-        "gk": [
+        "keepers": [
             "players_used",
-            "games_gk",
-            "games_starts_gk",
-            "minutes_gk",
-            "goals_against_gk",
-            "goals_against_per90_gk",
-            "shots_on_target_against",
-            "saves",
-            "save_pct",
-            "wins_gk",
-            "draws_gk",
-            "losses_gk",
-            "clean_sheets",
-            "clean_sheets_pct",
-            "pens_att_gk",
-            "pens_allowed",
-            "pens_saved",
-            "pens_missed_gk"
+            "gk_games",
+            "gk_games_starts",
+            "gk_minutes",
+            "gk_goals_against",
+            "gk_goals_against_per90",
+            "gk_shots_on_target_against",
+            "gk_saves",
+            "gk_save_pct",
+            "gk_wins",
+            "gk_ties",
+            "gk_losses",
+            "gk_clean_sheets",
+            "gk_clean_sheets_pct",
+            "gk_pens_att",
+            "gk_pens_allowed",
+            "gk_pens_saved",
+            "gk_pens_missed"
         ],
-        "gkadv": [
+        "keepersadv": [
             "minutes_90s",
-            "goals_against_gk",
-            "pens_allowed",
-            "free_kick_goals_against_gk",
-            "corner_kick_goals_against_gk",
-            "own_goals_against_gk",
-            "psxg_gk",
-            "psnpxg_per_shot_on_target_against",
-            "psxg_net_gk",
-            "psxg_net_per90_gk",
-            "passes_completed_launched_gk",
-            "passes_launched_gk",
-            "passes_pct_launched_gk",
-            "passes_gk",
-            "passes_throws_gk",
-            "pct_passes_launched_gk",
-            "passes_length_avg_gk",
-            "goal_kicks",
-            "pct_goal_kicks_launched",
-            "goal_kick_length_avg",
-            "crosses_gk",
-            "crosses_stopped_gk",
-            "crosses_stopped_pct_gk",
-            "def_actions_outside_pen_area_gk",
-            "def_actions_outside_pen_area_per90_gk",
-            "avg_distance_def_actions_gk"
+            "gk_goals_against",
+            "gk_pens_allowed",
+            "gk_free_kick_goals_against",
+            "gk_corner_kick_goals_against",
+            "gk_own_goals_against",
+            "gk_psxg",
+            "gk_psnpxg_per_shot_on_target_against",
+            "gk_psxg_net",
+            "gk_psxg_net_per90",
+            "gk_passes_completed_launched",
+            "gk_passes_launched",
+            "gk_passes_pct_launched",
+            "gk_passes",
+            "gk_passes_throws",
+            "gk_pct_passes_launched",
+            "gk_passes_length_avg",
+            "gk_goal_kicks",
+            "gk_pct_goal_kicks_launched",
+            "gk_goal_kick_length_avg",
+            "gk_crosses",
+            "gk_crosses_stopped",
+            "gk_crosses_stopped_pct",
+            "gk_def_actions_outside_pen_area",
+            "gk_def_actions_outside_pen_area_per90",
+            "gk_avg_distance_def_actions"
         ],
-        "shoot": [
+        "shooting": [
             "goals",
             "pens_made",
             "pens_att",
@@ -331,7 +333,7 @@
             "xg_net",
             "npxg_net"
         ],
-        "pass": [
+        "passing": [
             "passes_completed",
             "passes",
             "passes_pct",
@@ -355,7 +357,7 @@
             "crosses_into_penalty_area",
             "progressive_passes"
         ],
-        "passtype": [
+        "passing_types": [
             "passes",
             "passes_live",
             "passes_dead",
@@ -399,7 +401,7 @@
             "gca_fouled",
             "gca_defense"
         ],
-        "def": [
+        "defense": [
             "tackles",
             "tackles_won",
             "tackles_def_3rd",
@@ -423,7 +425,7 @@
             "clearances",
             "errors"
         ],
-        "possess": [
+        "possession": [
             "touches",
             "touches_def_pen_area",
             "touches_def_3rd",
