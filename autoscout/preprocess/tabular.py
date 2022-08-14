@@ -4,7 +4,17 @@ Load and preprocess player and team data from tabular (CSV) format.
 
 import itertools
 from typing import Dict, Sequence, Union
+
 import pandas as pd
+
+
+def adjust_per_90(
+    data: pd.DataFrame,
+    columns: Sequence[str],
+) -> pd.DataFrame:
+    data = data.copy(deep=True)
+    data[columns] = data[columns].div(data.minutes, axis=0).mul(90, axis=0)
+    return data
 
 
 def filter_categories(
