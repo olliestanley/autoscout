@@ -72,14 +72,16 @@ if __name__ == "__main__":
 
     if args.type == "team":
         download_team_data_for_comp(
-            comps_json[args.competition],
+            url_top,
+            url_end,
             stats_json,
             args.out,
             vs=args.vs,
         )
     else:
         download_player_data_for_comp(
-            comps_json[args.competition],
+            url_top,
+            url_end,
             stats_json,
             args.out,
             keeper=(args.type == "keeper"),
