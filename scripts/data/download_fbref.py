@@ -31,7 +31,8 @@ import argparse
 from pathlib import Path
 from typing import Dict, Sequence, Union
 
-from autoscout.data import fbref, util
+from autoscout import util
+from autoscout.data import fbref
 
 
 def download_player_data_for_comp(

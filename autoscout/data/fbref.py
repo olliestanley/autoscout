@@ -5,7 +5,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-from autoscout.data.util import sleep_and_return
+from autoscout.util import sleep_and_return
 
 
 def get_data(

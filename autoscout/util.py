@@ -23,6 +23,11 @@ def load_json(
     return loaded_json
 
 
+def load_csv(file_path: Union[str, Path], **kwargs) -> pd.DataFrame:
+    file_path = Path(file_path)
+    return pd.read_csv(file_path, **kwargs)
+
+
 def write_dated_csv(
     df: pd.DataFrame,
     out_dir: Union[str, Path],
