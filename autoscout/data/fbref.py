@@ -1,5 +1,5 @@
 import re
-from typing import Dict, Sequence, Tuple
+from typing import Any, Dict, Sequence, Tuple
 
 import pandas as pd
 import requests
@@ -16,13 +16,15 @@ def get_data(
     vs: bool = False,
     sleep_seconds: float = 5.0,
 ) -> pd.DataFrame:
-    df = pd.concat([
-        sleep_and_return(
-            get_data_for_category(k, top, end, v, team=team, vs=vs),
-            sleep_seconds
-        )
-        for k, v in config.items()
-    ], axis=1)
+    df = pd.concat(
+        [
+            sleep_and_return(
+                get_data_for_category(k, top, end, v, team=team, vs=vs), sleep_seconds
+            )
+            for k, v in config.items()
+        ],
+        axis=1,
+    )
 
     return df.loc[:, ~df.columns.duplicated()]
 
@@ -33,7 +35,7 @@ def get_data_for_category(
     end: str,
     features: Sequence[str],
     team: bool = False,
-    vs: bool = False
+    vs: bool = False,
 ) -> pd.DataFrame:
     url = top + category + end
     player_table, team_table = get_tables(url, vs=vs)
@@ -42,11 +44,9 @@ def get_data_for_category(
 
 
 def get_data_from_table(
-    features: Sequence[str],
-    table,
-    team: bool = False
+    features: Sequence[str], table, team: bool = False
 ) -> pd.DataFrame:
-    pre_df = dict()
+    pre_df: Dict[str, Sequence[Any]] = dict()
     rows = table.find_all("tr")
 
     for row in rows:
@@ -56,7 +56,9 @@ def get_data_from_table(
         if team:
             name = (
                 row.find("th", {"data-stat": "team"})
-                .text.strip().encode().decode("utf-8")
+                .text.strip()
+                .encode()
+                .decode("utf-8")
             )
 
             if "team" in pre_df:
@@ -70,7 +72,14 @@ def get_data_from_table(
 
             if text == "":
                 text = "0"
-            if feat not in ("player", "nationality", "position", "team", "age", "birth_year"):
+            if feat not in (
+                "player",
+                "nationality",
+                "position",
+                "team",
+                "age",
+                "birth_year",
+            ):
                 text = float(text.replace(",", ""))
 
             if feat in pre_df:
