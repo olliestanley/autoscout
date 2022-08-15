@@ -4,7 +4,7 @@ import matplotlib as mpl
 import pandas as pd
 from mplsoccer import Radar
 
-from autoscout.preprocess import tabular
+from autoscout import process
 from autoscout.vis import constant
 
 
@@ -31,7 +31,7 @@ def plot_radar_from_config(
     """
 
     if "normalize" in config and len(config["normalize"]):
-        data = tabular.adjust_per_90(data, config["normalize"])
+        data = process.adjust_per_90(data, config["normalize"])
 
     return plot_radar(
         data,
