@@ -8,6 +8,26 @@ from typing import Dict, Sequence, Union
 import pandas as pd
 
 
+def combine_data(
+    data: Sequence[pd.DataFrame],
+    retain_nans=False,
+) -> pd.DataFrame:
+    """
+    Combine tabular datasets by indices, for example to form a single DataFrame of
+    datapoints from multiple competitions, or different seasons of one competition.
+
+    Args:
+        data: Sequence of individual datasets.
+        retain_nans: Include columns which are not present in all individual datasets
+            in the final output data.
+
+    Return:
+        Combined data.
+    """
+
+    return pd.concat(data, axis=0, join="outer" if retain_nans else "inner")
+
+
 def adjust_per_90(
     data: pd.DataFrame,
     columns: Sequence[str],

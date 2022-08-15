@@ -54,7 +54,7 @@ def download_data_for_comp(
     if dataset == "team":
         dataset += "_vs" if vs else "_for"
 
-    util.write_dated_csv(df, out_dir, dataset, index=False)
+    util.write_csv(df, out_dir, dataset, index=False)
 
 
 if __name__ == "__main__":
@@ -85,7 +85,7 @@ if __name__ == "__main__":
         url_top,
         url_end,
         stats_json,
-        args.out,
+        f"{args.out}/{args.competition}/{args.season}",
         dataset=args.type,
         vs=args.vs,
     )

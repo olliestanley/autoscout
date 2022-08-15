@@ -1,6 +1,26 @@
 {
-    "pl": {
+    "big5": {
+        "top": "https://fbref.com/en/comps/Big5/",
+        "end": "/Big-5-European-Leagues-Stats"
+    },
+    "eng1": {
         "top": "https://fbref.com/en/comps/9/",
         "end": "/Premier-League-Stats"
+    },
+    "spa1": {
+        "top": "https://fbref.com/en/comps/12/",
+        "end": "/La-Liga-Stats"
+    },
+    "fra1": {
+        "top": "https://fbref.com/en/comps/13/",
+        "end": "/Ligue-1-Stats"
+    },
+    "ger1": {
+        "top": "https://fbref.com/en/comps/20/",
+        "end": "/Bundesliga-Stats"
+    },
+    "ita1": {
+        "top": "https://fbref.com/en/comps/11/",
+        "end": "/Serie-A-Stats"
     }
 }
