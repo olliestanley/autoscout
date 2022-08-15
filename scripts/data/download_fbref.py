@@ -35,41 +35,26 @@ from autoscout import util
 from autoscout.data import fbref
 
 
-def download_player_data_for_comp(
+def download_data_for_comp(
     url_top: str,
     url_end: str,
     stats_config: Dict[str, Dict[str, Sequence[str]]],
     out_dir: Union[str, Path] = "data/fbref",
-    keeper: bool = False,
-) -> None:
-    keeper_str = "keeper" if keeper else "outfield"
-
-    df = fbref.get_data(
-        stats_config[keeper_str],
-        url_top,
-        url_end,
-    )
-
-    util.write_dated_csv(df, out_dir, keeper_str, index=False)
-
-
-def download_team_data_for_comp(
-    url_top: str,
-    url_end: str,
-    stats_config: Dict[str, Dict[str, Sequence[str]]],
-    out_dir: Union[str, Path] = "data/fbref",
+    dataset: str = "outfield",
     vs: bool = False,
 ) -> None:
     df = fbref.get_data(
-        stats_config["team"],
+        stats_config[dataset],
         url_top,
         url_end,
-        team=True,
+        team=(dataset == "team"),
         vs=vs,
     )
 
-    vs_text = "vs" if vs else "for"
-    util.write_dated_csv(df, out_dir, f"team_{vs_text}", index=False)
+    if dataset == "team":
+        dataset += "_vs" if vs else "_for"
+
+    util.write_dated_csv(df, out_dir, dataset, index=False)
 
 
 if __name__ == "__main__":
@@ -96,19 +81,11 @@ if __name__ == "__main__":
         url_top += f"{season_str}/"
         url_end = f"/{season_str}-{url_end[1:]}"
 
-    if args.type == "team":
-        download_team_data_for_comp(
-            url_top,
-            url_end,
-            stats_json,
-            args.out,
-            vs=args.vs,
-        )
-    else:
-        download_player_data_for_comp(
-            url_top,
-            url_end,
-            stats_json,
-            args.out,
-            keeper=(args.type == "keeper"),
-        )
+    download_data_for_comp(
+        url_top,
+        url_end,
+        stats_json,
+        args.out,
+        dataset=args.type,
+        vs=args.vs,
+    )
