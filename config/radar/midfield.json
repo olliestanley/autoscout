@@ -1,4 +1,5 @@
 {
+    "name": "Midfielder",
     "columns": [
         "passes_pct",
         "passes_into_final_third",

@@ -1,4 +1,5 @@
 {
+    "name": "Full Back",
     "columns": [
         "tackles_won",
         "interceptions",

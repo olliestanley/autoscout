@@ -1,4 +1,5 @@
 {
+    "name": "Striker",
     "columns": [
         "xg_per90",
         "shots_total_per90",
