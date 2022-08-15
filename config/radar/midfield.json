@@ -9,8 +9,8 @@
         "fouled",
         "dispossessed",
         "pressure_regains",
-        "tackles_won",
         "pressures",
+        "tackles_won",
         "interceptions"
     ],
     "display": [
@@ -23,7 +23,8 @@
         "Turnovers",
         "Pressure Regains",
         "Pressures",
-        "Tackles Won"
+        "Tackles Won",
+        "Interceptions"
     ],
     "normalize": [
         "passes_into_final_third",
