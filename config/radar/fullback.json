@@ -36,19 +36,19 @@
             "high": 2.6,
             "low": 0.5
         },
-        "passes_pct": {
-            "display": "Pass Completion",
-            "normalize": false,
-            "lower_is_better": false,
-            "high": 0.86,
-            "low": 0.65
-        },
         "xa_per90": {
             "display": "xG Assisted",
             "normalize": true,
             "lower_is_better": false,
             "high": 0.24,
             "low": 0.02
+        },
+        "passes_pct": {
+            "display": "Pass Completion",
+            "normalize": false,
+            "lower_is_better": false,
+            "high": 0.86,
+            "low": 0.65
         },
         "dribbles_completed": {
             "display": "Dribbles Completed",
