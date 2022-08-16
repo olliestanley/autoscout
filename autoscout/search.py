@@ -2,6 +2,7 @@ from typing import Dict, Sequence, Union
 
 import pandas as pd
 from scipy.spatial import distance
+from sklearn.preprocessing import MinMaxScaler
 
 from autoscout.util import get_record
 
@@ -30,9 +31,13 @@ def search_similar(
     data: pd.DataFrame, columns: Sequence[str], index: Union[str, int], num: int = 5
 ) -> pd.DataFrame:
     data = data.copy(deep=True)
+    scaler = MinMaxScaler()
 
-    baseline = get_record(data, index)[columns].squeeze()
+    baseline = get_record(data, index)[columns]
     data_relevant = data[columns]
+
+    data_relevant = pd.DataFrame(scaler.fit_transform(data_relevant), columns=columns)
+    baseline = pd.DataFrame(scaler.transform(baseline), columns=columns).squeeze()
 
     return data.iloc[data_relevant.apply(
         lambda col: distance.euclidean(baseline, col), axis=1
