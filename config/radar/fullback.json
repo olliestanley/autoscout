@@ -26,7 +26,7 @@
             "display": "Passes into Final Third",
             "normalize": true,
             "lower_is_better": false,
-            "high": 5.0,
+            "high": 4.6,
             "low": 1.1
         },
         "carries_into_final_third": {
