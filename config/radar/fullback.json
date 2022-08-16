@@ -1,7 +1,7 @@
 {
     "name": "Full Back",
     "columns": {
-        "tackles": {
+        "tackles_won": {
             "display": "Tackles Won",
             "normalize": true,
             "lower_is_better": false,
