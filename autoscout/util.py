@@ -7,6 +7,23 @@ import pandas as pd
 
 
 def get_record(data: pd.DataFrame, index: Union[str, int]) -> pd.DataFrame:
+    """
+    Get a single row from the given DataFrame, based on a contextually interpreted
+    `index` value.
+
+    Args:
+        data: Initial DataFrame to get a row from.
+        index: Identifier for the row. If `index` is of type `int`, it will be used as
+            a row index, so the result will be `data.iloc[index]`. If `index` is of
+            type `str` it will be used to obtain a row by matching `index` to a player
+            or team name column. If both a player and team column are present, player
+            is preferred. If there are multiple matches, the row with the greatest
+            value of the `minutes` column is preferred.
+
+    Returns:
+        DataFrame containing a single row from the input DataFrame.
+    """
+
     if isinstance(index, int):
         return data.iloc[index]
 
