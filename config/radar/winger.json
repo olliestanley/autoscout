@@ -1,39 +1,82 @@
 {
     "name": "Att Mid / Winger",
-    "columns": [
-        "xg_per90",
-        "shots_total_per90",
-        "touches_att_pen_area",
-        "passes_pct",
-        "sca_per90",
-        "xa_per90",
-        "fouled",
-        "dribbles_completed",
-        "dispossessed",
-        "pressure_regains",
-        "npxg_per_shot"
-    ],
-    "display": [
-        "xG",
-        "Shots",
-        "Touches in Box",
-        "Pass Completion",
-        "Shot Creations",
-        "xG Assisted",
-        "Fouls Won",
-        "Dribbles Completed",
-        "Turnovers",
-        "Pressure Regains",
-        "xG/Shot"
-    ],
-    "normalize": [
-        "touches_att_pen_area",
-        "fouled",
-        "dribbles_completed",
-        "dispossessed",
-        "pressure_regains"
-    ],
-    "lower_is_better": [
-        "dispossessed"
-    ]
+    "columns": {
+        "xg_per90": {
+            "display": "xG",
+            "normalize": false,
+            "lower_is_better": false,
+            "high": 0.37,
+            "low": 0.06
+        },
+        "shots_total_per90": {
+            "display": "Shots",
+            "normalize": false,
+            "lower_is_better": false,
+            "high": 3.3,
+            "low": 0.8
+        },
+        "touches_att_pen_area": {
+            "display": "Touches in Box",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 8.4,
+            "low": 1.5
+        },
+        "passes_pct": {
+            "display": "Pass Completion",
+            "normalize": false,
+            "lower_is_better": false,
+            "high": 0.84,
+            "low": 0.63
+        },
+        "sca_per90": {
+            "display": "Shot Creations",
+            "normalize": false,
+            "lower_is_better": false,
+            "high": 8.0,
+            "low": 2.0
+        },
+        "xa_per90": {
+            "display": "xG Assisted",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 0.26,
+            "low": 0.04
+        },
+        "fouled": {
+            "display": "Fouls Won",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 3.1,
+            "low": 0.6
+        },
+        "dribbles_completed": {
+            "display": "Dribbles Completed",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 3.5,
+            "low": 0.5
+        },
+        "dispossessed": {
+            "display": "Turnovers",
+            "normalize": true,
+            "lower_is_better": true,
+            "high": 5.1,
+            "low": 1.5
+        },
+        "pressure_regains": {
+            "display": "Pressure Regains",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 4.3,
+            "low": 1.5
+        },
+        "npxg_per_shot": {
+            "display": "xG/Shot",
+            "normalize": false,
+            "lower_is_better": false,
+            "high": 0.16,
+            "low": 0.05
+        }
+    }
 }

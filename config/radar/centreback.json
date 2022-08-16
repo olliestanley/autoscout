@@ -1,42 +1,82 @@
 {
     "name": "Centre Back",
-    "columns": [
-        "passes_pct",
-        "pressures",
-        "fouls",
-        "dribble_tackles_pct",
-        "tackles_won",
-        "interceptions",
-        "aerials_won",
-        "aerials_won_pct",
-        "progressive_passes",
-        "progressive_carries",
-        "dispossessed"
-    ],
-    "display": [
-        "Pass Completion",
-        "Pressures",
-        "Fouls",
-        "Dribbler Tackle Rate",
-        "Tackles Won",
-        "Interceptions",
-        "Aerials Won",
-        "Aerial Win Rate",
-        "Progressive Passes",
-        "Progressive Carries",
-        "Turnovers"
-    ],
-    "normalize": [
-        "pressures",
-        "fouls",
-        "tackles_won",
-        "interceptions",
-        "aerials_won",
-        "progressive_passes",
-        "progressive_carries",
-        "dispossessed"
-    ],
-    "lower_is_better": [
-        "dispossessed"
-    ]
+    "columns": {
+        "passes_pct": {
+            "display": "Pass Completion",
+            "normalize": false,
+            "lower_is_better": false,
+            "high": 0.92,
+            "low": 0.73
+        },
+        "pressures": {
+            "display": "Pressures",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 13.1,
+            "low": 4.4
+        },
+        "fouls": {
+            "display": "Fouls",
+            "normalize": true,
+            "lower_is_better": true,
+            "high": 1.6,
+            "low": 0.4
+        },
+        "dribble_tackles_pct": {
+            "display": "Dribbler Tackle Rate",
+            "normalize": false,
+            "lower_is_better": false,
+            "high": 0.88,
+            "low": 0.53
+        },
+        "tackles_won": {
+            "display": "Tackles Won",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 2.7,
+            "low": 0.6
+        },
+        "interceptions": {
+            "display": "Interceptions",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 2.5,
+            "low": 0.5
+        },
+        "aerials_won": {
+            "display": "Aerials Won",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 3.5,
+            "low": 0.7
+        },
+        "aerials_won_pct": {
+            "display": "Aerial Win Rate",
+            "normalize": false,
+            "lower_is_better": false,
+            "high": 0.78,
+            "low": 0.44
+        },
+        "progressive_passes": {
+            "display": "Progressive Passes",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 6.0,
+            "low": 2.0
+        },
+        "progressive_carries": {
+            "display": "Progressive Carries",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 6.0,
+            "low": 2.0
+        },
+        "dispossessed": {
+            "display": "Turnovers",
+            "normalize": true,
+            "lower_is_better": true,
+            "high": 2.1,
+            "low": 0.0
+        }
+    }
 }

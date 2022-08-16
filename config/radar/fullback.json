@@ -1,45 +1,89 @@
 {
     "name": "Full Back",
-    "columns": [
-        "tackles_won",
-        "interceptions",
-        "pressures",
-        "passes_into_final_third",
-        "carries_into_final_third",
-        "passes_pct",
-        "xa_per90",
-        "dribbles_completed",
-        "dispossessed",
-        "aerials_won",
-        "fouls",
-        "dribble_tackles_pct"
-    ],
-    "display": [
-        "Tackles Won",
-        "Interceptions",
-        "Pressures",
-        "Passes into Final Third",
-        "Carries into Final Third",
-        "Pass Completion",
-        "xG Assisted",
-        "Dribbles Completed",
-        "Turnovers",
-        "Aerials Won",
-        "Fouls",
-        "Dribbler Tackle Rate"
-    ],
-    "normalize": [
-        "tackles_won",
-        "interceptions",
-        "pressures",
-        "passes_into_final_third",
-        "carries_into_final_third",
-        "dribbles_completed",
-        "dispossessed",
-        "aerials_won",
-        "fouls"
-    ],
-    "lower_is_better": [
-        "dispossessed"
-    ]
+    "columns": {
+        "tackles_won": {
+            "display": "Tackles Won",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 3.5,
+            "low": 0.9
+        },
+        "interceptions": {
+            "display": "Interceptions",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 2.4,
+            "low": 0.5
+        },
+        "pressures": {
+            "display": "Pressures",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 19.0,
+            "low": 9.0
+        },
+        "passes_into_final_third": {
+            "display": "Passes into Final Third",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 5.0,
+            "low": 1.1
+        },
+        "carries_into_final_third": {
+            "display": "Carries into Final Third",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 2.6,
+            "low": 0.5
+        },
+        "passes_pct": {
+            "display": "Pass Completion",
+            "normalize": false,
+            "lower_is_better": false,
+            "high": 0.86,
+            "low": 0.65
+        },
+        "xa_per90": {
+            "display": "xG Assisted",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 0.24,
+            "low": 0.02
+        },
+        "dribbles_completed": {
+            "display": "Dribbles Completed",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 1.9,
+            "low": 0.3
+        },
+        "dispossessed": {
+            "display": "Turnovers",
+            "normalize": true,
+            "lower_is_better": true,
+            "high": 2.6,
+            "low": 0.5
+        },
+        "aerials_won": {
+            "display": "Aerials Won",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 2.2,
+            "low": 0.3
+        },
+        "fouls": {
+            "display": "Fouls",
+            "normalize": true,
+            "lower_is_better": true,
+            "high": 2.0,
+            "low": 0.5
+        },
+        "dribble_tackles_pct": {
+            "display": "Dribbler Tackle Rate",
+            "normalize": false,
+            "lower_is_better": false,
+            "high": 0.82,
+            "low": 0.51
+        }
+    }
 }

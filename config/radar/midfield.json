@@ -1,43 +1,82 @@
 {
     "name": "Midfielder",
-    "columns": [
-        "passes_pct",
-        "passes_into_final_third",
-        "carries_into_final_third",
-        "xa_per90",
-        "dribbles_completed",
-        "fouled",
-        "dispossessed",
-        "pressure_regains",
-        "pressures",
-        "tackles_won",
-        "interceptions"
-    ],
-    "display": [
-        "Pass Completion",
-        "Passes into Final Third",
-        "Carries into Final Third",
-        "xG Assisted",
-        "Dribbles Completed",
-        "Fouls Won",
-        "Turnovers",
-        "Pressure Regains",
-        "Pressures",
-        "Tackles Won",
-        "Interceptions"
-    ],
-    "normalize": [
-        "passes_into_final_third",
-        "carries_into_final_third",
-        "dribbles_completed",
-        "fouled",
-        "dispossessed",
-        "pressure_regains",
-        "tackles_won",
-        "pressures",
-        "interceptions"
-    ],
-    "lower_is_better": [
-        "dispossessed"
-    ]
+    "columns": {
+        "passes_pct": {
+            "display": "Pass Completion",
+            "normalize": false,
+            "lower_is_better": false,
+            "high": 0.90,
+            "low": 0.72
+        },
+        "passes_into_final_third": {
+            "display": "Passes into Final Third",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 7.1,
+            "low": 2.0
+        },
+        "carries_into_final_third": {
+            "display": "Carries into Final Third",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 2.1,
+            "low": 0.4
+        },
+        "xa_per90": {
+            "display": "xG Assisted",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 0.20,
+            "low": 0.05
+        },
+        "dribbles_completed": {
+            "display": "Dribbles Completed",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 2.1,
+            "low": 0.4
+        },
+        "fouled": {
+            "display": "Fouls Won",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 2.7,
+            "low": 0.5
+        },
+        "dispossessed": {
+            "display": "Turnovers",
+            "normalize": true,
+            "lower_is_better": true,
+            "high": 2.7,
+            "low": 0.4
+        },
+        "pressure_regains": {
+            "display": "Pressure Regains",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 5.1,
+            "low": 2.2
+        },
+        "pressures": {
+            "display": "Pressures",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 28.0,
+            "low": 12.0
+        },
+        "tackles_won": {
+            "display": "Tackles Won",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 3.7,
+            "low": 0.9
+        },
+        "interceptions": {
+            "display": "Interceptions",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 2.5,
+            "low": 0.5
+        }
+    }
 }
