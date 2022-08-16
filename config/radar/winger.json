@@ -26,8 +26,8 @@
             "display": "Pass Completion",
             "normalize": false,
             "lower_is_better": false,
-            "high": 0.84,
-            "low": 0.63
+            "high": 84.0,
+            "low": 63.0
         },
         "sca_per90": {
             "display": "Shot Creations",

@@ -5,14 +5,14 @@
             "display": "Tackles Won",
             "normalize": true,
             "lower_is_better": false,
-            "high": 2.0,
+            "high": 1.9,
             "low": 0.4
         },
         "interceptions": {
             "display": "Interceptions",
             "normalize": true,
             "lower_is_better": false,
-            "high": 2.4,
+            "high": 2.6,
             "low": 0.5
         },
         "pressures": {
@@ -20,7 +20,7 @@
             "normalize": true,
             "lower_is_better": false,
             "high": 19.0,
-            "low": 9.0
+            "low": 8.0
         },
         "passes_into_final_third": {
             "display": "Passes into Final Third",
@@ -41,14 +41,14 @@
             "normalize": true,
             "lower_is_better": false,
             "high": 0.24,
-            "low": 0.02
+            "low": 0.05
         },
         "passes_pct": {
             "display": "Pass Completion",
             "normalize": false,
             "lower_is_better": false,
-            "high": 0.86,
-            "low": 0.65
+            "high": 87.0,
+            "low": 65.0
         },
         "dribbles_completed": {
             "display": "Dribbles Completed",
@@ -61,7 +61,7 @@
             "display": "Turnovers",
             "normalize": true,
             "lower_is_better": true,
-            "high": 2.6,
+            "high": 2.5,
             "low": 0.5
         },
         "aerials_won": {
@@ -82,8 +82,8 @@
             "display": "Dribbler Tackle Rate",
             "normalize": false,
             "lower_is_better": false,
-            "high": 0.82,
-            "low": 0.51
+            "high": 79.0,
+            "low": 35.0
         }
     }
 }
