@@ -22,6 +22,7 @@ ipykernel==6.15.1
 ipython==8.4.0
 isort==5.10.1
 jedi==0.18.1
+joblib==1.1.0
 jupyter-client==7.3.4
 jupyter-core==4.11.1
 kiwisolver==1.4.4
@@ -56,11 +57,13 @@ pytz==2022.2.1
 pywin32==304
 pyzmq==23.2.1
 requests==2.28.1
+scikit-learn==1.1.2
 scipy==1.9.0
 seaborn==0.11.2
 six==1.16.0
 soupsieve==2.3.2.post1
 stack-data==0.4.0
+threadpoolctl==3.1.0
 tomli==2.0.1
 tornado==6.2
 traitlets==5.3.0
