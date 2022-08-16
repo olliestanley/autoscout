@@ -68,8 +68,8 @@
             "display": "Tackles Won",
             "normalize": true,
             "lower_is_better": false,
-            "high": 3.7,
-            "low": 0.9
+            "high": 2.6,
+            "low": 0.5
         },
         "interceptions": {
             "display": "Interceptions",

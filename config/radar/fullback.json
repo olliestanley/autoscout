@@ -1,12 +1,12 @@
 {
     "name": "Full Back",
     "columns": {
-        "tackles_won": {
+        "tackles": {
             "display": "Tackles Won",
             "normalize": true,
             "lower_is_better": false,
-            "high": 3.5,
-            "low": 0.9
+            "high": 2.0,
+            "low": 0.4
         },
         "interceptions": {
             "display": "Interceptions",
