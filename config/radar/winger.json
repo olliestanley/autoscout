@@ -38,7 +38,7 @@
         },
         "xa_per90": {
             "display": "xG Assisted",
-            "normalize": true,
+            "normalize": false,
             "lower_is_better": false,
             "high": 0.26,
             "low": 0.04
