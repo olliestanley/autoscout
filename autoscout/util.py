@@ -6,6 +6,19 @@ from typing import Any, Dict, Union
 import pandas as pd
 
 
+def get_record(data: pd.DataFrame, index: Union[str, int]) -> pd.DataFrame:
+    if isinstance(index, int):
+        return data.iloc[index]
+
+    player = "player" in data.columns
+    data = data[data["player" if player else "team"] == index]
+
+    if len(data.index) > 1:
+        return data.iloc[data["minutes"].argmax()]
+
+    return data
+
+
 def sleep_and_return(result: Any, sleep_seconds: float) -> Any:
     sleep(sleep_seconds)
     return result

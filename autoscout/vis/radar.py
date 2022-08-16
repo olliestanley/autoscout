@@ -6,6 +6,7 @@ from mplsoccer import Radar
 
 from autoscout import preprocess
 from autoscout.vis import constant
+from autoscout.util import get_record
 
 
 def plot_radar_from_config(
@@ -94,15 +95,7 @@ def plot_radar(
     if max_values == "auto":
         max_values = data[columns].quantile(0.95)
 
-    if isinstance(index, str):
-        player = "player" in data.columns
-        data = data[data["player" if player else "team"] == index]
-
-        # TODO: More sophisticated solution to this
-        if len(data.index) > 1:
-            data = data.iloc[0]
-    else:
-        data = data.iloc[index]
+    data = get_record(data, index)
 
     radar = Radar(
         params=columns,
