@@ -5,29 +5,29 @@
             "display": "Pass Completion",
             "normalize": false,
             "lower_is_better": false,
-            "high": 90.0,
-            "low": 72.0
+            "high": 89.0,
+            "low": 67.0
         },
         "passes_into_final_third": {
             "display": "Passes into Final Third",
             "normalize": true,
             "lower_is_better": false,
-            "high": 7.1,
-            "low": 2.0
+            "high": 5.8,
+            "low": 1.9
         },
         "carries_into_final_third": {
             "display": "Carries into Final Third",
             "normalize": true,
             "lower_is_better": false,
-            "high": 2.1,
+            "high": 2.6,
             "low": 0.4
         },
         "xa_per90": {
             "display": "xG Assisted",
             "normalize": false,
             "lower_is_better": false,
-            "high": 0.20,
-            "low": 0.05
+            "high": 0.21,
+            "low": 0.04
         },
         "dribbles_completed": {
             "display": "Dribbles Completed",
@@ -40,43 +40,43 @@
             "display": "Fouls Won",
             "normalize": true,
             "lower_is_better": false,
-            "high": 2.7,
-            "low": 0.5
+            "high": 2.9,
+            "low": 0.4
         },
         "dispossessed": {
             "display": "Turnovers",
             "normalize": true,
             "lower_is_better": true,
-            "high": 2.7,
+            "high": 2.8,
             "low": 0.4
         },
         "pressure_regains": {
             "display": "Pressure Regains",
             "normalize": true,
             "lower_is_better": false,
-            "high": 5.1,
-            "low": 2.2
+            "high": 8.2,
+            "low": 3.3
         },
         "pressures": {
             "display": "Pressures",
             "normalize": true,
             "lower_is_better": false,
-            "high": 28.0,
-            "low": 12.0
+            "high": 28.9,
+            "low": 13.5
         },
         "tackles_won": {
             "display": "Tackles Won",
             "normalize": true,
             "lower_is_better": false,
-            "high": 2.6,
-            "low": 0.5
+            "high": 2.3,
+            "low": 0.4
         },
         "interceptions": {
             "display": "Interceptions",
             "normalize": true,
             "lower_is_better": false,
             "high": 2.5,
-            "low": 0.5
+            "low": 0.4
         }
     }
 }

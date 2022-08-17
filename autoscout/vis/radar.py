@@ -9,6 +9,14 @@ from autoscout.vis import constant
 from autoscout.util import get_record
 
 
+def estimate_limits_by_position(
+    data: pd.DataFrame, column: str, position: str, alpha: float = 0.1
+) -> Tuple[float, float]:
+    data = data[data["position"].str.startswith(position)]
+    values = data[column].squeeze()
+    return values.quantile(alpha), values.quantile(1 - alpha)
+
+
 def plot_radar_from_config(
     data: pd.DataFrame,
     config: Dict[str, Any],
