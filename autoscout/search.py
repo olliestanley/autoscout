@@ -32,18 +32,11 @@ def search(
             names to comparison values.
     """
 
-    gte, eq, lte = [
-        criteria.get(x, dict())
-        for x in ("gte", "eq", "lte")
-    ]
-
-    for stat, value in gte.items():
+    for stat, value in criteria.get("gte", dict()).items():
         data = data[data[stat] >= value]
-
-    for stat, value in eq.items():
+    for stat, value in criteria.get("eq", dict()).items():
         data = data[data[stat] == value]
-
-    for stat, value in lte.items():
+    for stat, value in criteria.get("lte", dict()).items():
         data = data[data[stat] <= value]
 
     return data
