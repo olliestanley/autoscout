@@ -93,8 +93,10 @@ from autoscout import analyse, util
 ratings_config = util.load_json("config/rating_inputs.json")
 df = analyse.estimate_style_ratings(df, ratings_config)
 
-progress_ratings = df["progress_rating"]
+df["progress_rating"]
 ```
+
+Ratings based on custom defined sets of statistics can easily be computed by adding sections to `rating_inputs.json`.
 
 Reduce the dimensionality of 4 columns of a dataset `df` into 2 columns. This is used by `estimate_style_ratings()` to derive stylistic ratings from raw statistics, but may be useful for other purposes.
 
@@ -102,7 +104,7 @@ Reduce the dimensionality of 4 columns of a dataset `df` into 2 columns. This is
 from autoscout import analyse
 
 columns = ["goals", "assists", "xg", "xa"]
-df[["ga_rating"]] = analyse.reduce_dimensions(df, columns, reducer=1)
+df["ga_rating"] = analyse.reduce_dimensions(df, columns, reducer=1)
 ```
 
 A custom reducer from `SciKit-Learn` can be specified in `reduce_dimensions()`, otherwise an integer value for the output number of dimensions can be specified. This defaults to `1` if no value is specified.
