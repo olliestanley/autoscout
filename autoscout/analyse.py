@@ -41,7 +41,7 @@ def reduce_dimensions(
     if isinstance(reducer, int):
         reducer = fit_pca(data, columns, reducer)
 
-    return reducer.predict(data[columns])
+    return reducer.transform(data[columns])
 
 
 def fit_pca(
