@@ -13,17 +13,17 @@
     ],
     "create": [
         "xa",
-        "assisted_shots",
         "passes_into_penalty_area",
         "crosses_into_penalty_area",
         "through_balls",
-        "sca_passes_live",
-        "sca_passes_dead"
+        "sca"
     ],
     "threat": [
         "npxg",
+        "shots_on_target",
         "sca_shots",
         "sca_dribbles",
+        "sca_fouled",
         "touches_att_pen_area",
         "carries_into_penalty_area"
     ],
