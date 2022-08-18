@@ -71,7 +71,7 @@ def cluster_records(
     data: pd.DataFrame,
     columns: Sequence[str],
     estimator: Union[BaseEstimator, str] = "auto",
-) -> np.ndarray[int]:
+) -> np.ndarray:
     """
     Cluster or classify the records in `data`, using `columns` as features. A fitted
     `estimator` from SciKit-Learn can be passed for classification or clustering with
