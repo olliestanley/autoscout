@@ -136,7 +136,30 @@ def _select_k_by_elbow_test(
     data: ArrayLike,
     k_values: Sequence[int] = range(3, 30),
     relative: bool = True,
-):
+) -> int:
+    """
+    Estimate the best number of clusters (k) for KMeans clustering, based on `data`
+    and `estimator`. The strength of each possible k in `k_values` is assessed based
+    on the inertia value. See `_get_inertia()` for an explanation of this value.
+
+    An elbow test is used to estimate the strength of each cluster count. This is not
+    the only method and may not suit all datasets. It is intended to support other
+    estimation methods in the future.
+
+    Args:
+        estimator: Estimator, usually KMeans, to estimate optimal k for.
+        data: Data to estimate optimal k for.
+        k_values: All possible values of k to consider. More values may lead to longer
+            runtimes with large volumes of data, but provides greater certainty.
+        relative: Assess cluster relative, rather than absolute, strength. This adds
+            what is in effect regularisation to cluster count selection, penalising
+            larger numbers of clusters by dividing the strength value of all cluster
+            counts by the count itself.
+
+    Returns:
+        Optimal k value for KMeans clustering using elbow test.
+    """
+
     clusters = np.array(k_values)
     ssd = list(map(lambda k: _get_inertia(estimator, data, k), k_values))
 
@@ -153,7 +176,22 @@ def _select_k_by_elbow_test(
     return clusters[np.argmax(strength)]
 
 
-def _get_inertia(estimator: KMeans, data: ArrayLike, k: int):
+def _get_inertia(estimator: KMeans, data: ArrayLike, k: int) -> float:
+    """
+    Get the intertia value for `estimator` when fitted to `data` with `k` clusters.
+    Inertia is also known as within cluster sum of squared distances, meaning the sum
+    of squared distances of data points from their nearest cluster centroid. This can
+    be used to assess the goodness of fit of a clustering model.
+
+    Args:
+        estimator: Estimator, usually KMeans, to get inertia for.
+        data: Data to fit `estimator` to for getting inertia.
+        k: Number of clusters to use.
+
+    Returns:
+        Inertia value.
+    """
+
     estimator.n_clusters = k
     estimator.fit(data)
     return estimator.inertia_
