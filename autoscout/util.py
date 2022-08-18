@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from time import sleep
-from typing import Any, Dict, Union
+from typing import Any, Dict, Sequence, Union
 
 import pandas as pd
 from sklearn.preprocessing import minmax_scale
@@ -38,7 +38,7 @@ def get_record(data: pd.DataFrame, index: Union[str, int]) -> pd.DataFrame:
 
 
 def min_max_scale(
-    data: pd.DataFrame, columns: str, inplace: bool = False
+    data: pd.DataFrame, columns: Sequence[str], inplace: bool = False
 ) -> pd.DataFrame:
     if not inplace:
         data = data.copy(deep=True)

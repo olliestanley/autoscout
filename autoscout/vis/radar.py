@@ -5,8 +5,8 @@ import pandas as pd
 from mplsoccer import Radar
 
 from autoscout import preprocess
-from autoscout.vis import constant
 from autoscout.util import get_record
+from autoscout.vis import constant
 
 
 def estimate_limits_by_position(
@@ -51,7 +51,6 @@ def plot_radar_from_config(
             lib.append(stat)
         if stat_config["normalize"]:
             normalize.append(stat)
-
 
     if normalize:
         data = preprocess.adjust_per_90(data, normalize)

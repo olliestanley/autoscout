@@ -7,9 +7,7 @@ from sklearn.preprocessing import MinMaxScaler
 from autoscout.util import get_record
 
 
-def search(
-    data: pd.DataFrame, criteria: Dict[str, Dict[str, float]]
-) -> pd.DataFrame:
+def search(data: pd.DataFrame, criteria: Dict[str, Dict[str, float]]) -> pd.DataFrame:
     """
     Search a DataFrame for rows which match numerical `criteria`.
 
@@ -76,6 +74,8 @@ def search_similar(
     data_relevant = pd.DataFrame(scaler.fit_transform(data_relevant), columns=columns)
     baseline = pd.DataFrame(scaler.transform(baseline), columns=columns).squeeze()
 
-    return data.iloc[data_relevant.apply(
-        lambda col: distance.euclidean(baseline, col), axis=1
-    ).nsmallest(num).index.to_list()]
+    return data.iloc[
+        data_relevant.apply(lambda col: distance.euclidean(baseline, col), axis=1)
+        .nsmallest(num)
+        .index.to_list()
+    ]

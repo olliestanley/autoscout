@@ -13,8 +13,7 @@ from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import minmax_scale
 
-from autoscout import preprocess
-from autoscout import util
+from autoscout import preprocess, util
 
 
 def estimate_style_ratings(
@@ -23,7 +22,7 @@ def estimate_style_ratings(
 ) -> pd.DataFrame:
     """
     Estimate stylistic ratings for records based on a dict `config`.
-    
+
     Ratings are derived via 1-dimensional PCA over the input columns, which are first
     adjusted per 90 minutes, clamped based on quantiles, and min-max scaled. Ratings
     are additionally min-max scaled and so end up in the range [0, 1].
@@ -52,9 +51,7 @@ def estimate_style_ratings(
     data = util.min_max_scale(data, relevant_columns)
 
     for rating in config.keys():
-        data[f"{rating}_rating"] = minmax_scale(
-            reduce_dimensions(data, config[rating])
-        )
+        data[f"{rating}_rating"] = minmax_scale(reduce_dimensions(data, config[rating]))
 
     return data
 
