@@ -2,7 +2,8 @@
 Apply algorithms to data to identify patterns and insights.
 """
 
-from typing import Sequence, Union
+import itertools
+from typing import Dict, Sequence, Union
 
 import numpy as np
 import pandas as pd
@@ -10,8 +11,52 @@ from numpy.typing import ArrayLike
 from sklearn.base import BaseEstimator
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
+from sklearn.preprocessing import minmax_scale
 
-from autoscout.util import min_max_scale
+from autoscout import preprocess
+from autoscout import util
+
+
+def estimate_style_ratings(
+    data: pd.DataFrame,
+    config: Dict[str, Sequence[str]],
+) -> pd.DataFrame:
+    """
+    Estimate stylistic ratings for records based on a dict `config`.
+    
+    Ratings are derived via 1-dimensional PCA over the input columns, which are first
+    adjusted per 90 minutes, clamped based on quantiles, and min-max scaled. Ratings
+    are additionally min-max scaled and so end up in the range [0, 1].
+
+    Note that stylistic ratings are relative to the input dataset. If `data` contains
+    few observations, results are unlikely to be meaningful. Custom estimators can be
+    built using `fit_pca()` using a whole dataset to then allow inference on a single
+    datapoint at a time.
+
+    Args:
+        data: DataFrame containing all input records to compute stylistic ratings for.
+        config: Dict defining columns in `data` which are to be considered for each
+            stylistic rating.
+
+    Returns:
+        DataFrame with stylistic ratings included. The name of each rating column is
+        given by `f"{rating}_rating"`, with {rating} the name specified in `config`.
+    """
+
+    data = data.copy(deep=True)
+
+    relevant_columns = list(set(itertools.chain(*config.values())))
+
+    data = preprocess.adjust_per_90(data, relevant_columns)
+    data = preprocess.clamp_by_percentiles(data, relevant_columns)
+    data = util.min_max_scale(data, relevant_columns)
+
+    for rating in config.keys():
+        data[f"{rating}_rating"] = minmax_scale(
+            reduce_dimensions(data, config[rating])
+        )
+
+    return data
 
 
 def reduce_dimensions(
@@ -36,7 +81,7 @@ def reduce_dimensions(
         To include this as a column: `data["cluster"] = reduce_dimensions(data, ...)`.
     """
 
-    data = min_max_scale(data, columns)
+    data = util.min_max_scale(data, columns)
 
     if isinstance(reducer, int):
         reducer = fit_pca(data, columns, reducer)
