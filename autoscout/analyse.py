@@ -138,7 +138,7 @@ def cluster_records(
         column of `data`, use: `data["cluster"] = cluster_records(data, ...)`.
     """
 
-    data = min_max_scale(data, columns)
+    data = util.min_max_scale(data, columns)
 
     if estimator == "auto":
         estimator = fit_kmeans(data, columns)
