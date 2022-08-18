@@ -9,7 +9,62 @@ import pandas as pd
 from numpy.typing import ArrayLike
 from sklearn.base import BaseEstimator
 from sklearn.cluster import KMeans
-from sklearn.preprocessing import minmax_scale
+from sklearn.decomposition import PCA
+
+from autoscout.util import min_max_scale
+
+
+def reduce_dimensions(
+    data: pd.DataFrame,
+    columns: Sequence[str],
+    reducer: Union[BaseEstimator, int] = 1,
+) -> np.ndarray:
+    """
+    Reduce the dimensions specified by `columns` in `data`. A fitted estimator can be
+    used for reduction. Otherwise, automatically fitting PCA is supported.
+
+    Input `data` is min-max scaled but not adjusted per-90 minutes prior to reduction.
+
+    Args:
+        data: DataFrame containing input data.
+        columns: Names of columns to use as features.
+        reducer: Existing reducer. If an `int`, a PCA model is fitted automatically
+            with the provided number of output dimensions.
+
+    Returns:
+        Array of reduced dimensionality feature values, in order of rows in `data`.
+        To include this as a column: `data["cluster"] = reduce_dimensions(data, ...)`.
+    """
+
+    data = min_max_scale(data, columns)
+
+    if isinstance(reducer, int):
+        reducer = fit_pca(data, columns, reducer)
+
+    return reducer.predict(data[columns])
+
+
+def fit_pca(
+    data: pd.DataFrame, columns: Sequence[str], out_dimensions: int = 1
+) -> KMeans:
+    """
+    Fit a PCA dimensionality reduction model to `data`, using `columns` as features.
+
+    Data is not preprocessed. It may be useful to min-max scale the data or adjust
+    per 90 minutes prior to passing it to this function.
+
+    Args:
+        data: DataFrame containing data to fit estimator.
+        columns: Names of columns to use as clustering features.
+        out_dimensions: Number of output dimensions for the reduction.
+
+    Returns:
+        Fitted PCA estimator.
+    """
+
+    estimator = PCA(n_components=out_dimensions)
+    estimator.fit(data[columns])
+    return estimator
 
 
 def cluster_records(
@@ -23,7 +78,9 @@ def cluster_records(
     an already prepared model. Otherwise, automatically fitting KMeans is supported.
 
     Input `data` is min-max scaled but not adjusted per-90 minutes, prior to being
-    clustered.
+    clustered. It is possible, and sometimes beneficial, to apply clustering to data
+    which has already been dimensionality reduced. To do this, include the outputs of
+    dimensionality reduction as columns in `data`, then pass them as `columns`.
 
     Args:
         data: DataFrame containing input data.
@@ -36,8 +93,7 @@ def cluster_records(
         column of `data`, use: `data["cluster"] = cluster_records(data, ...)`.
     """
 
-    data = data.copy(deep=True)
-    data[columns] = pd.DataFrame(minmax_scale(data[columns]), columns=columns)
+    data = min_max_scale(data, columns)
 
     if estimator == "auto":
         estimator = fit_kmeans(data, columns)
@@ -73,7 +129,6 @@ def fit_kmeans(
     estimator.n_clusters = n_clusters
     estimator.fit(data[columns])
     return estimator
-
 
 
 def _select_k_by_elbow_test(

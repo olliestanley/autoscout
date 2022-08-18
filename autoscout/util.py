@@ -4,6 +4,7 @@ from time import sleep
 from typing import Any, Dict, Union
 
 import pandas as pd
+from sklearn.preprocessing import minmax_scale
 
 
 def get_record(data: pd.DataFrame, index: Union[str, int]) -> pd.DataFrame:
@@ -33,6 +34,15 @@ def get_record(data: pd.DataFrame, index: Union[str, int]) -> pd.DataFrame:
     if len(data.index) > 1:
         return data.iloc[data["minutes"].argmax()]
 
+    return data
+
+
+def min_max_scale(
+    data: pd.DataFrame, columns: str, inplace: bool = False
+) -> pd.DataFrame:
+    if not inplace:
+        data = data.copy(deep=True)
+    data[columns] = minmax_scale(data[columns])
     return data
 
 
