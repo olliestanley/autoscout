@@ -28,6 +28,34 @@ def combine_data(
     return pd.concat(data, axis=0, join="outer" if retain_nans else "inner")
 
 
+def clamp_by_percentiles(
+    data: pd.DataFrame,
+    columns: Sequence[str],
+    alpha: float = 0.05,
+) -> pd.DataFrame:
+    """
+    Clamp values in `columns` within `data` to within percentiles `alpha` and
+    `1 - alpha`.
+
+    Args:
+        data: DataFrame to clamp values within.
+        columns: Columns to apply clamping to.
+        alpha: Percentile to clamp at.
+
+    Returns:
+        DataFrame with selected columns clamped.
+    """
+
+    data = data.copy(deep=True)
+
+    for column in columns:
+        vals = data[column]
+
+        data[column] = vals.clip(vals.quantile(alpha), vals.quantile(1 - alpha))
+
+    return data
+
+
 def adjust_per_90(
     data: pd.DataFrame,
     columns: Sequence[str],
