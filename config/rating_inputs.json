@@ -10,5 +10,45 @@
         "passes_switches",
         "passes_long",
         "passes_pressure"
+    ],
+    "create": [
+        "xa",
+        "assisted_shots",
+        "passes_into_penalty_area",
+        "crosses_into_penalty_area",
+        "through_balls",
+        "sca_passes_live",
+        "sca_passes_dead"
+    ],
+    "threat": [
+        "npxg",
+        "sca_shots",
+        "sca_dribbles",
+        "touches_att_pen_area",
+        "carries_into_penalty_area"
+    ],
+    "press": [
+        "tackles_att_3rd",
+        "tackles_mid_3rd",
+        "pressure_regains",
+        "pressures_att_3rd",
+        "pressures_mid_3rd"
+    ],
+    "defend": [
+        "tackles_def_3rd",
+        "tackles_mid_3rd",
+        "dribble_tackles",
+        "pressures_def_3rd",
+        "pressures_mid_3rd",
+        "blocks",
+        "interceptions",
+        "ball_recoveries"
+    ],
+    "recycle": [
+        "passes_short",
+        "passes_medium",
+        "touches_mid_3rd",
+        "pass_targets",
+        "ball_recoveries"
     ]
 }
