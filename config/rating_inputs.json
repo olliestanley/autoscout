@@ -1,0 +1,12 @@
+{
+    "progress": [
+        "passes_pressure",
+        "progressive_passes",
+        "passes_progressive_distance",
+        "passes_into_final_third",
+        "progressive_carries",
+        "carry_progressive_distance",
+        "carries_into_final_third",
+        "dribbles"
+    ]
+}
