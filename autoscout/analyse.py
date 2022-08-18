@@ -138,7 +138,7 @@ def _select_k_by_elbow_test(
     relative: bool = True,
 ):
     clusters = np.array(k_values)
-    ssd = map(lambda k: _get_inertia(estimator, data, k), k_values)
+    ssd = list(map(lambda k: _get_inertia(estimator, data, k), k_values))
 
     dx = -np.diff(ssd)
     dx2 = -np.diff(dx)
