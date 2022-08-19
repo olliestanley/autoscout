@@ -8,6 +8,15 @@ from typing import Dict, Sequence, Union
 import pandas as pd
 
 
+def with_competition_column(
+    data: pd.DataFrame,
+    competition: str,
+) -> pd.DataFrame:
+    data = data.copy(deep=True)
+    data["competition"] = competition
+    return data
+
+
 def combine_data(
     data: Sequence[pd.DataFrame],
     retain_nans=False,
@@ -25,7 +34,9 @@ def combine_data(
         Combined data.
     """
 
-    return pd.concat(data, axis=0, join="outer" if retain_nans else "inner")
+    data = pd.concat(data, axis=0, join="outer" if retain_nans else "inner")
+    data = data.reset_index(drop=True)
+    return data
 
 
 def clamp_by_percentiles(
