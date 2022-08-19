@@ -52,7 +52,7 @@ def estimate_style_ratings(
 
     for rating in config.keys():
         data[f"{rating}_rating"] = minmax_scale(reduce_dimensions(data, config[rating]))
-        data[f"{rating}_rating"] = (data[f"{rating}_rating"] * 100).round(1)
+        data[f"{rating}_rating"] = (data[f"{rating}_rating"] * 100).round(2)
 
     return data
 
