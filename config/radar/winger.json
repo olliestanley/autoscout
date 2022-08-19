@@ -19,7 +19,7 @@
             "display": "Touches in Box",
             "normalize": true,
             "lower_is_better": false,
-            "high": 8.4,
+            "high": 8.2,
             "low": 1.5
         },
         "passes_pct": {
@@ -47,7 +47,7 @@
             "display": "Fouls Won",
             "normalize": true,
             "lower_is_better": false,
-            "high": 3.1,
+            "high": 2.9,
             "low": 0.6
         },
         "dribbles_completed": {
@@ -62,20 +62,20 @@
             "normalize": true,
             "lower_is_better": true,
             "high": 5.1,
-            "low": 1.5
+            "low": 1.3
         },
         "pressure_regains": {
             "display": "Pressure Regains",
             "normalize": true,
             "lower_is_better": false,
-            "high": 4.3,
+            "high": 4.5,
             "low": 1.5
         },
         "npxg_per_shot": {
             "display": "xG/Shot",
             "normalize": false,
             "lower_is_better": false,
-            "high": 0.16,
+            "high": 0.17,
             "low": 0.05
         }
     }
