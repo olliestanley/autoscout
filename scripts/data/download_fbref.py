@@ -32,7 +32,7 @@ from pathlib import Path
 from typing import Dict, Sequence, Union
 
 from autoscout import util
-from autoscout.data import fbref
+from autoscout.data.fbref import aggregate
 
 
 def download_data_for_comp(
@@ -43,7 +43,7 @@ def download_data_for_comp(
     dataset: str = "outfield",
     vs: bool = False,
 ) -> None:
-    df = fbref.get_data(
+    df = aggregate.get_data(
         stats_config[dataset],
         url_top,
         url_end,
