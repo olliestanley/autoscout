@@ -27,6 +27,20 @@ Download La Liga current season team data from `fbref` (append `--vs` to get dat
 $ python scripts/data/download_fbref_aggregate.py --competition spa1 --season current --type team
 ```
 
+Download Frenkie de Jong 2021-22 player match-by-match data from `fbref`:
+
+```shell
+$ python scripts/data/download_fbref_match.py --dataset frenkie_2223
+```
+
+Download Manchester United 2022-23 team match-by-match data from `fbref` (append `--vs` to get data against the team):
+
+```shell
+$ python scripts/data/download_fbref_match.py --dataset mufc_2122
+```
+
+Add to or alter `config/fbref/matches.json` to add extra players or teams to the available list. Note that building a dataset of a large number of players and/or teams may require significant effort as each entity has a unique identifier which you must obtain. In future it may be possible to scrape an ID to player/team mapping but this is not currently supported.
+
 Load data into a Pandas `DataFrame`:
 
 ```python

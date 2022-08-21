@@ -1,30 +1,10 @@
 """
-Script for downloading data from fbref ready for analysis.
-
-To download outfield player data for the current men's Premier League season::
-
-    python scripts/data/download_fbref.py \
-        --config config/fbref/
-        --out data/fbref/
-        --competition pl
-        --type outfield
-
-For goalkeeper data, simply replace `outfield` with `keeper`.
-
-To download team data for the 2021-22 men's Premier League season::
-
-    python scripts/data/download_fbref.py \
-        --config config/fbref/
-        --out data/fbref/
-        --competition pl
-        --season 2022
-        --type team
+Script for downloading match level data from fbref ready for analysis.
 
 For stats against (rather than for) teams, simply append `--vs`.
 
-The default configs (as used in the example usages above) are not mandatory. Using a
-file named `comps.json` and another named `stats.json`, you can determine which stats
-and competitions are pulled from `fbref.`
+The default configs are not mandatory. Using a file named `matches.json` and another
+named `stats.json`, you can determine which stats and competitions are pulled.
 """
 
 import argparse
