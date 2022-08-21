@@ -5,6 +5,7 @@ Load and preprocess player and team data from tabular (CSV) format.
 import itertools
 from typing import Dict, Sequence, Union
 
+import numpy as np
 import pandas as pd
 
 
@@ -87,6 +88,47 @@ def adjust_per_90(
     return data
 
 
+def adjust_possession(
+    data_player: pd.DataFrame,
+    data_team: pd.DataFrame,
+    columns: Sequence[str],
+) -> pd.DataFrame:
+    """
+    Adjust selected columns from the given DataFrame for the level of possession
+    enjoyed by the relevant team. This is designed to adjust player statistics, as it
+    is fairly trivial to adjust team statistics. Match level data, not aggregate, is
+    required.
+
+    This function is dependent on lining up the correct player and team datasets. As
+    such, it may fall short when working with data across multiple seasons, or if a
+    player has switched teams. Ensure that `data_team` contains only matches played
+    while the player was at the club.
+
+    Args:
+        data_player: DataFrame of player data where rows are matches played by the
+            player.
+        data_team: DataFrame of team data where rows are matches played by the team.
+        columns: Columns to apply adjustments to.
+
+    Returns:
+        Adjusted DataFrame.
+    """
+
+    data_player = data_player.copy(deep=True)
+
+    team_possessions = data_player.apply(
+        lambda row: _get_team_possession(row, data_team), axis=1
+    )
+
+    padj_columns = [f"padj_{col}" for col in columns]
+
+    data_player[padj_columns] = _adjust_possession(
+        data_player[columns], team_possessions
+    )
+
+    return data_player
+
+
 def filter_categories(
     data: pd.DataFrame,
     stats_config: Dict[str, Sequence[str]],
@@ -112,3 +154,13 @@ def filter_categories(
     )
 
     return data[stats] if retain else data.drop(stats, axis=1)
+
+
+def _get_team_possession(player_match: pd.Series, team_data: pd.DataFrame) -> float:
+    return float(team_data[team_data["date"] == player_match["date"]]["possession"])
+
+
+def _adjust_possession(targets: pd.DataFrame, possessions: pd.Series) -> np.ndarray:
+    p_delta = possessions.to_numpy() - 50
+    exp = np.expand_dims(np.power(np.e, -0.1 * p_delta), 1)
+    return targets.to_numpy() * (2 / (1 + exp))

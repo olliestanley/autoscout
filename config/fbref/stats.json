@@ -565,6 +565,7 @@
                 "errors"
             ],
             "possession": [
+                "possession",
                 "touches",
                 "touches_def_pen_area",
                 "touches_def_3rd",
@@ -591,6 +592,9 @@
                 "dispossessed"
             ],
             "misc": [
+                "comp",
+                "date",
+                "venue",
                 "cards_yellow",
                 "cards_red",
                 "cards_yellow_red",
@@ -755,6 +759,12 @@
                 "dispossessed"
             ],
             "misc": [
+                "squad",
+                "date",
+                "position",
+                "comp",
+                "minutes",
+                "venue",
                 "cards_yellow",
                 "cards_red",
                 "cards_yellow_red",
