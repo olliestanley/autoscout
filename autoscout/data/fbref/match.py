@@ -72,7 +72,7 @@ def get_data_for_category(
     url = top + category + end
     tables = scrape.get_all_tables(url)
     table = tables[1] if team and vs else tables[0]
-    return get_data_from_table(features, table, team)
+    return get_data_from_table(features, table)
 
 
 def get_data_from_table(
@@ -97,7 +97,7 @@ def get_data_from_table(
             continue
 
         opponent = (
-            row.find("th", {"data-stat": "opponent"})
+            row.find("td", {"data-stat": "opponent"})
             .text.strip()
             .encode()
             .decode("utf-8")

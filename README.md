@@ -18,13 +18,13 @@ $ python -m pip install -qr requirements.txt
 Download Premier League 2021-22 outfield player data from `fbref` via CLI:
 
 ```shell
-$ python scripts/data/download_fbref.py --competition eng1 --season 2022 --type outfield
+$ python scripts/data/download_fbref_aggregate.py --competition eng1 --season 2022 --type outfield
 ```
 
 Download La Liga current season team data from `fbref` (append `--vs` to get data against the team):
 
 ```shell
-$ python scripts/data/download_fbref.py --competition spa1 --season current --type team
+$ python scripts/data/download_fbref_aggregate.py --competition spa1 --season current --type team
 ```
 
 Load data into a Pandas `DataFrame`:
