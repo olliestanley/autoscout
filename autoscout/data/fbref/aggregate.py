@@ -1,10 +1,8 @@
-import re
 from typing import Any, Dict, Sequence, Tuple
 
 import pandas as pd
-import requests
-from bs4 import BeautifulSoup
 
+from autoscout.data import scrape
 from autoscout.util import sleep_and_return
 
 
@@ -148,15 +146,8 @@ def get_tables(url: str, vs: bool = False) -> Tuple:
         Tuple of two tables, player and team, of statistics.
     """
 
-    res = requests.get(url)
-    # avoid issue with comments breaking parsing
-    comm = re.compile("<!--|-->")
-    soup = BeautifulSoup(comm.sub("", res.text), "lxml")
-    tables = soup.findAll("tbody")
-
+    tables = scrape.get_all_tables(url)
     team_table, team_vs_table, player_table = tables[:3]
-
     if vs:
         return player_table, team_vs_table
-
     return player_table, team_table

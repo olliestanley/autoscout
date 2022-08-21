@@ -84,7 +84,7 @@ if __name__ == "__main__":
     download_data_for_comp(
         url_top,
         url_end,
-        stats_json,
+        stats_json["aggregate"],
         f"{args.out}/{args.competition}/{args.season}",
         dataset=args.type,
         vs=args.vs,
