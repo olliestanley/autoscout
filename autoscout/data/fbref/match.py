@@ -10,6 +10,7 @@ def get_data(
     config: Dict[str, Sequence[str]],
     top: str,
     end: str,
+    name: str,
     team: bool = False,
     vs: bool = False,
     sleep_seconds: float = 7.0,
@@ -41,7 +42,9 @@ def get_data(
         axis=1,
     )
 
-    return df.loc[:, ~df.columns.duplicated()]
+    combined = df.loc[:, ~df.columns.duplicated()]
+    combined["name"] = name
+    return combined
 
 
 def get_data_for_category(

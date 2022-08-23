@@ -1,6 +1,9 @@
 """
 Script for downloading match level data from fbref ready for analysis.
 
+It is mandatory to specify the '--name' argument describing the player or team name
+being pulled.
+
 For stats against (rather than for) teams, simply append `--vs`.
 
 The default configs are not mandatory. Using a file named `matches.json` and another
@@ -18,9 +21,9 @@ from autoscout.data.fbref import match
 def download_matches_for_player_or_team(
     url_top: str,
     url_end: str,
+    name: str,
     stats_config: Dict[str, Dict[str, Sequence[str]]],
     out_dir: Union[str, Path] = "data/fbref/match",
-    name: str = "matches",
     team: bool = False,
     vs: bool = False,
 ) -> None:
@@ -28,6 +31,7 @@ def download_matches_for_player_or_team(
         stats_config["team" if team else "player"],
         url_top,
         url_end,
+        name,
         team=team,
         vs=vs,
     )
@@ -44,6 +48,7 @@ if __name__ == "__main__":
     parser.add_argument("--out", type=str, default="data/fbref/match")
     parser.add_argument("--dataset", "--data", type=str, default="mufc_2122")
     parser.add_argument("--vs", action="store_true")
+    parser.add_argument("--name", type=str)
     args = parser.parse_args()
 
     config_dir = Path(args.config)
@@ -58,6 +63,7 @@ if __name__ == "__main__":
     download_matches_for_player_or_team(
         url_top,
         url_end,
+        args.name,
         stats_json["match"],
         out_dir=f"{args.out}/{args.dataset}",
         team=team,
