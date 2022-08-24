@@ -110,7 +110,6 @@ def get_data_from_table(
             pre_df["date"] = [date]
 
         for feat in features:
-            print(feat)
             cell = row.find("td", {"data-stat": feat})
             text = cell.text.strip().encode().decode("utf-8")
 
