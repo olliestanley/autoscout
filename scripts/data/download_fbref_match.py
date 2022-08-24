@@ -46,7 +46,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", "--conf", type=str, default="config/fbref")
     parser.add_argument("--out", type=str, default="data/fbref/match")
-    parser.add_argument("--dataset", "--data", type=str, default="mufc_2122")
+    parser.add_argument("--dataset", "--data", type=str, default="mufc")
+    parser.add_argument("--season", type=int, default=2022)
     parser.add_argument("--vs", action="store_true")
     parser.add_argument("--name", type=str)
     args = parser.parse_args()
@@ -57,6 +58,9 @@ if __name__ == "__main__":
 
     matches: Dict[str, str] = matches_json[args.dataset]
     url_top, url_end = matches["top"], matches["end"]
+
+    season = args.season
+    url_top = url_top.replace("$season$", f"{season - 1}-{season}")
 
     team = "squads" in url_top
 
