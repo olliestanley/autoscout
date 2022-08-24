@@ -3,7 +3,7 @@ Load and preprocess player and team data from tabular (CSV) format.
 """
 
 import itertools
-from typing import Dict, Sequence, Union
+from typing import Callable, Dict, Sequence, Union
 
 import numpy as np
 import pandas as pd
@@ -88,10 +88,35 @@ def adjust_per_90(
     return data
 
 
+def adjust_possession_def(
+    targets: np.ndarray, possessions: np.ndarray
+) -> np.ndarray:
+    """
+    Adjust `targets` for `possessions`, where targets is a matrix of defensive stats.
+    Defensive stats are harder to accrue with more possession, so the output values are
+    larger than the inputs when possession is above 50 and lower when it is below 50.
+
+    See `adjust_possession` for the easiest way to apply this to a `DataFrame`.
+
+    Args:
+        targets: Data to adjust for possession, 2D numbers.
+        possessions: Relevant possession values, 1D numbers in the range [0, 100].
+
+    Returns:
+        Possession-adjusted version of `targets`.
+    """
+
+    p_delta = possessions - 50
+    exp = np.expand_dims(np.power(np.e, -0.1 * p_delta), 1)
+    adjusted = targets * (2 / (1 + exp))
+    return adjusted
+
+
 def adjust_possession(
     data_player: pd.DataFrame,
     data_team: pd.DataFrame,
     columns: Sequence[str],
+    adjust_fn: Callable[[np.ndarray, np.ndarray], np.ndarray] = adjust_possession_def,
 ) -> pd.DataFrame:
     """
     Adjust selected columns from the given DataFrame for the level of possession
@@ -110,6 +135,7 @@ def adjust_possession(
             player.
         data_team: DataFrame of team data where rows are matches played by the team.
         columns: Columns to apply adjustments to.
+        adjust_fn: Define the exact transformation to use as a possession adjustment.
 
     Returns:
         Adjusted DataFrame.
@@ -123,8 +149,8 @@ def adjust_possession(
 
     padj_columns = [f"padj_{col}" for col in columns]
 
-    data_player[padj_columns] = _adjust_possession(
-        data_player[columns], team_possessions
+    data_player[padj_columns] = adjust_fn(
+        data_player[columns].to_numpy(), team_possessions.to_numpy()
     )
 
     return data_player
@@ -161,9 +187,3 @@ def _get_team_possession(player_match: pd.Series, team_data: pd.DataFrame) -> fl
     team_filtered = team_data[team_data["date"] == player_match["date"]]
     team_filtered = team_filtered[team_filtered["name"] == player_match["squad"]]
     return float(team_filtered["possession"])
-
-
-def _adjust_possession(targets: pd.DataFrame, possessions: pd.Series) -> np.ndarray:
-    p_delta = possessions.to_numpy() - 50
-    exp = np.expand_dims(np.power(np.e, -0.1 * p_delta), 1)
-    return targets.to_numpy() * (2 / (1 + exp))
