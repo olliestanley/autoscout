@@ -474,6 +474,22 @@
     },
     "match": {
         "team": {
+            "shooting": [
+                "goals",
+                "pens_made",
+                "pens_att",
+                "shots_total",
+                "shots_on_target",
+                "shots_free_kicks",
+                "shots_on_target_pct",
+                "goals_per_shot",
+                "goals_per_shot_on_target",
+                "xg",
+                "npxg",
+                "npxg_per_shot",
+                "xg_net",
+                "npxg_net"
+            ],
             "passing": [
                 "passes_completed",
                 "passes",
@@ -641,6 +657,22 @@
             ]
         },
         "player": {
+            "shooting": [
+                "goals",
+                "pens_made",
+                "pens_att",
+                "shots_total",
+                "shots_on_target",
+                "shots_free_kicks",
+                "shots_on_target_pct",
+                "goals_per_shot",
+                "goals_per_shot_on_target",
+                "xg",
+                "npxg",
+                "npxg_per_shot",
+                "xg_net",
+                "npxg_net"
+            ],
             "passing": [
                 "passes_completed",
                 "passes",
