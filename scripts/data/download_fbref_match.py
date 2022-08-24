@@ -49,7 +49,6 @@ if __name__ == "__main__":
     parser.add_argument("--dataset", "--data", type=str, default="mufc")
     parser.add_argument("--season", type=int, default=2022)
     parser.add_argument("--vs", action="store_true")
-    parser.add_argument("--name", type=str)
     args = parser.parse_args()
 
     config_dir = Path(args.config)
@@ -57,7 +56,7 @@ if __name__ == "__main__":
     stats_json = util.load_json(config_dir / "stats.json")
 
     matches: Dict[str, str] = matches_json[args.dataset]
-    url_top, url_end = matches["top"], matches["end"]
+    url_top, url_end, name = matches["top"], matches["end"], matches["name"]
 
     season = args.season
     url_top = url_top.replace("$season$", f"{season - 1}-{season}")
@@ -67,7 +66,7 @@ if __name__ == "__main__":
     download_matches_for_player_or_team(
         url_top,
         url_end,
-        args.name,
+        name,
         stats_json["match"],
         out_dir=f"{args.out}/{args.dataset}",
         team=team,

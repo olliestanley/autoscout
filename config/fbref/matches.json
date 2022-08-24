@@ -1,13 +1,16 @@
 {
     "mufc": {
+        "name": "Manchester Utd",
         "top": "https://fbref.com/en/squads/19538871/$season$/matchlogs/all_comps/",
         "end": "/Manchester-United-Match-Logs-All-Competitions"
     },
     "lcfc": {
+        "name": "Leicester City",
         "top": "https://fbref.com/en/squads/a2d435b3/$season$/matchlogs/all_comps/",
         "end": "/Leicester-City-Match-Logs-All-Competitions"
     },
     "frenkie": {
+        "name": "Frenkie de Jong",
         "top": "https://fbref.com/en/players/1bacc518/matchlogs/$season$/",
         "end": "/Frenkie-de-Jong-Match-Logs"
     }
