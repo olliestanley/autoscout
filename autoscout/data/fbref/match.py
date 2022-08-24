@@ -42,9 +42,7 @@ def get_data(
         axis=1,
     )
 
-    combined = df.loc[:, ~df.columns.duplicated()]
-    combined["name"] = name
-    return combined
+    return df.loc[:, ~df.columns.duplicated()].assign(name=name)
 
 
 def get_data_for_category(
@@ -99,19 +97,20 @@ def get_data_from_table(
         if row.find("th", {"scope": "row"}) is None:
             continue
 
-        opponent = (
-            row.find("td", {"data-stat": "opponent"})
-            .text.strip()
-            .encode()
-            .decode("utf-8")
+        opponent, date = (
+            row.find(y, {"data-stat": x}).text.strip().encode().decode("utf-8")
+            for (x, y) in {"opponent": "td", "date": "th"}.items()
         )
 
         if "opponent" in pre_df:
             pre_df["opponent"].append(opponent)
+            pre_df["date"].append(date)
         else:
             pre_df["opponent"] = [opponent]
+            pre_df["date"] = [date]
 
         for feat in features:
+            print(feat)
             cell = row.find("td", {"data-stat": feat})
             text = cell.text.strip().encode().decode("utf-8")
 

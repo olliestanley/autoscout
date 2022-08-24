@@ -593,7 +593,6 @@
             ],
             "misc": [
                 "comp",
-                "date",
                 "venue",
                 "cards_yellow",
                 "cards_red",
@@ -760,7 +759,6 @@
             ],
             "misc": [
                 "squad",
-                "date",
                 "position",
                 "comp",
                 "minutes",
