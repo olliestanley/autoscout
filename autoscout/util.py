@@ -40,6 +40,18 @@ def get_record(data: pd.DataFrame, index: Union[str, int]) -> pd.DataFrame:
 def min_max_scale(
     data: pd.DataFrame, columns: Sequence[str], inplace: bool = False
 ) -> pd.DataFrame:
+    """
+    Scale selected `columns` in `data` to [0, 1].
+
+    Args:
+        data: Original data to scale.
+        columns: Columns to perform scaling on.
+        inplace: Modify existing DataFrame. Not recommended.
+
+    Returns:
+        DataFrame with selected columns scaled.
+    """
+
     if not inplace:
         data = data.copy(deep=True)
     data[columns] = minmax_scale(data[columns])
@@ -47,6 +59,10 @@ def min_max_scale(
 
 
 def sleep_and_return(result: Any, sleep_seconds: float) -> Any:
+    """
+    Sleep (do nothing) for `sleep_seconds`, then return `result`.
+    """
+
     sleep(sleep_seconds)
     return result
 
@@ -54,6 +70,10 @@ def sleep_and_return(result: Any, sleep_seconds: float) -> Any:
 def load_json(
     file_path: Union[str, Path],
 ) -> Dict[str, Any]:
+    """
+    Load `file_path` from JSON to dict.
+    """
+
     file_path = Path(file_path)
 
     with open(file_path, "r") as f:
@@ -63,6 +83,10 @@ def load_json(
 
 
 def load_csv(file_path: Union[str, Path], **kwargs) -> pd.DataFrame:
+    """
+    Load `file_path` from CSV to DataFrame.
+    """
+
     file_path = Path(file_path)
     return pd.read_csv(file_path, **kwargs)
 
@@ -73,6 +97,19 @@ def write_csv(
     basename: str,
     **kwargs,
 ) -> Path:
+    """
+    Write `df` to a file named `basename`.csv in directory `out_dir`.
+
+    Args:
+        df: DataFrame to write.
+        out_dir: Directory to write in.
+        basename: Stem for the file name to write to.
+        **kwargs: Passed to `DataFrame.to_csv()`.
+
+    Returns:
+        Path to the written CSV.
+    """
+
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / f"{basename}.csv"

@@ -19,6 +19,32 @@ def lines(
     y_label=None,
     legend_labels: Sequence[str] = None,
 ) -> Figure:
+    """
+    Plot one or more lines on a single chart. Supports shading area between lines, and
+    plotting trend lines along with the real lines.
+
+    The data in `data[x_columns[0]]` will be plotted against `data[y_columns[0]]` using
+    a line of color `colors[0]` and with legend label `legend_labels[0]`, and this is
+    repeated to `len(x_columns) - 1`.
+
+    Args:
+        data: DataFrame containing all input data.
+        x_columns: Column names for x variable(s).
+        y_columns: Column names for y variable(s).
+        colors: Colors for the lines drawn.
+        trends: Plot trend lines as well as real lines.
+        vshade: Shade area between the two lines at indices specified in this `tuple`.
+            If this is `int`, it will shade the area beneath the single line at the
+            index specified instead.
+        title: Title for the chart.
+        x_label: Label for the chart x axis.
+        y_label: Label for the chart y axis.
+        legend_labels: Label for each line on the legend. Defaults to `y_columns`.
+
+    Returns:
+        Bokeh Figure used for chart.
+    """
+
     if legend_labels is None:
         legend_labels = y_columns
 
@@ -90,7 +116,22 @@ def scatter_with_labels(
 ) -> Figure:
     """
     Plot a scatter chart based on `data`, with axes `x` and `y`, including labels on
-    the chart based on the column `label`.
+    the chart based on the column `label`. Scatter chart is interactive with a hover
+    tool which displays `label` when hovered.
+
+    Args:
+        data: DataFrame containing all input data.
+        x: Column name for x variable.
+        y: Column name for y variable.
+        size: Column name determining size of scatter points.
+        color: Column name determining color of scatter points.
+        label: Column name determining drawn and hover tool label of scatter points.
+        title: Title for the chart.
+        x_label: Label for the chart x axis.
+        y_label: Label for the chart y axis.
+
+    Returns:
+        Bokeh Figure used for chart.
     """
 
     x_label = x_label or x

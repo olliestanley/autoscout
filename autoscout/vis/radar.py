@@ -12,6 +12,23 @@ from autoscout.vis import constant
 def estimate_limits_by_position(
     data: pd.DataFrame, column: str, position: str, alpha: float = 0.1
 ) -> Tuple[float, float]:
+    """
+    Estimate good outer limits on a radar chart for the given `column` by considering
+    percentiles of players in the relevant `position`. For example, it is normal to set
+    radar limits as the 10th and 90th percentile of the statistic for players in the
+    same position as the subject of the radar.
+
+    Args:
+        data: Data for all players to consider.
+        column: Column to consider percentiles for.
+        position: Position to consider players in when calculating percentiles.
+        alpha: Determines percentiles to consider. `alpha` of 0.1 results in 10th and
+            90th percentiles.
+
+    Returns:
+        Tuple of percentiles, `alpha` and `1 - alpha`.
+    """
+
     data = data[data["position"].str.startswith(position)]
     values = data[column].squeeze()
     return values.quantile(alpha), values.quantile(1 - alpha)

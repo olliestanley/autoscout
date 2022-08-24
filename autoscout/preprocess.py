@@ -9,15 +9,6 @@ import numpy as np
 import pandas as pd
 
 
-def with_competition_column(
-    data: pd.DataFrame,
-    competition: str,
-) -> pd.DataFrame:
-    data = data.copy(deep=True)
-    data["competition"] = competition
-    return data
-
-
 def combine_data(
     data: Sequence[pd.DataFrame],
     retain_nans=False,
