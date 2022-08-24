@@ -474,6 +474,11 @@
     },
     "match": {
         "team": {
+            "schedule": [
+                "xg_for",
+                "xg_against",
+                "possession"
+            ],
             "shooting": [
                 "goals",
                 "pens_made",
