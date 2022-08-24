@@ -99,10 +99,11 @@ def adjust_possession(
     is fairly trivial to adjust team statistics. Match level data, not aggregate, is
     required.
 
-    This function is dependent on lining up the correct player and team datasets. As
-    such, it may fall short when working with data across multiple seasons, or if a
-    player has switched teams. Ensure that `data_team` contains only matches played
-    while the player was at the club.
+    This function is dependent on lining up the correct player and team datasets. It
+    will match a game in `data_player` to a game in `data_time` via two checks. First,
+    `date` column being equal. Second, `squad` in `data_player` being equal to `name`
+    in `data_team`. So `date` must be present in both DataFrames, `squad` must be in
+    `data_player`, and `name` must be in `data_team` for this function to work.
 
     Args:
         data_player: DataFrame of player data where rows are matches played by the
@@ -157,7 +158,9 @@ def filter_categories(
 
 
 def _get_team_possession(player_match: pd.Series, team_data: pd.DataFrame) -> float:
-    return float(team_data[team_data["date"] == player_match["date"]]["possession"])
+    team_filtered = team_data[team_data["date"] == player_match["date"]]
+    team_filtered = team_filtered[team_filtered["name"] == player_match["squad"]]
+    return float(team_filtered["possession"])
 
 
 def _adjust_possession(targets: pd.DataFrame, possessions: pd.Series) -> np.ndarray:
