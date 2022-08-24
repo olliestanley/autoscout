@@ -68,7 +68,7 @@ if __name__ == "__main__":
         url_end,
         name,
         stats_json["match"],
-        out_dir=f"{args.out}/{args.dataset}",
+        out_dir=f"{args.out}/{args.dataset}_{season}",
         team=team,
         vs=args.vs,
     )
