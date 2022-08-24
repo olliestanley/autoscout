@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Sequence, Tuple, Union
 
 import numpy as np
 import pandas as pd
@@ -13,6 +13,7 @@ def lines(
     y_columns: Sequence[str],
     colors: Sequence[str],
     trends: bool = False,
+    vshade: Union[int, Tuple[int, int]] = None,
     title=None,
     x_label=None,
     y_label=None,
@@ -36,6 +37,42 @@ def lines(
             slope, intercept = regr[0][:2]
             trend = [intercept + slope * v for v in data[x]]
             plot.line(data[x], trend, color=col, line_dash="dashed")
+
+    if isinstance(vshade, int):
+        plot.varea(x=x_columns[vshade], y1=y_columns[vshade], y2=0, color=colors[vshade], source=source)
+
+    elif isinstance(vshade, tuple):
+        vs1_y, vs2_y = [y_columns[v] for v in vshade]
+        vs1_x = x_columns[vshade[0]]
+
+        compare = data[vs1_y] > data[vs2_y]
+
+        diff = compare.diff().fillna(0).abs()
+        change_indices = [idx for idx, d in enumerate(diff) if d]
+        change_indices.insert(0, 0)
+
+        for i, change_idx in enumerate(change_indices):
+            x_start = data[vs1_x][change_idx]
+
+            end_idx = (
+                change_indices[i + 1]
+                if i + 1 < len(change_indices)
+                else len(data[vs1_x]) - 1
+            )
+
+            x_end = data[vs1_x][end_idx - 1]
+            use_2 = compare[change_idx]
+
+            num_values = end_idx - change_idx
+            x_values = np.linspace(x_start, x_end, num_values)
+
+            plot.varea(
+                x=x_values,
+                y1=data[vs2_y if use_2 else vs1_y][change_idx:end_idx],
+                y2=data[vs1_y if use_2 else vs2_y][change_idx:end_idx],
+                color=colors[vshade[0] if use_2 else vshade[1]],
+                fill_alpha=0.2,
+            )
 
     return plot
 
@@ -63,7 +100,8 @@ def scatter_with_labels(
     x_range = (data[x].min(), data[x].max() + 5)
 
     plot: Figure = figure(
-        plot_width=1000, plot_height=600, title=title, x_range=x_range, x_axis_label=x_label, y_axis_label=y_label
+        plot_width=1000, plot_height=600, x_range=x_range,
+        title=title, x_axis_label=x_label, y_axis_label=y_label
     )
 
     if size:
