@@ -71,6 +71,23 @@ rdr, fig, ax = radar.plot_radar_from_config(df, midfield_config, "Fred")
 
 Radar configurations can be customised and modified by editing the `.json` fles in `config/radar`. It is also possible to plot radars without a `.json` configuration file using `radar.plot_radar(...)`.
 
+Plot rolling xG for and against chart for a team with dashed trend lines and shading the gap between xG For and xG Against, using a loaded team match by match `df`:
+
+```python
+from autoscout import preprocess
+from autoscout.vis import chart
+
+df = preprocess.rolling(df, ["xg_for", "xg_against"])
+df["n"] = df.index
+
+plot = chart.lines(
+    df, ["n", "n"], ["xg_for_roll_mean", "xg_against_roll_mean"],
+    colors=["green", "red"], legend_labels=["xG For", "xG Against"],
+    title="10 game rolling average xG", x_label="Date", y_label="xG",
+    trends=True, vshade=(0, 1)
+)
+```
+
 ### Searching Data
 
 Find 6 players in the dataset most similar to Paul Pogba in the statistics in `columns`, after applying per 90 adjustment to normalize the data:

@@ -31,6 +31,48 @@ def combine_data(
     return data
 
 
+def rolling(
+    data: pd.DataFrame,
+    columns: Sequence[str],
+    roll_length: int = 10,
+    reduction: str = "mean",
+    dropna: bool = True,
+) -> pd.DataFrame:
+    """
+    Include a rolling column derived from those in `columns`. Names of rolling columns
+    are given by original column name with `f"_roll_{reduction}"` appended.
+
+    Args:
+        data: DataFrame to roll columns within.
+        columns: Columns to apply rolling to.
+        roll_length: Number of values to roll across.
+        reduction: How to reduce rolling values. Supports "mean" and "sum".
+        dropna: Drop rows containing NaN values in the new roll columns.
+
+    Returns:
+        Copy of `data` with additional rolling columns.
+    """
+
+    data = data.copy(deep=True)
+
+    columns_roll = [f"{col}_roll_{reduction}" for col in columns]
+
+    for col, col_roll in zip(columns, columns_roll):
+        roll = data[col].rolling(roll_length)
+
+        if reduction == "sum":
+            roll = roll.sum()
+        else:
+            roll = roll.mean()
+
+        data[col_roll] = roll
+
+    if dropna:
+        data = data.dropna(subset=columns_roll).reset_index()
+
+    return data
+
+
 def clamp_by_percentiles(
     data: pd.DataFrame,
     columns: Sequence[str],
