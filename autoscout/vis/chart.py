@@ -74,8 +74,7 @@ def lines(
         compare = data[vs1_y] > data[vs2_y]
 
         diff = compare.diff().fillna(0).abs()
-        change_indices = [idx for idx, d in enumerate(diff) if d]
-        change_indices.insert(0, 0)
+        change_indices = [0,] + [idx for idx, d in enumerate(diff) if d]
 
         for i, change_idx in enumerate(change_indices):
             x_start = data[vs1_x][change_idx]
@@ -87,11 +86,9 @@ def lines(
             )
 
             x_end = data[vs1_x][end_idx - 1]
+            x_values = np.linspace(x_start, x_end, end_idx - change_idx)
+
             use_2 = compare[change_idx]
-
-            num_values = end_idx - change_idx
-            x_values = np.linspace(x_start, x_end, num_values)
-
             plot.varea(
                 x=x_values,
                 y1=data[vs2_y if use_2 else vs1_y][change_idx:end_idx],
