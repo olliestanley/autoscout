@@ -4,6 +4,11 @@
         "top": "https://fbref.com/en/squads/19538871/$season$/matchlogs/all_comps/",
         "end": "/Manchester-United-Match-Logs-All-Competitions"
     },
+    "lfc": {
+        "name": "Liverpool",
+        "top": "https://fbref.com/en/squads/822bd0ba/$season$/matchlogs/all_comps/",
+        "end": "/Liverpool-Match-Logs-All-Competitions"
+    },
     "lcfc": {
         "name": "Leicester City",
         "top": "https://fbref.com/en/squads/a2d435b3/$season$/matchlogs/all_comps/",
