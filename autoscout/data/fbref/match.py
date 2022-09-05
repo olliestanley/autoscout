@@ -72,7 +72,7 @@ def get_data_for_category(
 
     url = top + category + end
     tables = scrape.get_all_tables(url)
-    table = tables[1] if team and vs else tables[0]
+    table = tables[1] if (team and vs and category != "schedule") else tables[0]
     return get_data_from_table(features, table)
 
 
