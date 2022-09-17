@@ -473,6 +473,20 @@
         }
     },
     "match": {
+        "competition": {
+            "schedule": [
+                "start_time",
+                "home_team",
+                "home_xg",
+                "score",
+                "away_xg",
+                "away_team",
+                "attendance",
+                "venue",
+                "referee",
+                "notes"
+            ]
+        },
         "team": {
             "schedule": [
                 "xg_for",

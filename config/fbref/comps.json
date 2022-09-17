@@ -1,22 +1,27 @@
 {
     "eng1": {
         "top": "https://fbref.com/en/comps/9/",
-        "end": "/Premier-League-Stats"
+        "end": "/Premier-League-Stats",
+        "schedule_end": "-Premier-League-Scores-and-Fixtures"
     },
     "spa1": {
         "top": "https://fbref.com/en/comps/12/",
-        "end": "/La-Liga-Stats"
+        "end": "/La-Liga-Stats",
+        "schedule_end": "-La-Liga-Scores-and-Fixtures"
     },
     "fra1": {
         "top": "https://fbref.com/en/comps/13/",
-        "end": "/Ligue-1-Stats"
+        "end": "/Ligue-1-Stats",
+        "schedule_end": "-Ligue-1-Scores-and-Fixtures"
     },
     "ger1": {
         "top": "https://fbref.com/en/comps/20/",
-        "end": "/Bundesliga-Stats"
+        "end": "/Bundesliga-Stats",
+        "schedule_end": "-Bundesliga-Scores-and-Fixtures"
     },
     "ita1": {
         "top": "https://fbref.com/en/comps/11/",
-        "end": "/Serie-A-Stats"
+        "end": "/Serie-A-Stats",
+        "schedule_end": "-Serie-A-Scores-and-Fixtures"
     }
 }
