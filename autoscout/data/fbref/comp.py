@@ -44,17 +44,14 @@ def get_data_from_table(
 
     pre_df: Dict[str, Sequence[Any]] = dict()
     rows = table.find_all("tr")
-    last_date = None
 
     for row in rows:
         if row.find("th", {"scope": "row"}) is None:
             continue
 
-        date = row.find("th", {"data-stat": "date"})
-        if date is not None:
-            date = date.text.strip().encode().decode("utf-8")
-            last_date = date
-        date = last_date
+        date = row.find(
+            "td", {"data-stat": "date"}
+        ).text.strip().encode().decode("utf-8")
 
         if "date" in pre_df:
             pre_df["date"].append(date)
