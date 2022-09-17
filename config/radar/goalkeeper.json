@@ -1,0 +1,47 @@
+{
+    "name": "Goalkeeper",
+    "columns": {
+        "gk_psxg_net": {
+            "display": "GSAA",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 0.18,
+            "low": -0.17
+        },
+        "gk_crosses_stopped_pct": {
+            "display": "Cross Stop %",
+            "normalize": false,
+            "lower_is_better": false,
+            "high": 0.11,
+            "low": 0.02
+        },
+        "gk_def_actions_outside_pen_area": {
+            "display": "Def Actions Outside Box",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 1.61,
+            "low": 0.29
+        },
+        "gk_avg_distance_def_actions": {
+            "display": "Def Actions Avg Dist",
+            "normalize": false,
+            "lower_is_better": false,
+            "high": 17.8,
+            "low": 12.1
+        },
+        "gk_passes": {
+            "display": "Passes",
+            "normalize": true,
+            "lower_is_better": false,
+            "high": 37.0,
+            "low": 23.0
+        },
+        "gk_passes_length_avg": {
+            "display": "Passes Avg Dist",
+            "normalize": false,
+            "lower_is_better": true,
+            "high": 44.7,
+            "low": 29.1
+        }
+    }
+}
