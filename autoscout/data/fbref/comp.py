@@ -77,6 +77,7 @@ def get_data_from_table(
                 "game_started",
                 "home_team",
                 "away_team",
+                "notes",
             ):
                 text = float(text.replace(",", ""))
 
