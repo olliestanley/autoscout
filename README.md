@@ -97,8 +97,8 @@ df["n"] = df.index
 plot = chart.lines(
     df, ["n", "n"], ["xg_for_roll_mean", "xg_against_roll_mean"],
     colors=["green", "red"], legend_labels=["xG For", "xG Against"],
-    title="10 game rolling average xG", x_label="Date", y_label="xG",
-    trends=True, vshade=(0, 1)
+    trends=True, vshade=(0, 1), title="10 game rolling average xG",
+    x_axis_label="Date", y_axis_label="xG"
 )
 ```
 

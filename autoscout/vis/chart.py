@@ -5,6 +5,7 @@ import pandas as pd
 from bokeh.models import ColumnDataSource, HoverTool, LabelSet
 from bokeh.plotting import figure
 from bokeh.plotting.figure import Figure
+from bokeh.transform import factor_cmap
 
 
 def lines(
@@ -14,10 +15,8 @@ def lines(
     colors: Sequence[str],
     trends: bool = False,
     vshade: Union[int, Tuple[int, int]] = None,
-    title=None,
-    x_label=None,
-    y_label=None,
     legend_labels: Sequence[str] = None,
+    **kwargs
 ) -> Figure:
     """
     Plot one or more lines on a single chart. Supports shading area between lines, and
@@ -36,10 +35,8 @@ def lines(
         vshade: Shade area between the two lines at indices specified in this `tuple`.
             If this is `int`, it will shade the area beneath the single line at the
             index specified instead.
-        title: Title for the chart.
-        x_label: Label for the chart x axis.
-        y_label: Label for the chart y axis.
         legend_labels: Label for each line on the legend. Defaults to `y_columns`.
+        **kwargs: Passed to bokeh figure. Can alter plot size, title, axis labels, etc.
 
     Returns:
         Bokeh Figure used for chart.
@@ -48,10 +45,7 @@ def lines(
     if legend_labels is None:
         legend_labels = y_columns
 
-    plot: Figure = figure(
-        plot_width=1000, plot_height=600, title=title,
-        x_axis_label=x_label, y_axis_label=y_label
-    )
+    plot: Figure = figure(**kwargs)
 
     source = ColumnDataSource(data)
 
@@ -100,21 +94,18 @@ def lines(
     return plot
 
 
-def scatter_with_labels(
+def scatter(
     data: pd.DataFrame,
     x: str,
     y: str,
     size: str = None,
     color: str = None,
-    label: str = "player",
-    title=None,
-    x_label=None,
-    y_label=None,
+    palette: list = None,
+    marker: str = "circle",
+    **kwargs,
 ) -> Figure:
     """
-    Plot a scatter chart based on `data`, with axes `x` and `y`, including labels on
-    the chart based on the column `label`. Scatter chart is interactive with a hover
-    tool which displays `label` when hovered.
+    Plot a scatter chart based on `data`, with axes `x` and `y`.
 
     Args:
         data: DataFrame containing all input data.
@@ -122,51 +113,113 @@ def scatter_with_labels(
         y: Column name for y variable.
         size: Column name determining size of scatter points.
         color: Column name determining color of scatter points.
-        label: Column name determining drawn and hover tool label of scatter points.
-        title: Title for the chart.
-        x_label: Label for the chart x axis.
-        y_label: Label for the chart y axis.
+        palette: Color palette for scatter points. Required if `color` is specified.
+        marker: Column name determining marker of scatter points.
+        **kwargs: Passed to bokeh figure. Can alter plot size, title, axis labels, etc.
 
     Returns:
         Bokeh Figure used for chart.
     """
 
-    x_label = x_label or x
-    y_label = y_label or y
-    title = title or f"{x_label} vs {y_label}"
-
     x_range = (data[x].min(), data[x].max() + 5)
-
-    plot: Figure = figure(
-        plot_width=1000, plot_height=600, x_range=x_range,
-        title=title, x_axis_label=x_label, y_axis_label=y_label
-    )
-
-    if size:
-        data["plot_size"] = data[size] / 5
+    plot: Figure = figure(x_range=x_range, **kwargs)
 
     source = ColumnDataSource(data)
 
-    plot.circle(
-        x=x,
-        y=y,
-        size="plot_size" if size else 4,
-        color=color,
-        source=source,
-    )
+    scatter_args = {
+        "x": x,
+        "y": y,
+        "size": size or 5,
+        "marker": marker,
+        "source": source,
+    }
 
-    if label:
-        plot.add_layout(
-            LabelSet(
-                x=x,
-                y=y,
-                text=label,
-                y_offset=5,
-                source=source,
-                render_mode='canvas',
-                text_font_size={"value": "12px"}
-            )
+    if color:
+        if not palette:
+            raise ValueError("Must pass `palette` with `color`")
+
+        cmap = factor_cmap(
+            color, palette=palette, factors=data[color].unique()
         )
+
+        scatter_args["color"] = cmap
+        scatter_args["legend_field"] = color
+
+    plot.scatter(**scatter_args)
+
+    return plot
+
+
+def add_means(
+    plot: Figure,
+    data: pd.DataFrame,
+    x: str,
+    y: str,
+    epsilon: float = 1.0,
+) -> Figure:
+    """
+    Add mean average lines for x and y to a plot.
+
+    Args:
+        plot: Existing Bokeh figure to add average lines to.
+        data: DataFrame containing all input data.
+        x: Column name for x variable.
+        y: Column name for y variable.
+        average: Type of average to use. Must be in ["mean", "median", "mode"].
+
+    Returns:
+        Bokeh Figure used for chart.
+    """
+
+    x_avgs = [data[x].mean()] * 2
+    x_lims = [data[y].min(), data[y].max()]
+
+    y_avgs = [data[y].mean()] * 2
+    y_lims = [data[x].min(), data[x].max()]
+
+    plot.line(x_avgs, x_lims, line_dash="dashed", color="black")
+    plot.line(y_lims, y_avgs, line_dash="dashed", color="black")
+
+    return plot
+
+
+def add_labels(
+    plot: Figure,
+    data: pd.DataFrame,
+    x: str,
+    y: str,
+    label: str = "player",
+) -> Figure:
+    """
+    Add labels to a plot based on the column `label`. Scatter chart is interactive with
+    a hover tool which displays `label` when hovered.
+
+    Args:
+        plot: Existing Bokeh figure to add labels to.
+        data: DataFrame containing all input data.
+        x: Column name for x variable.
+        y: Column name for y variable.
+        label: Column name determining drawn and hover tool label of scatter points.
+        **kwargs: Passed to bokeh LabelSet.
+
+    Returns:
+        Bokeh Figure used for chart.
+    """
+
+    source = ColumnDataSource(data)
+
+    plot.add_layout(
+        LabelSet(
+            x=x,
+            y=y,
+            text=label,
+            y_offset=5,
+            x_offset=-15,
+            source=source,
+            render_mode='canvas',
+            text_font_size={"value": "12px"}
+        )
+    )
 
     plot.add_tools(HoverTool(
         tooltips=[("Name", f"@{label}")]
