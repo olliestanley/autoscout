@@ -155,7 +155,6 @@ def add_means(
     data: pd.DataFrame,
     x: str,
     y: str,
-    epsilon: float = 1.0,
 ) -> Figure:
     """
     Add mean average lines for x and y to a plot.
