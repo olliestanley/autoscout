@@ -101,6 +101,7 @@ def scatter(
     size: str = None,
     color: str = None,
     palette: list = None,
+    legend: bool = True,
     marker: str = "circle",
     **kwargs,
 ) -> Figure:
@@ -114,6 +115,7 @@ def scatter(
         size: Column name determining size of scatter points.
         color: Column name determining color of scatter points.
         palette: Color palette for scatter points. Required if `color` is specified.
+        legend: Include legend for colors.
         marker: Column name determining marker of scatter points.
         **kwargs: Passed to bokeh figure. Can alter plot size, title, axis labels, etc.
 
@@ -143,7 +145,9 @@ def scatter(
         )
 
         scatter_args["color"] = cmap
-        scatter_args["legend_field"] = color
+
+        if legend:
+            scatter_args["legend_field"] = color
 
     plot.scatter(**scatter_args)
 
