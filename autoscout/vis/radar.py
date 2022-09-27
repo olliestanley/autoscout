@@ -38,6 +38,7 @@ def plot_radar_from_config(
     data: pd.DataFrame,
     config: Dict[str, Any],
     index: Union[str, int],
+    index_compare: Union[str, int] = None,
     **kwargs,
 ) -> Tuple[Radar, mpl.figure.Figure, mpl.axes.Axes]:
     """
@@ -50,6 +51,8 @@ def plot_radar_from_config(
         config: Dict specifying the configuration for the radar chart.
         index: Index of the row to plot data for. Can be integer index, or name of
             player or team.
+        index_compare: Index of the second row to plot data for. Follows the same
+            behaviour as `index`, but can be `None` for a non-comparison radar.
         **kwargs: Passed to `mplsoccer.Radar.__init__()`.
 
     Returns:
@@ -72,13 +75,24 @@ def plot_radar_from_config(
     if normalize:
         data = preprocess.adjust_per_90(data, normalize)
 
-    return plot_radar(data, columns, index, display, lib, mins, maxes, **kwargs)
+    return plot_radar(
+        data,
+        columns,
+        index,
+        index_compare=index_compare,
+        columns_display=display,
+        lower_is_better=lib,
+        min_values=mins,
+        max_values=maxes,
+        **kwargs,
+    )
 
 
 def plot_radar(
     data: pd.DataFrame,
     columns: Sequence[str],
     index: Union[str, int],
+    index_compare: Union[str, int] = None,
     columns_display: Sequence[str] = None,
     lower_is_better: Sequence[str] = None,
     min_values: Union[Sequence[float], str] = "auto",
@@ -95,6 +109,8 @@ def plot_radar(
         columns: Names of columns to include in the chart.
         index: Index of the row to plot data for. Can be integer index, or name of
             player or team.
+        index_compare: Index of the second row to plot data for. Follows the same
+            behaviour as `index`, but can be `None` for a non-comparison radar.
         columns_display: Display names to replace column names with on the chart.
         lower_is_better: Names of columns for which lower should be considered better
             for the radar chart.
@@ -119,8 +135,6 @@ def plot_radar(
     if max_values == "auto":
         max_values = data[columns].quantile(0.95)
 
-    data = get_record(data, index)
-
     radar = Radar(
         params=columns,
         min_range=min_values,
@@ -129,20 +143,34 @@ def plot_radar(
         **kwargs,
     )
 
-    # Keep only the columns we want to plot
-    values = data[columns].squeeze()
-
     fig, ax = radar.setup_axis(figsize=(10, 10))
 
     radar.draw_circles(
         ax=ax, facecolor=constant.RADAR_COLOURS[0], edgecolor=constant.RADAR_COLOURS[1]
     )
-    radar.draw_radar(
-        values,
-        ax=ax,
-        kwargs_radar={"facecolor": constant.RADAR_COLOURS[2], "alpha": 0.5},
-        kwargs_rings={"facecolor": constant.RADAR_COLOURS[3], "alpha": 0.5},
-    )
+
+    # Keep only the columns we want to plot
+    values = get_record(data, index)[columns].squeeze()
+
+    if index_compare:
+        values_compare = get_record(data, index_compare)[columns].squeeze()
+
+        radar.draw_radar_compare(
+            values,
+            values_compare,
+            ax=ax,
+            kwargs_radar={"facecolor": constant.RADAR_COLOURS[2], "alpha": 0.5},
+            kwargs_compare={"facecolor": constant.RADAR_COLOURS[4], "alpha": 0.5},
+        )
+
+    else:
+        radar.draw_radar(
+            values,
+            ax=ax,
+            kwargs_radar={"facecolor": constant.RADAR_COLOURS[2], "alpha": 0.5},
+            kwargs_rings={"facecolor": constant.RADAR_COLOURS[3], "alpha": 0.5},
+        )
+
     radar.draw_range_labels(ax=ax)
     radar.draw_param_labels(ax=ax, offset=0.5)
 
