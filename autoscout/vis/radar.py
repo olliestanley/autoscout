@@ -53,6 +53,7 @@ def plot_radar_from_config(
             player or team.
         index_compare: Index of the second row to plot data for. Follows the same
             behaviour as `index`, but can be `None` for a non-comparison radar.
+            Specify "average" to automatically compare against dataset average.
         **kwargs: Passed to `mplsoccer.Radar.__init__()`.
 
     Returns:
@@ -111,6 +112,7 @@ def plot_radar(
             player or team.
         index_compare: Index of the second row to plot data for. Follows the same
             behaviour as `index`, but can be `None` for a non-comparison radar.
+            Specify "average" to automatically compare against dataset average.
         columns_display: Display names to replace column names with on the chart.
         lower_is_better: Names of columns for which lower should be considered better
             for the radar chart.
@@ -153,7 +155,12 @@ def plot_radar(
     values = get_record(data, index)[columns].squeeze()
 
     if index_compare:
-        values_compare = get_record(data, index_compare)[columns].squeeze()
+        if index_compare == "average":
+            # Compute average of the plotting columns across the whole dataset
+            values_compare = data[columns].mean(axis=0).squeeze()
+
+        else:
+            values_compare = get_record(data, index_compare)[columns].squeeze()
 
         radar.draw_radar_compare(
             values,
