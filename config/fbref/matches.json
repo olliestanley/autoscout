@@ -1,20 +1,105 @@
 {
-    "mufc": {
-        "name": "Manchester Utd",
-        "top": "https://fbref.com/en/squads/19538871/$season$/matchlogs/all_comps/",
-        "end": "/Manchester-United-Match-Logs-All-Competitions"
+    "arsenal": {
+        "name": "Arsenal",
+        "top": "https://fbref.com/en/squads/18bb7c10/$season$/matchlogs/all_comps/",
+        "end": "/Arsenal-Match-Logs-All-Competitions"
     },
-    "lfc": {
-        "name": "Liverpool",
-        "top": "https://fbref.com/en/squads/822bd0ba/$season$/matchlogs/all_comps/",
-        "end": "/Liverpool-Match-Logs-All-Competitions"
+    "aston villa": {
+        "name": "Aston Villa",
+        "top": "https://fbref.com/en/squads/8602292d/$season$/matchlogs/all_comps/",
+        "end": "/Aston-Villa-Match-Logs-All-Competitions"
     },
-    "lcfc": {
+    "brentford": {
+        "name": "Brentford",
+        "top": "https://fbref.com/en/squads/cd051869/$season$/matchlogs/all_comps/",
+        "end": "/Brentford-Match-Logs-All-Competitions"
+    },
+    "brighton": {
+        "name": "Brighton",
+        "top": "https://fbref.com/en/squads/d07537b9/$season$/matchlogs/all_comps/",
+        "end": "/Brighton-and-Hove-Albion-Match-Logs-All-Competitions"
+    },
+    "burnley": {
+        "name": "Burnley",
+        "top": "https://fbref.com/en/squads/943e8050/$season$/matchlogs/all_comps/",
+        "end": "/Burnley-Match-Logs-All-Competitions"
+    },
+    "chelsea": {
+        "name": "Chelsea",
+        "top": "https://fbref.com/en/squads/cff3d9bb/$season$/matchlogs/all_comps/",
+        "end": "/Chelsea-Match-Logs-All-Competitions"
+    },
+    "crystal_palace": {
+        "name": "Crystal Palace",
+        "top": "https://fbref.com/en/squads/47c64c55/$season$/matchlogs/all_comps/",
+        "end": "/Crystal-Palace-Match-Logs-All-Competitions"
+    },
+    "everton": {
+        "name": "Everton",
+        "top": "https://fbref.com/en/squads/d3fd31cc/$season$/matchlogs/all_comps/",
+        "end": "/Everton-Match-Logs-All-Competitions"
+    },
+    "leeds_united": {
+        "name": "Leeds Utd",
+        "top": "https://fbref.com/en/squads/5bfb9659/$season$/matchlogs/all_comps/",
+        "end": "/Leeds-United-Match-Logs-All-Competitions"
+    },
+    "leicester_city": {
         "name": "Leicester City",
         "top": "https://fbref.com/en/squads/a2d435b3/$season$/matchlogs/all_comps/",
         "end": "/Leicester-City-Match-Logs-All-Competitions"
     },
-    "frenkie": {
+    "liverpool": {
+        "name": "Liverpool",
+        "top": "https://fbref.com/en/squads/822bd0ba/$season$/matchlogs/all_comps/",
+        "end": "/Liverpool-Match-Logs-All-Competitions"
+    },
+    "manchester_city": {
+        "name": "Manchester City",
+        "top": "https://fbref.com/en/squads/b8fd03ef/$season$/matchlogs/all_comps/",
+        "end": "/Manchester-City-Match-Logs-All-Competitions"
+    },
+    "manchester_united": {
+        "name": "Manchester Utd",
+        "top": "https://fbref.com/en/squads/19538871/$season$/matchlogs/all_comps/",
+        "end": "/Manchester-United-Match-Logs-All-Competitions"
+    },
+    "newcastle_united": {
+        "name": "Newcastle Utd",
+        "top": "https://fbref.com/en/squads/b2b47a98/$season$/matchlogs/all_comps/",
+        "end": "/Newcastle-United-Match-Logs-All-Competitions"
+    },
+    "norwich_city": {
+        "name": "Norwich City",
+        "top": "https://fbref.com/en/squads/1c781004/$season$/matchlogs/all_comps/",
+        "end": "/Norwich-City-Match-Logs-All-Competitions"
+    },
+    "southampton": {
+        "name": "Southampton",
+        "top": "https://fbref.com/en/squads/33c895d4/$season$/matchlogs/all_comps/",
+        "end": "/Southampton-Match-Logs-All-Competitions"
+    },
+    "tottenham": {
+        "name": "Tottenham",
+        "top": "https://fbref.com/en/squads/361ca564/$season$/matchlogs/all_comps/",
+        "end": "/Tottenham-Hotspur-Match-Logs-All-Competitions"
+    },
+    "watford": {
+        "name": "Watford",
+        "top": "https://fbref.com/en/squads/2abfe087/$season$/matchlogs/all_comps/",
+        "end": "/Watford-Match-Logs-All-Competitions"
+    },
+    "west_ham": {
+        "name": "West Ham",
+        "top": "https://fbref.com/en/squads/7c21e445/$season$/matchlogs/all_comps/",
+        "end": "/West-Ham-United-Match-Logs-All-Competitions"
+    },
+    "wolves": {
+        "name": "Wolves",
+        "top": "https://fbref.com/en/squads/8cec06e1/$season$/matchlogs/all_comps/",
+        "end": "/Wolverhampton-Wanderers-Match-Logs-All-Competitions"
+    },
+    "frenkie_de_jong": {
         "name": "Frenkie de Jong",
         "top": "https://fbref.com/en/players/1bacc518/matchlogs/$season$/",
         "end": "/Frenkie-de-Jong-Match-Logs"
