@@ -6,7 +6,7 @@ To download outfield player data for the current men's Premier League season::
     python scripts/data/download_fbref.py \
         --config config/fbref/
         --out data/fbref/
-        --competition pl
+        --competition eng1
         --type outfield
 
 For goalkeeper data, simply replace `outfield` with `keeper`.
@@ -16,7 +16,7 @@ To download team data for the 2021-22 men's Premier League season::
     python scripts/data/download_fbref.py \
         --config config/fbref/
         --out data/fbref/
-        --competition pl
+        --competition eng1
         --season 2022
         --type team
 
@@ -61,7 +61,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", "--conf", type=str, default="config/fbref")
     parser.add_argument("--out", type=str, default="data/fbref")
-    parser.add_argument("--competition", "--comp", type=str, default="pl")
+    parser.add_argument("--competition", "--comp", type=str, default="eng1")
     parser.add_argument("--type", type=str, default="outfield")
     parser.add_argument("--vs", action="store_true")
     parser.add_argument("--season", type=str, default="current")

@@ -19,7 +19,7 @@
             "display": "Carries into Final Third",
             "normalize": true,
             "lower_is_better": false,
-            "high": 2.6,
+            "high": 2.5,
             "low": 0.4
         },
         "xa_per90": {
