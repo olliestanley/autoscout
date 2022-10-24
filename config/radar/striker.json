@@ -19,15 +19,15 @@
             "display": "Touches in Box",
             "normalize": true,
             "lower_is_better": false,
-            "high": 12.9,
+            "high": 8.1,
             "low": 3.6
         },
         "sca_per90": {
             "display": "Shot Creations",
             "normalize": false,
             "lower_is_better": false,
-            "high": 8.0,
-            "low": 2.0
+            "high": 4.0,
+            "low": 1.0
         },
         "xa_per90": {
             "display": "xG Assisted",
@@ -47,7 +47,7 @@
             "display": "Pressures",
             "normalize": true,
             "lower_is_better": false,
-            "high": 26,
+            "high": 21,
             "low": 10
         },
         "aerials_won": {
