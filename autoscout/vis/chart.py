@@ -87,8 +87,8 @@ def lines(
                 x=x_values,
                 y1=data[vs2_y if use_2 else vs1_y][change_idx:end_idx],
                 y2=data[vs1_y if use_2 else vs2_y][change_idx:end_idx],
-                color=colors[vshade[0] if use_2 else vshade[1]],
-                fill_alpha=0.2,
+                hatch_color=colors[vshade[0] if use_2 else vshade[1]],
+                hatch_alpha=0.2, fill_alpha=0.0, hatch_pattern="/",
             )
 
     return plot
