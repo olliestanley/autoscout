@@ -3,7 +3,7 @@ Football (soccer) scouting via publicly available data.
 
 ## IMPORTANT: FBREF CHANGES
 
-fbref has recently modified large swathes of its data. While this expands the leagues advanced data is offered for, it removes many of the metrics referred to in the default autoscout `config` files and significantly reduces the value of the data for scouting and analytics purposes. Keep this in mind when working with new fbref data.
+fbref has recently modified large swathes of its data. While this expands the leagues advanced data is offered for, it removes many of the metrics referred to in the default autoscout `config` files and significantly reduces the value of the data for scouting and analytics purposes. Keep this in mind when working with new fbref data. As a result of this change `autoscout` is not being actively developed for now.
 
 ## Usage
 
