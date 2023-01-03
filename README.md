@@ -1,9 +1,9 @@
 # autoscout
 Football (soccer) scouting via publicly available data.
 
-## IMPORTANT: FBREF CHANGES
+**Note on fbref changes**
 
-fbref has recently modified large swathes of its data. While this expands the leagues advanced data is offered for, it removes many of the metrics referred to in the default autoscout `config` files and significantly reduces the value of the data for scouting and analytics purposes. Keep this in mind when working with new fbref data.
+fbref has recently modified large swathes of its data. While this expands the leagues advanced data is offered for, it removes some metrics previously used by autoscout. The package has been updated to work with the new data in general, but some default configs may not work. These can be updated easily enough by editing the relevant `.json` files in `config/`.
 
 ## Usage
 

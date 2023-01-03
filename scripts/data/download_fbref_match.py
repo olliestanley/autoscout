@@ -46,7 +46,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", "--conf", type=str, default="config/fbref")
     parser.add_argument("--out", type=str, default="data/fbref/match")
-    parser.add_argument("--dataset", "--data", type=str, default="mufc")
+    parser.add_argument("--dataset", "--data", type=str, default="manchester_united")
     parser.add_argument("--season", type=int, default=2022)
     parser.add_argument("--vs", action="store_true")
     args = parser.parse_args()
