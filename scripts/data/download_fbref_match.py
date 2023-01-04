@@ -1,8 +1,8 @@
 """
 Script for downloading match level data from fbref ready for analysis.
 
-It is mandatory to specify the '--name' argument describing the player or team name
-being pulled.
+It is mandatory to specify the '--data' argument describing the player or team
+being pulled, which must match one in the configs.
 
 For stats against (rather than for) teams, simply append `--vs`.
 
