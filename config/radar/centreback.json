@@ -8,13 +8,6 @@
             "high": 92.0,
             "low": 73.0
         },
-        "pressures": {
-            "display": "Pressures",
-            "normalize": true,
-            "lower_is_better": false,
-            "high": 13.1,
-            "low": 4.4
-        },
         "fouls": {
             "display": "Fouls",
             "normalize": true,
@@ -59,13 +52,6 @@
         },
         "progressive_passes": {
             "display": "Progressive Passes",
-            "normalize": true,
-            "lower_is_better": false,
-            "high": 6.0,
-            "low": 2.0
-        },
-        "progressive_carries": {
-            "display": "Progressive Carries",
             "normalize": true,
             "lower_is_better": false,
             "high": 6.0,

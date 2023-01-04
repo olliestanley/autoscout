@@ -29,14 +29,7 @@
             "high": 4.6,
             "low": 1.1
         },
-        "carries_into_final_third": {
-            "display": "Carries into Final Third",
-            "normalize": true,
-            "lower_is_better": false,
-            "high": 2.6,
-            "low": 0.5
-        },
-        "xa_per90": {
+        "xg_assist_per90": {
             "display": "xG Assisted",
             "normalize": false,
             "lower_is_better": false,

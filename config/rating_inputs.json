@@ -3,16 +3,11 @@
         "progressive_passes",
         "passes_progressive_distance",
         "passes_into_final_third",
-        "progressive_carries",
-        "carry_progressive_distance",
-        "carries_into_final_third",
         "dribbles",
-        "passes_switches",
-        "passes_long",
-        "passes_pressure"
+        "passes_switches"
     ],
     "create": [
-        "xa",
+        "xg_assist",
         "passes_into_penalty_area",
         "crosses_into_penalty_area",
         "through_balls",
@@ -24,31 +19,24 @@
         "sca_shots",
         "sca_dribbles",
         "sca_fouled",
-        "touches_att_pen_area",
-        "carries_into_penalty_area"
+        "touches_att_pen_area"
     ],
     "press": [
         "tackles_att_3rd",
-        "tackles_mid_3rd",
-        "pressure_regains",
-        "pressures_att_3rd",
-        "pressures_mid_3rd"
+        "tackles_mid_3rd"
     ],
     "defend": [
         "tackles_def_3rd",
         "tackles_mid_3rd",
         "dribble_tackles",
-        "pressures_def_3rd",
-        "pressures_mid_3rd",
         "blocks",
         "interceptions",
         "ball_recoveries"
     ],
     "recycle": [
-        "passes_short",
-        "passes_medium",
+        "passes_live",
         "touches_mid_3rd",
-        "pass_targets",
+        "passes_received",
         "ball_recoveries"
     ]
 }
