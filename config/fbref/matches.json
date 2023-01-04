@@ -9,6 +9,11 @@
         "top": "https://fbref.com/en/squads/8602292d/$season$/matchlogs/all_comps/",
         "end": "/Aston-Villa-Match-Logs-All-Competitions"
     },
+    "bournemouth": {
+        "name": "Bournemouth",
+        "top": "https://fbref.com/en/squads/4ba7cbea/$season$/matchlogs/all_comps/",
+        "end": "/Bournemouth-Match-Logs-All-Competitions"
+    },
     "brentford": {
         "name": "Brentford",
         "top": "https://fbref.com/en/squads/cd051869/$season$/matchlogs/all_comps/",
@@ -38,6 +43,11 @@
         "name": "Everton",
         "top": "https://fbref.com/en/squads/d3fd31cc/$season$/matchlogs/all_comps/",
         "end": "/Everton-Match-Logs-All-Competitions"
+    },
+    "fulham": {
+        "name": "Fulham",
+        "top": "https://fbref.com/en/squads/fd962109/$season$/matchlogs/all_comps/",
+        "end": "/Fulham-Match-Logs-All-Competitions"
     },
     "leeds_united": {
         "name": "Leeds Utd",
@@ -73,6 +83,11 @@
         "name": "Norwich City",
         "top": "https://fbref.com/en/squads/1c781004/$season$/matchlogs/all_comps/",
         "end": "/Norwich-City-Match-Logs-All-Competitions"
+    },
+    "nottingham_forest": {
+        "name": "Nottingham Forest",
+        "top": "https://fbref.com/en/squads/e4a775cb/$season$/matchlogs/all_comps/",
+        "end": "/Nottingham-Forest-Match-Logs-All-Competitions"
     },
     "southampton": {
         "name": "Southampton",
