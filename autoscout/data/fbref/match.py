@@ -97,6 +97,10 @@ def get_data_from_table(
         if row.find("th", {"scope": "row"}) is None:
             continue
 
+        goals_cell = row.find("td", {"data-stat": "goals_for"})
+        if goals_cell is not None and goals_cell.text.strip().encode().decode("utf-8") == "":
+            continue
+
         opponent, date = (
             row.find(y, {"data-stat": x}).text.strip().encode().decode("utf-8")
             for (x, y) in {"opponent": "td", "date": "th"}.items()
