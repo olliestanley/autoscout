@@ -4,6 +4,7 @@ from time import sleep
 from typing import Any, Dict, Sequence, Union
 
 import pandas as pd
+import polars as pl
 from sklearn.preprocessing import minmax_scale
 
 
@@ -82,13 +83,20 @@ def load_json(
     return loaded_json
 
 
-def load_csv(file_path: Union[str, Path], **kwargs) -> pd.DataFrame:
+def load_csv(
+    file_path: Union[str, Path], format: str = "pandas", **kwargs
+) -> Union[pd.DataFrame, pl.DataFrame]:
     """
     Load `file_path` from CSV to DataFrame.
+
+    Args:
+        file_path: Path to CSV file.
+        format: Format to load CSV as. Options: "pandas" (default), "polars".
     """
 
     file_path = Path(file_path)
-    return pd.read_csv(file_path, **kwargs)
+    load_function = pl.read_csv if format == "polars" else pd.read_csv
+    return load_function(file_path, **kwargs)
 
 
 def write_csv(

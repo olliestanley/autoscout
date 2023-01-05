@@ -53,12 +53,12 @@ Add to or alter `config/fbref/matches.json` to add extra players or teams to the
 
 ---
 
-Load data into a Pandas `DataFrame`:
+Load data into a Pandas or Polars `DataFrame`:
 
 ```python
 from autoscout import util
-
-df = util.load_csv("data/fbref/eng1/2022/outfield.csv")
+# Specify format="polars" for a Polars DataFrame
+df = util.load_csv("data/fbref/eng1/2022/outfield.csv", format="pandas")
 ```
 
 ---
