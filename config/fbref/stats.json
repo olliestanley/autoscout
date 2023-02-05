@@ -137,8 +137,13 @@
                 "dribbles",
                 "dribbles_completed_pct",
                 "passes_received",
+                "progressive_passes_received",
                 "miscontrols",
-                "dispossessed"
+                "dispossessed",
+                "carries",
+                "progressive_carries",
+                "carries_distance",
+                "carries_progressive_distance"
             ],
             "playingtime": [
                 "games",
@@ -418,7 +423,11 @@
                 "passes_received",
                 "progressive_passes_received",
                 "miscontrols",
-                "dispossessed"
+                "dispossessed",
+                "carries",
+                "progressive_carries",
+                "carries_distance",
+                "carries_progressive_distance"
             ],
             "playingtime": [
                 "players_used",
@@ -589,7 +598,11 @@
                 "passes_received",
                 "progressive_passes_received",
                 "miscontrols",
-                "dispossessed"
+                "dispossessed",
+                "carries",
+                "progressive_carries",
+                "carries_distance",
+                "carries_progressive_distance"
             ],
             "misc": [
                 "comp",
@@ -744,7 +757,11 @@
                 "passes_received",
                 "progressive_passes_received",
                 "miscontrols",
-                "dispossessed"
+                "dispossessed",
+                "carries",
+                "progressive_carries",
+                "carries_distance",
+                "carries_progressive_distance"
             ],
             "misc": [
                 "squad",
