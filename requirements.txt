@@ -46,7 +46,7 @@ pickleshare==0.7.5
 Pillow==9.2.0
 platformdirs==2.5.2
 pluggy==1.0.0
-polars==0.15.12
+polars>=0.15.11
 prompt-toolkit==3.0.30
 psutil==5.9.1
 pure-eval==0.2.2
