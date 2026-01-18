@@ -11,8 +11,26 @@ def sample_player_data() -> pd.DataFrame:
     """Sample player data for testing."""
     return pd.DataFrame(
         {
-            "player": ["Alice", "Bob", "Charlie", "Diana", "Eve", "Frank", "Grace", "Henry"],
-            "team": ["Team A", "Team A", "Team B", "Team B", "Team C", "Team C", "Team D", "Team D"],
+            "player": [
+                "Alice",
+                "Bob",
+                "Charlie",
+                "Diana",
+                "Eve",
+                "Frank",
+                "Grace",
+                "Henry",
+            ],
+            "team": [
+                "Team A",
+                "Team A",
+                "Team B",
+                "Team B",
+                "Team C",
+                "Team C",
+                "Team D",
+                "Team D",
+            ],
             "position": ["FW", "MF", "FW", "DF", "MF", "GK", "FW", "DF"],
             "minutes": [1800, 1620, 900, 2700, 1350, 2520, 450, 1980],
             "goals": [15, 5, 8, 2, 7, 0, 3, 1],
@@ -47,7 +65,13 @@ def sample_match_data() -> pd.DataFrame:
     """Sample match-level data for testing."""
     return pd.DataFrame(
         {
-            "date": ["2024-01-01", "2024-01-08", "2024-01-15", "2024-01-22", "2024-01-29"],
+            "date": [
+                "2024-01-01",
+                "2024-01-08",
+                "2024-01-15",
+                "2024-01-22",
+                "2024-01-29",
+            ],
             "opponent": ["Team B", "Team C", "Team D", "Team B", "Team C"],
             "squad": ["Team A", "Team A", "Team A", "Team A", "Team A"],
             "goals": [2, 1, 3, 0, 2],
@@ -63,7 +87,13 @@ def sample_team_match_data() -> pd.DataFrame:
     """Sample team match-level data for testing possession adjustments."""
     return pd.DataFrame(
         {
-            "date": ["2024-01-01", "2024-01-08", "2024-01-15", "2024-01-22", "2024-01-29"],
+            "date": [
+                "2024-01-01",
+                "2024-01-08",
+                "2024-01-15",
+                "2024-01-22",
+                "2024-01-29",
+            ],
             "name": ["Team A", "Team A", "Team A", "Team A", "Team A"],
             "possession": [55, 48, 60, 42, 52],
         }

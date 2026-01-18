@@ -1,3 +1,4 @@
+import contextlib
 from collections.abc import Sequence
 from typing import Any
 
@@ -175,11 +176,24 @@ def get_data_from_table(features: Sequence[str], table) -> pd.DataFrame:
 
             if cell is None:
                 # Feature not found - use default value
-                text: Any = 0 if feat not in (
-                    "date", "start_time", "comp", "round", "dayofweek",
-                    "venue", "result", "opponent", "match_report",
-                    "game_started", "position",
-                ) else ""
+                text: Any = (
+                    0
+                    if feat
+                    not in (
+                        "date",
+                        "start_time",
+                        "comp",
+                        "round",
+                        "dayofweek",
+                        "venue",
+                        "result",
+                        "opponent",
+                        "match_report",
+                        "game_started",
+                        "position",
+                    )
+                    else ""
+                )
             else:
                 text = cell.text.strip().encode().decode("utf-8")
 
@@ -198,10 +212,8 @@ def get_data_from_table(features: Sequence[str], table) -> pd.DataFrame:
                     "game_started",
                     "position",
                 ):
-                    try:
+                    with contextlib.suppress(ValueError):
                         text = float(text.replace(",", ""))
-                    except ValueError:
-                        pass
 
             if feat in pre_df:
                 pre_df[feat].append(text)

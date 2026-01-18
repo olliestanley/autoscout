@@ -1,3 +1,4 @@
+import contextlib
 from collections.abc import Sequence
 from typing import Any
 
@@ -215,11 +216,8 @@ def get_data_from_table(
                 "age",
                 "birth_year",
             ):
-                try:
+                with contextlib.suppress(ValueError):
                     text = float(text.replace(",", ""))
-                except ValueError:
-                    # Keep as string if can't convert
-                    pass
 
             if feat in pre_df:
                 pre_df[feat].append(text)

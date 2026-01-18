@@ -79,7 +79,9 @@ def search_similar(
     baseline_series: pd.Series[Any] = baseline_scaled.iloc[0]
 
     indices: list[int] = (
-        data_relevant.apply(lambda col: distance.euclidean(baseline_series, col), axis=1)
+        data_relevant.apply(
+            lambda col: distance.euclidean(baseline_series, col), axis=1
+        )
         .nsmallest(num)
         .index.to_list()
     )

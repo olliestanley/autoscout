@@ -21,7 +21,9 @@ class TestEstimateStyleRatings:
         assert "attack_rating" in result.columns
         assert "defense_rating" in result.columns
 
-    def test_estimate_style_ratings_range(self, large_player_data, sample_rating_config):
+    def test_estimate_style_ratings_range(
+        self, large_player_data, sample_rating_config
+    ):
         """Ratings should be in 0-100 range."""
         result = analyse.estimate_style_ratings(large_player_data, sample_rating_config)
 
@@ -223,5 +225,3 @@ class TestFitKmeans:
 
         assert isinstance(result, KMeans)
         assert result.n_clusters > 0
-
-

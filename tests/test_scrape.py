@@ -6,7 +6,6 @@ from unittest.mock import patch
 
 from autoscout.data import scrape
 
-
 # Sample HTML for testing
 SAMPLE_HTML = """
 <html>
@@ -159,5 +158,5 @@ class TestGetTablesById:
             result = scrape.get_tables_by_id("http://example.com")
 
         # Verify we got tbody, not full table (tbody won't have thead)
-        for table_id, tbody in result.items():
+        for _table_id, tbody in result.items():
             assert tbody.name == "tbody"

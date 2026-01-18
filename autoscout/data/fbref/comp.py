@@ -1,3 +1,4 @@
+import contextlib
 from collections.abc import Sequence
 from typing import Any
 
@@ -120,10 +121,8 @@ def get_data_from_table(features: Sequence[str], table) -> pd.DataFrame:
                     text = "0" if feat not in string_features else ""
 
                 if feat not in string_features:
-                    try:
+                    with contextlib.suppress(ValueError):
                         text = float(text.replace(",", ""))
-                    except ValueError:
-                        pass
 
             if feat in pre_df:
                 pre_df[feat].append(text)

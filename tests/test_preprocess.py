@@ -78,7 +78,9 @@ class TestRolling:
         """Should calculate rolling mean correctly."""
         df = pd.DataFrame({"val": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]})
 
-        result = preprocess.rolling(df, ["val"], roll_length=3, min_periods=1, dropna=False)
+        result = preprocess.rolling(
+            df, ["val"], roll_length=3, min_periods=1, dropna=False
+        )
 
         assert "val_roll_mean" in result.columns
         # First value: just 1 -> mean = 1
@@ -103,7 +105,9 @@ class TestRolling:
         """Should handle multiple columns."""
         df = pd.DataFrame({"a": [1, 2, 3, 4, 5], "b": [5, 4, 3, 2, 1]})
 
-        result = preprocess.rolling(df, ["a", "b"], roll_length=2, min_periods=1, dropna=False)
+        result = preprocess.rolling(
+            df, ["a", "b"], roll_length=2, min_periods=1, dropna=False
+        )
 
         assert "a_roll_mean" in result.columns
         assert "b_roll_mean" in result.columns
@@ -121,7 +125,9 @@ class TestRolling:
         """Should drop rows with NaN values when dropna=True."""
         df = pd.DataFrame({"val": [1, 2, 3, 4, 5]})
 
-        result = preprocess.rolling(df, ["val"], roll_length=3, min_periods=3, dropna=True)
+        result = preprocess.rolling(
+            df, ["val"], roll_length=3, min_periods=3, dropna=True
+        )
 
         # First two rows would have NaN, so should be dropped (after bfill they might not)
         assert "val_roll_mean" in result.columns
@@ -130,7 +136,9 @@ class TestRolling:
         """Should preserve columns not involved in rolling."""
         df = pd.DataFrame({"val": [1, 2, 3, 4, 5], "other": ["a", "b", "c", "d", "e"]})
 
-        result = preprocess.rolling(df, ["val"], roll_length=2, min_periods=1, dropna=False)
+        result = preprocess.rolling(
+            df, ["val"], roll_length=2, min_periods=1, dropna=False
+        )
 
         assert "other" in result.columns
 
@@ -167,10 +175,12 @@ class TestClampByPercentiles:
 
     def test_clamp_multiple_columns(self):
         """Should clamp multiple columns independently."""
-        df = pd.DataFrame({
-            "a": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 100],
-            "b": [-50, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        })
+        df = pd.DataFrame(
+            {
+                "a": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 100],
+                "b": [-50, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            }
+        )
 
         result = preprocess.clamp_by_percentiles(df, ["a", "b"], alpha=0.1)
 
@@ -202,11 +212,13 @@ class TestAdjustPer90:
 
     def test_adjust_per_90_multiple_columns(self):
         """Should adjust multiple columns."""
-        df = pd.DataFrame({
-            "minutes": [90, 180],
-            "goals": [1, 4],
-            "assists": [2, 2],
-        })
+        df = pd.DataFrame(
+            {
+                "minutes": [90, 180],
+                "goals": [1, 4],
+                "assists": [2, 2],
+            }
+        )
 
         result = preprocess.adjust_per_90(df, ["goals", "assists"])
 
@@ -291,12 +303,14 @@ class TestFilterCategories:
 
     def test_filter_categories_retain(self):
         """Should keep only specified category columns."""
-        df = pd.DataFrame({
-            "goals": [1, 2],
-            "assists": [3, 4],
-            "tackles": [5, 6],
-            "interceptions": [7, 8],
-        })
+        df = pd.DataFrame(
+            {
+                "goals": [1, 2],
+                "assists": [3, 4],
+                "tackles": [5, 6],
+                "interceptions": [7, 8],
+            }
+        )
         config = {
             "attack": ["goals", "assists"],
             "defense": ["tackles", "interceptions"],
@@ -308,11 +322,13 @@ class TestFilterCategories:
 
     def test_filter_categories_drop(self):
         """Should drop specified category columns when retain=False."""
-        df = pd.DataFrame({
-            "goals": [1, 2],
-            "assists": [3, 4],
-            "tackles": [5, 6],
-        })
+        df = pd.DataFrame(
+            {
+                "goals": [1, 2],
+                "assists": [3, 4],
+                "tackles": [5, 6],
+            }
+        )
         config = {
             "attack": ["goals", "assists"],
         }

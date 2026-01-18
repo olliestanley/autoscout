@@ -12,10 +12,12 @@ class TestSearch:
 
     def test_search_gte_single_criterion(self):
         """Should filter rows with >= condition."""
-        df = pd.DataFrame({
-            "player": ["A", "B", "C", "D"],
-            "goals": [1, 5, 10, 15],
-        })
+        df = pd.DataFrame(
+            {
+                "player": ["A", "B", "C", "D"],
+                "goals": [1, 5, 10, 15],
+            }
+        )
 
         result = search.search(df, {"gte": {"goals": 5}})
 
@@ -24,10 +26,12 @@ class TestSearch:
 
     def test_search_lte_single_criterion(self):
         """Should filter rows with <= condition."""
-        df = pd.DataFrame({
-            "player": ["A", "B", "C", "D"],
-            "goals": [1, 5, 10, 15],
-        })
+        df = pd.DataFrame(
+            {
+                "player": ["A", "B", "C", "D"],
+                "goals": [1, 5, 10, 15],
+            }
+        )
 
         result = search.search(df, {"lte": {"goals": 10}})
 
@@ -36,10 +40,12 @@ class TestSearch:
 
     def test_search_eq_single_criterion(self):
         """Should filter rows with == condition."""
-        df = pd.DataFrame({
-            "player": ["A", "B", "C", "D"],
-            "goals": [1, 5, 5, 15],
-        })
+        df = pd.DataFrame(
+            {
+                "player": ["A", "B", "C", "D"],
+                "goals": [1, 5, 5, 15],
+            }
+        )
 
         result = search.search(df, {"eq": {"goals": 5}})
 
@@ -48,11 +54,13 @@ class TestSearch:
 
     def test_search_multiple_criteria_same_operator(self):
         """Should apply multiple conditions with same operator."""
-        df = pd.DataFrame({
-            "player": ["A", "B", "C", "D"],
-            "goals": [1, 5, 10, 15],
-            "assists": [10, 8, 6, 4],
-        })
+        df = pd.DataFrame(
+            {
+                "player": ["A", "B", "C", "D"],
+                "goals": [1, 5, 10, 15],
+                "assists": [10, 8, 6, 4],
+            }
+        )
 
         result = search.search(df, {"gte": {"goals": 5, "assists": 6}})
 
@@ -61,26 +69,33 @@ class TestSearch:
 
     def test_search_multiple_operators(self):
         """Should apply conditions with different operators."""
-        df = pd.DataFrame({
-            "player": ["A", "B", "C", "D"],
-            "goals": [1, 5, 10, 15],
-            "assists": [10, 8, 6, 4],
-        })
+        df = pd.DataFrame(
+            {
+                "player": ["A", "B", "C", "D"],
+                "goals": [1, 5, 10, 15],
+                "assists": [10, 8, 6, 4],
+            }
+        )
 
-        result = search.search(df, {
-            "gte": {"goals": 5},
-            "lte": {"goals": 10},
-        })
+        result = search.search(
+            df,
+            {
+                "gte": {"goals": 5},
+                "lte": {"goals": 10},
+            },
+        )
 
         assert len(result) == 2
         assert set(result["player"].values) == {"B", "C"}
 
     def test_search_empty_criteria(self):
         """Should return all rows with empty criteria."""
-        df = pd.DataFrame({
-            "player": ["A", "B", "C"],
-            "goals": [1, 2, 3],
-        })
+        df = pd.DataFrame(
+            {
+                "player": ["A", "B", "C"],
+                "goals": [1, 2, 3],
+            }
+        )
 
         result = search.search(df, {})
 
@@ -88,10 +103,12 @@ class TestSearch:
 
     def test_search_no_matches(self):
         """Should return empty DataFrame when no matches."""
-        df = pd.DataFrame({
-            "player": ["A", "B", "C"],
-            "goals": [1, 2, 3],
-        })
+        df = pd.DataFrame(
+            {
+                "player": ["A", "B", "C"],
+                "goals": [1, 2, 3],
+            }
+        )
 
         result = search.search(df, {"gte": {"goals": 100}})
 
@@ -143,12 +160,14 @@ class TestSearchSimilar:
 
     def test_search_similar_uses_euclidean_distance(self):
         """Should find records closest in Euclidean distance."""
-        df = pd.DataFrame({
-            "player": ["A", "B", "C", "D", "E"],
-            "minutes": [900, 900, 900, 900, 900],
-            "x": [0, 1, 10, 100, 1000],
-            "y": [0, 1, 10, 100, 1000],
-        })
+        df = pd.DataFrame(
+            {
+                "player": ["A", "B", "C", "D", "E"],
+                "minutes": [900, 900, 900, 900, 900],
+                "x": [0, 1, 10, 100, 1000],
+                "y": [0, 1, 10, 100, 1000],
+            }
+        )
 
         result = search.search_similar(df, ["x", "y"], "A", num=3)
 

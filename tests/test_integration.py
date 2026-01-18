@@ -211,7 +211,9 @@ class TestFullPipelineIntegration:
         """Should be able to reduce dimensions of downloaded data."""
         numeric_cols = player_data.select_dtypes(include=["number"]).columns.tolist()
         # Remove columns that might have issues
-        numeric_cols = [c for c in numeric_cols if c not in ["minutes", "birth_year", "age"]]
+        numeric_cols = [
+            c for c in numeric_cols if c not in ["minutes", "birth_year", "age"]
+        ]
 
         if len(numeric_cols) < 2:
             pytest.skip("Not enough numeric columns for dimensionality reduction")
@@ -233,16 +235,18 @@ class TestVisualizationIntegration:
     @pytest.fixture
     def sample_scraped_structure(self) -> pd.DataFrame:
         """Create data with structure similar to scraped data."""
-        return pd.DataFrame({
-            "player": [f"Player {i}" for i in range(20)],
-            "team": [f"Team {i % 5}" for i in range(20)],
-            "position": ["FW", "MF", "DF", "GK"] * 5,
-            "minutes": [900 + i * 100 for i in range(20)],
-            "goals": [i % 15 for i in range(20)],
-            "assists": [(20 - i) % 12 for i in range(20)],
-            "shots": [20 + i * 2 for i in range(20)],
-            "tackles": [10 + i * 3 for i in range(20)],
-        })
+        return pd.DataFrame(
+            {
+                "player": [f"Player {i}" for i in range(20)],
+                "team": [f"Team {i % 5}" for i in range(20)],
+                "position": ["FW", "MF", "DF", "GK"] * 5,
+                "minutes": [900 + i * 100 for i in range(20)],
+                "goals": [i % 15 for i in range(20)],
+                "assists": [(20 - i) % 12 for i in range(20)],
+                "shots": [20 + i * 2 for i in range(20)],
+                "tackles": [10 + i * 3 for i in range(20)],
+            }
+        )
 
     def test_radar_chart_with_scraped_structure(self, sample_scraped_structure):
         """Should create radar chart with data similar to scraped structure."""
@@ -268,7 +272,9 @@ class TestVisualizationIntegration:
     def test_lines_chart_with_scraped_structure(self, sample_scraped_structure):
         """Should create line chart with data similar to scraped structure."""
         # Sort by minutes for a sensible line chart
-        sorted_data = sample_scraped_structure.sort_values("minutes").reset_index(drop=True)
+        sorted_data = sample_scraped_structure.sort_values("minutes").reset_index(
+            drop=True
+        )
         sorted_data["index"] = range(len(sorted_data))
 
         plot = chart.lines(
@@ -287,16 +293,25 @@ class TestEndToEndWorkflow:
     def test_similarity_search_workflow(self):
         """Test complete similarity search workflow."""
         # Create realistic player data
-        data = pd.DataFrame({
-            "player": ["Haaland", "Kane", "Salah", "Son", "Saka", "Rashford"],
-            "team": ["Man City", "Bayern", "Liverpool", "Spurs", "Arsenal", "Man Utd"],
-            "position": ["FW", "FW", "FW", "FW", "FW", "FW"],
-            "minutes": [2500, 2400, 2600, 2200, 2300, 1800],
-            "goals": [25, 22, 18, 15, 12, 10],
-            "assists": [5, 8, 10, 8, 11, 6],
-            "shots": [80, 75, 70, 60, 55, 50],
-            "xg": [22.5, 20.0, 16.5, 13.0, 10.5, 9.0],
-        })
+        data = pd.DataFrame(
+            {
+                "player": ["Haaland", "Kane", "Salah", "Son", "Saka", "Rashford"],
+                "team": [
+                    "Man City",
+                    "Bayern",
+                    "Liverpool",
+                    "Spurs",
+                    "Arsenal",
+                    "Man Utd",
+                ],
+                "position": ["FW", "FW", "FW", "FW", "FW", "FW"],
+                "minutes": [2500, 2400, 2600, 2200, 2300, 1800],
+                "goals": [25, 22, 18, 15, 12, 10],
+                "assists": [5, 8, 10, 8, 11, 6],
+                "shots": [80, 75, 70, 60, 55, 50],
+                "xg": [22.5, 20.0, 16.5, 13.0, 10.5, 9.0],
+            }
+        )
 
         # Step 1: Adjust per 90
         adjusted = preprocess.adjust_per_90(data, ["goals", "assists", "shots", "xg"])
@@ -316,15 +331,17 @@ class TestEndToEndWorkflow:
     def test_style_rating_workflow(self):
         """Test complete style rating workflow."""
         # Create realistic player data
-        data = pd.DataFrame({
-            "player": [f"Player {i}" for i in range(50)],
-            "minutes": [1800 + i * 20 for i in range(50)],
-            "goals": [i % 20 for i in range(50)],
-            "assists": [(50 - i) % 15 for i in range(50)],
-            "shots": [30 + i for i in range(50)],
-            "tackles": [20 + i * 2 for i in range(50)],
-            "interceptions": [10 + i for i in range(50)],
-        })
+        data = pd.DataFrame(
+            {
+                "player": [f"Player {i}" for i in range(50)],
+                "minutes": [1800 + i * 20 for i in range(50)],
+                "goals": [i % 20 for i in range(50)],
+                "assists": [(50 - i) % 15 for i in range(50)],
+                "shots": [30 + i for i in range(50)],
+                "tackles": [20 + i * 2 for i in range(50)],
+                "interceptions": [10 + i for i in range(50)],
+            }
+        )
 
         config = {
             "attack": ["goals", "assists", "shots"],
@@ -343,14 +360,16 @@ class TestEndToEndWorkflow:
     def test_visualization_workflow(self):
         """Test complete visualization workflow."""
         # Create data
-        data = pd.DataFrame({
-            "player": ["Alice", "Bob", "Charlie", "Diana"],
-            "position": ["FW", "FW", "MF", "DF"],
-            "minutes": [1800, 1620, 1350, 2700],
-            "goals": [15, 12, 8, 2],
-            "assists": [6, 9, 12, 3],
-            "tackles": [15, 20, 55, 120],
-        })
+        data = pd.DataFrame(
+            {
+                "player": ["Alice", "Bob", "Charlie", "Diana"],
+                "position": ["FW", "FW", "MF", "DF"],
+                "minutes": [1800, 1620, 1350, 2700],
+                "goals": [15, 12, 8, 2],
+                "assists": [6, 9, 12, 3],
+                "tackles": [15, 20, 55, 120],
+            }
+        )
 
         # Create radar chart
         r, fig, ax = radar.plot_radar(
@@ -362,7 +381,9 @@ class TestEndToEndWorkflow:
 
         # Create scatter chart
         scatter_plot = chart.scatter(data, x="goals", y="assists")
-        scatter_plot = chart.add_labels(scatter_plot, data, "goals", "assists", "player")
+        scatter_plot = chart.add_labels(
+            scatter_plot, data, "goals", "assists", "player"
+        )
 
         # Verify
         assert r is not None

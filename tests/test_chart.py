@@ -12,14 +12,16 @@ from autoscout.vis import chart
 @pytest.fixture
 def chart_data() -> pd.DataFrame:
     """Sample data for chart tests."""
-    return pd.DataFrame({
-        "x": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        "y1": [1, 4, 9, 16, 25, 36, 49, 64, 81, 100],
-        "y2": [100, 81, 64, 49, 36, 25, 16, 9, 4, 1],
-        "category": ["A", "A", "B", "B", "C", "C", "D", "D", "E", "E"],
-        "player": ["P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10"],
-        "size": [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-    })
+    return pd.DataFrame(
+        {
+            "x": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            "y1": [1, 4, 9, 16, 25, 36, 49, 64, 81, 100],
+            "y2": [100, 81, 64, 49, 36, 25, 16, 9, 4, 1],
+            "category": ["A", "A", "B", "B", "C", "C", "D", "D", "E", "E"],
+            "player": ["P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10"],
+            "size": [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
+        }
+    )
 
 
 class TestLines:

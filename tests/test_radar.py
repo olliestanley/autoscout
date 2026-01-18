@@ -14,17 +14,19 @@ from autoscout.vis import radar
 @pytest.fixture
 def radar_data() -> pd.DataFrame:
     """Sample data for radar chart tests."""
-    return pd.DataFrame({
-        "player": ["Alice", "Bob", "Charlie", "Diana", "Eve"],
-        "team": ["Team A", "Team A", "Team B", "Team B", "Team C"],
-        "position": ["FW", "FW", "MF", "DF", "GK"],
-        "minutes": [1800, 1620, 1350, 2700, 2520],
-        "goals": [15, 12, 8, 2, 0],
-        "assists": [6, 9, 12, 3, 1],
-        "shots": [60, 50, 40, 10, 2],
-        "tackles": [15, 20, 55, 120, 10],
-        "interceptions": [8, 12, 30, 80, 5],
-    })
+    return pd.DataFrame(
+        {
+            "player": ["Alice", "Bob", "Charlie", "Diana", "Eve"],
+            "team": ["Team A", "Team A", "Team B", "Team B", "Team C"],
+            "position": ["FW", "FW", "MF", "DF", "GK"],
+            "minutes": [1800, 1620, 1350, 2700, 2520],
+            "goals": [15, 12, 8, 2, 0],
+            "assists": [6, 9, 12, 3, 1],
+            "shots": [60, 50, 40, 10, 2],
+            "tackles": [15, 20, 55, 120, 10],
+            "interceptions": [8, 12, 30, 80, 5],
+        }
+    )
 
 
 @pytest.fixture(autouse=True)
@@ -39,9 +41,7 @@ class TestEstimateLimitsByPosition:
 
     def test_returns_tuple(self, radar_data):
         """Should return tuple of (low, high) values."""
-        result = radar.estimate_limits_by_position(
-            radar_data, "goals", "FW", alpha=0.1
-        )
+        result = radar.estimate_limits_by_position(radar_data, "goals", "FW", alpha=0.1)
 
         assert isinstance(result, tuple)
         assert len(result) == 2
