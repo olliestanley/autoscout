@@ -52,6 +52,8 @@ uv run python scripts/data/download_fbref_comp.py --comp eng1 --season 2025
 
 Add to or alter `config/fbref/matches.json` to add extra players or teams to the available list.
 
+**Note on fbref configs:** The provided configurations in `config/fbref/stats.json` define which statistics to scrape from fbref. These may become outdated as fbref updates their website—stat names can change, new stats may be added, or existing ones removed. If scraping fails or returns missing columns, check the fbref website for current stat names and update the config accordingly.
+
 ---
 
 Load data into a Pandas or Polars DataFrame:

@@ -115,7 +115,10 @@ def get_table_for_category(
     """
     # Map URL category names to table ID category names
     category_map = {
+        "stats": "standard",
         "playingtime": "playing_time",
+        "keepers": "keeper",
+        "keepersadv": "keeper_adv",
     }
     table_category = category_map.get(category, category)
 
