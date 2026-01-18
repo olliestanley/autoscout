@@ -28,8 +28,8 @@ and competitions are pulled from `fbref.`
 """
 
 import argparse
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Dict, Sequence, Union
 
 from autoscout import util
 from autoscout.data.fbref import aggregate
@@ -38,8 +38,8 @@ from autoscout.data.fbref import aggregate
 def download_data_for_comp(
     url_top: str,
     url_end: str,
-    stats_config: Dict[str, Dict[str, Sequence[str]]],
-    out_dir: Union[str, Path] = "data/fbref",
+    stats_config: dict[str, dict[str, Sequence[str]]],
+    out_dir: str | Path = "data/fbref",
     dataset: str = "outfield",
     vs: bool = False,
 ) -> None:
@@ -71,7 +71,7 @@ if __name__ == "__main__":
     comps_json = util.load_json(config_dir / "comps.json")
     stats_json = util.load_json(config_dir / "stats.json")
 
-    comp: Dict[str, str] = comps_json[args.competition]
+    comp: dict[str, str] = comps_json[args.competition]
     url_top, url_end = comp["top"], comp["end"]
 
     if args.season.isdigit():

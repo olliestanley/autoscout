@@ -1,4 +1,5 @@
-from typing import Any, Dict, Sequence, Tuple
+from collections.abc import Sequence
+from typing import Any
 
 import pandas as pd
 
@@ -7,7 +8,7 @@ from autoscout.util import sleep_and_return
 
 
 def get_data(
-    config: Dict[str, Sequence[str]],
+    config: dict[str, Sequence[str]],
     top: str,
     end: str,
     team: bool = False,
@@ -41,7 +42,7 @@ def get_data(
         axis=1,
     )
 
-    return df.loc[:, ~df.columns.duplicated()]
+    return df.loc[:, ~df.columns.duplicated()]  # type: ignore[no-any-return]
 
 
 def get_data_for_category(
@@ -70,27 +71,105 @@ def get_data_for_category(
     """
 
     url = top + category + end
-    player_table, team_table = get_tables(url, vs=vs)
-    table = team_table if team else player_table
+    tables = scrape.get_tables_by_id(url)
+
+    # Determine which table to use based on category and team/vs flags
+    table = get_table_for_category(tables, category, team=team, vs=vs)
+
+    if table is None:
+        raise ValueError(
+            f"Could not find table for category '{category}' "
+            f"(team={team}, vs={vs}). "
+            f"Available tables: {list(tables.keys())}"
+        )
+
     return get_data_from_table(features, table, team)
 
 
+def get_table_for_category(
+    tables: dict[str, Any],
+    category: str,
+    team: bool = False,
+    vs: bool = False,
+) -> Any | None:
+    """
+    Get the appropriate table for a given category.
+
+    fbref table IDs follow these patterns:
+    - Player tables: stats_{category} (e.g., stats_standard, stats_shooting)
+    - Team for tables: stats_squads_{category}_for
+    - Team against tables: stats_squads_{category}_against
+
+    Some categories have underscores in table IDs but not in URL paths:
+    - playingtime -> playing_time
+    - passing_types -> passing_types (same)
+
+    Args:
+        tables: Dict mapping table IDs to table elements.
+        category: The category name (e.g., "stats", "shooting", "passing").
+        team: Whether to get team-level data.
+        vs: Whether to get "against" stats for teams.
+
+    Returns:
+        The table element, or None if not found.
+    """
+    # Map URL category names to table ID category names
+    category_map = {
+        "playingtime": "playing_time",
+    }
+    table_category = category_map.get(category, category)
+
+    if team:
+        # Team tables
+        suffix = "against" if vs else "for"
+        # Try different possible table ID formats
+        possible_ids = [
+            f"stats_squads_{table_category}_{suffix}",
+            f"stats_{table_category}_squads_{suffix}",
+            f"stats_squads_{category}_{suffix}",
+        ]
+    else:
+        # Player tables
+        possible_ids = [
+            f"stats_{table_category}",
+            f"stats_{category}",
+            category,  # Some tables might just use the category name
+        ]
+
+    for table_id in possible_ids:
+        if table_id in tables:
+            return tables[table_id]
+
+    # Fallback: try to find a table containing the category name
+    for table_id, table in tables.items():
+        if category in table_id or table_category in table_id:
+            if team:
+                if ("squads" in table_id or "squad" in table_id) and (
+                    ("against" in table_id) == vs
+                ):
+                    return table
+            elif "squads" not in table_id and "squad" not in table_id:
+                return table
+
+    return None
+
+
 def get_data_from_table(
-    features: Sequence[str], table, team: bool = False
+    features: Sequence[str], table: Any, team: bool = False
 ) -> pd.DataFrame:
     """
     Extract data from a single HTML table on the fbref website.
 
     Args:
         features: IDs of statistics to extract.
-        table: HTML table.
+        table: HTML table body element.
         team: Obtain team-level data if `True`, else player-level data.
 
     Returns:
         Extracted DataFrame from the table.
     """
 
-    pre_df: Dict[str, Sequence[Any]] = dict()
+    pre_df: dict[str, list[Any]] = {}
     rows = table.find_all("tr")
 
     for row in rows:
@@ -98,20 +177,29 @@ def get_data_from_table(
             continue
 
         if team:
-            name = (
-                row.find("th", {"data-stat": "team"})
-                .text.strip()
-                .encode()
-                .decode("utf-8")
-            )
+            name_cell = row.find("th", {"data-stat": "team"})
+            if name_cell is None:
+                # Try alternative: sometimes it's in a td
+                name_cell = row.find("td", {"data-stat": "team"})
 
-            if "team" in pre_df:
-                pre_df["team"].append(name)
-            else:
-                pre_df["team"] = [name]
+            if name_cell:
+                name = name_cell.text.strip().encode().decode("utf-8")
+
+                if "team" in pre_df:
+                    pre_df["team"].append(name)
+                else:
+                    pre_df["team"] = [name]
 
         for feat in features:
             cell = row.find("td", {"data-stat": feat})
+            if cell is None:
+                # Try th for header cells
+                cell = row.find("th", {"data-stat": feat})
+
+            if cell is None:
+                # Skip this feature for this row
+                continue
+
             text = cell.text.strip().encode().decode("utf-8")
 
             if text == "":
@@ -124,7 +212,11 @@ def get_data_from_table(
                 "age",
                 "birth_year",
             ):
-                text = float(text.replace(",", ""))
+                try:
+                    text = float(text.replace(",", ""))
+                except ValueError:
+                    # Keep as string if can't convert
+                    pass
 
             if feat in pre_df:
                 pre_df[feat].append(text)
@@ -132,22 +224,3 @@ def get_data_from_table(
                 pre_df[feat] = [text]
 
     return pd.DataFrame.from_dict(pre_df)
-
-
-def get_tables(url: str, vs: bool = False) -> Tuple:
-    """
-    Obtain team and player HTML tables from a competition page on the fbref website.
-
-    Args:
-        url: URL to the page containing the tables.
-        vs: If `True`, obtain statistics against the teams table, instead of for.
-
-    Returns:
-        Tuple of two tables, player and team, of statistics.
-    """
-
-    tables = scrape.get_all_tables(url)
-    team_table, team_vs_table, player_table = tables[:3]
-    if vs:
-        return player_table, team_vs_table
-    return player_table, team_table

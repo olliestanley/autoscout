@@ -11,8 +11,8 @@ named `stats.json`, you can determine which stats and competitions are pulled.
 """
 
 import argparse
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Dict, Sequence, Union
 
 from autoscout import util
 from autoscout.data.fbref import match
@@ -22,8 +22,8 @@ def download_matches_for_player_or_team(
     url_top: str,
     url_end: str,
     name: str,
-    stats_config: Dict[str, Dict[str, Sequence[str]]],
-    out_dir: Union[str, Path] = "data/fbref/match",
+    stats_config: dict[str, dict[str, Sequence[str]]],
+    out_dir: str | Path = "data/fbref/match",
     team: bool = False,
     vs: bool = False,
 ) -> None:
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     matches_json = util.load_json(config_dir / "matches.json")
     stats_json = util.load_json(config_dir / "stats.json")
 
-    matches: Dict[str, str] = matches_json[args.dataset]
+    matches: dict[str, str] = matches_json[args.dataset]
     url_top, url_end, name = matches["top"], matches["end"], matches["name"]
 
     season = args.season

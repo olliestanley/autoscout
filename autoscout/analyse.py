@@ -3,7 +3,7 @@ Apply algorithms to data to identify patterns and insights.
 """
 
 import itertools
-from typing import Dict, Sequence, Union
+from collections.abc import Sequence
 
 import numpy as np
 import pandas as pd
@@ -18,7 +18,7 @@ from autoscout import preprocess, util
 
 def estimate_style_ratings(
     data: pd.DataFrame,
-    config: Dict[str, Sequence[str]],
+    config: dict[str, Sequence[str]],
 ) -> pd.DataFrame:
     """
     Estimate stylistic ratings for records based on a dict `config`.
@@ -50,7 +50,7 @@ def estimate_style_ratings(
     data = preprocess.clamp_by_percentiles(data, relevant_columns)
     data = util.min_max_scale(data, relevant_columns)
 
-    for rating in config.keys():
+    for rating in config:
         data[f"{rating}_rating"] = minmax_scale(reduce_dimensions(data, config[rating]))
         data[f"{rating}_rating"] = (data[f"{rating}_rating"] * 100).round(2)
 
@@ -60,7 +60,7 @@ def estimate_style_ratings(
 def reduce_dimensions(
     data: pd.DataFrame,
     columns: Sequence[str],
-    reducer: Union[BaseEstimator, int] = 1,
+    reducer: BaseEstimator | int = 1,
 ) -> np.ndarray:
     """
     Reduce the dimensions specified by `columns` in `data`. A fitted estimator can be
@@ -84,12 +84,10 @@ def reduce_dimensions(
     if isinstance(reducer, int):
         reducer = fit_pca(data, columns, reducer)
 
-    return reducer.transform(data[columns])
+    return reducer.transform(data[columns])  # type: ignore[no-any-return]
 
 
-def fit_pca(
-    data: pd.DataFrame, columns: Sequence[str], out_dimensions: int = 1
-) -> KMeans:
+def fit_pca(data: pd.DataFrame, columns: Sequence[str], out_dimensions: int = 1) -> PCA:
     """
     Fit a PCA dimensionality reduction model to `data`, using `columns` as features.
 
@@ -113,7 +111,7 @@ def fit_pca(
 def cluster_records(
     data: pd.DataFrame,
     columns: Sequence[str],
-    estimator: Union[BaseEstimator, str] = "auto",
+    estimator: BaseEstimator | str = "auto",
 ) -> np.ndarray:
     """
     Cluster or classify the records in `data`, using `columns` as features. A fitted
@@ -141,11 +139,12 @@ def cluster_records(
     if estimator == "auto":
         estimator = fit_kmeans(data, columns)
 
-    return estimator.predict(data[columns])
+    # At this point estimator is guaranteed to be a fitted BaseEstimator
+    return estimator.predict(data[columns])  # type: ignore[union-attr, no-any-return]
 
 
 def fit_kmeans(
-    data: pd.DataFrame, columns: Sequence[str], n_clusters: Union[int, str] = "auto"
+    data: pd.DataFrame, columns: Sequence[str], n_clusters: int | str = "auto"
 ) -> KMeans:
     """
     Fit a KMeans cluster estimator to `data`, using `columns` as features. Supports
@@ -215,8 +214,8 @@ def _select_k_by_elbow_test(
     if not np.any(strength > 0):
         return 0
     if relative:
-        return clusters[np.argmax(strength / clusters)]
-    return clusters[np.argmax(strength)]
+        return int(clusters[np.argmax(strength / clusters)])
+    return int(clusters[np.argmax(strength)])
 
 
 def _get_inertia(estimator: KMeans, data: ArrayLike, k: int) -> float:
@@ -237,4 +236,4 @@ def _get_inertia(estimator: KMeans, data: ArrayLike, k: int) -> float:
 
     estimator.n_clusters = k
     estimator.fit(data)
-    return estimator.inertia_
+    return float(estimator.inertia_)

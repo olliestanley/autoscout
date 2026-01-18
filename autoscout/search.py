@@ -1,4 +1,5 @@
-from typing import Dict, Sequence, Union
+from collections.abc import Sequence
+from typing import Any
 
 import pandas as pd
 from scipy.spatial import distance
@@ -7,7 +8,7 @@ from sklearn.preprocessing import MinMaxScaler
 from autoscout.util import get_record
 
 
-def search(data: pd.DataFrame, criteria: Dict[str, Dict[str, float]]) -> pd.DataFrame:
+def search(data: pd.DataFrame, criteria: dict[str, dict[str, float]]) -> pd.DataFrame:
     """
     Search a DataFrame for rows which match numerical `criteria`.
 
@@ -41,7 +42,7 @@ def search(data: pd.DataFrame, criteria: Dict[str, Dict[str, float]]) -> pd.Data
 
 
 def search_similar(
-    data: pd.DataFrame, columns: Sequence[str], index: Union[str, int], num: int = 5
+    data: pd.DataFrame, columns: Sequence[str], index: str | int, num: int = 5
 ) -> pd.DataFrame:
     """
     Search `data` for `num` records which are most similar to the record at the given
@@ -68,14 +69,18 @@ def search_similar(
     data = data.copy(deep=True)
     scaler = MinMaxScaler()
 
-    baseline = get_record(data, index)[columns]
-    data_relevant = data[columns]
+    baseline = get_record(data, index)[list(columns)]
+    data_relevant = data[list(columns)]
 
-    data_relevant = pd.DataFrame(scaler.fit_transform(data_relevant), columns=columns)
-    baseline = pd.DataFrame(scaler.transform(baseline), columns=columns).squeeze()
+    data_relevant = pd.DataFrame(
+        scaler.fit_transform(data_relevant), columns=list(columns)
+    )
+    baseline_scaled = pd.DataFrame(scaler.transform(baseline), columns=list(columns))
+    baseline_series: pd.Series[Any] = baseline_scaled.iloc[0]
 
-    return data.iloc[
-        data_relevant.apply(lambda col: distance.euclidean(baseline, col), axis=1)
+    indices: list[int] = (
+        data_relevant.apply(lambda col: distance.euclidean(baseline_series, col), axis=1)
         .nsmallest(num)
         .index.to_list()
-    ]
+    )
+    return data.iloc[indices]

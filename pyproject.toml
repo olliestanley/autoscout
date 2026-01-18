@@ -1,0 +1,90 @@
+[project]
+name = "autoscout"
+version = "0.1.0"
+description = "Football scouting and analytics platform using fbref data"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Oliver Stanley" }]
+requires-python = ">=3.12"
+keywords = ["football", "soccer", "analytics", "scouting", "fbref"]
+
+dependencies = [
+    "beautifulsoup4>=4.12.3",
+    "bokeh>=3.6.0",
+    "lxml>=5.3.0",
+    "matplotlib>=3.9.0",
+    "mplsoccer>=1.4.0",
+    "nodriver>=0.48.1",
+    "numpy>=2.0.0",
+    "pandas>=2.2.0",
+    "polars>=1.0.0",
+    "scikit-learn>=1.6.0",
+    "scipy>=1.14.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "mypy>=1.14.0",
+    "pytest>=8.3.0",
+    "ruff>=0.8.0",
+    "ipython>=8.30.0",
+    "ipykernel>=6.29.0",
+    "jupyter-client>=8.6.0",
+    "jupyter-core>=5.7.0",
+    "pandas-stubs>=2.2.0",
+]
+
+[project.urls]
+Repository = "https://github.com/oliverstanley/autoscout"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["autoscout"]
+
+[tool.uv]
+dev-dependencies = [
+    "mypy>=1.14.0",
+    "pytest>=8.3.0",
+    "ruff>=0.8.0",
+    "ipython>=8.30.0",
+    "ipykernel>=6.29.0",
+    "jupyter-client>=8.6.0",
+    "jupyter-core>=5.7.0",
+    "pandas-stubs>=2.2.0",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # Pyflakes
+    "I",      # isort
+    "UP",     # pyupgrade
+    "B",      # flake8-bugbear
+    "SIM",    # flake8-simplify
+]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+]
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_ignores = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+markers = [
+    "integration: marks tests as integration tests that make real HTTP requests (deselect with '-m \"not integration\"')",
+]

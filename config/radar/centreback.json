@@ -15,7 +15,7 @@
             "high": 1.6,
             "low": 0.4
         },
-        "dribble_tackles_pct": {
+        "challenge_tackles_pct": {
             "display": "Dribbler Tackle Rate",
             "normalize": false,
             "lower_is_better": false,

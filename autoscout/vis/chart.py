@@ -1,10 +1,11 @@
-from typing import Sequence, Tuple, Union
+from collections.abc import Sequence
 
 import numpy as np
 import pandas as pd
-from bokeh.models import ColumnDataSource, HoverTool, LabelSet
+from bokeh.models import ColumnDataSource, HoverTool
+from bokeh.models.annotations import LabelSet
 from bokeh.plotting import figure
-from bokeh.plotting.figure import Figure
+from bokeh.plotting._figure import figure as Figure
 from bokeh.transform import factor_cmap
 
 
@@ -14,9 +15,9 @@ def lines(
     y_columns: Sequence[str],
     colors: Sequence[str],
     trends: bool = False,
-    vshade: Union[int, Tuple[int, int]] = None,
-    legend_labels: Sequence[str] = None,
-    **kwargs
+    vshade: int | tuple[int, int] | None = None,
+    legend_labels: Sequence[str] | None = None,
+    **kwargs,
 ) -> Figure:
     """
     Plot one or more lines on a single chart. Supports shading area between lines, and
@@ -49,17 +50,23 @@ def lines(
 
     source = ColumnDataSource(data)
 
-    for x, y, col, leg in zip(x_columns, y_columns, colors, legend_labels):
+    for x, y, col, leg in zip(x_columns, y_columns, colors, legend_labels, strict=True):
         plot.line(x, y, color=col, source=source, legend_label=leg)
 
         if trends:
             regr = np.polyfit(data[x], data[y], deg=1, full=True)
             slope, intercept = regr[0][:2]
             trend = [intercept + slope * v for v in data[x]]
-            plot.line(data[x], trend, color=col, line_dash="dashed")
+            plot.line(data[x].to_numpy(), trend, color=col, line_dash="dashed")
 
     if isinstance(vshade, int):
-        plot.varea(x=x_columns[vshade], y1=y_columns[vshade], y2=0, color=colors[vshade], source=source)
+        plot.varea(
+            x=x_columns[vshade],
+            y1=y_columns[vshade],
+            y2=0,
+            color=colors[vshade],
+            source=source,
+        )
 
     elif isinstance(vshade, tuple):
         vs1_y, vs2_y = [y_columns[v] for v in vshade]
@@ -68,7 +75,9 @@ def lines(
         compare = data[vs1_y] > data[vs2_y]
 
         diff = compare.diff().fillna(0).abs()
-        change_indices = [0,] + [idx for idx, d in enumerate(diff) if d]
+        change_indices = [
+            0,
+        ] + [idx for idx, d in enumerate(diff) if d]
 
         for i, change_idx in enumerate(change_indices):
             x_start = data[vs1_x][change_idx]
@@ -85,10 +94,12 @@ def lines(
             use_2 = compare[change_idx]
             plot.varea(
                 x=x_values,
-                y1=data[vs2_y if use_2 else vs1_y][change_idx:end_idx],
-                y2=data[vs1_y if use_2 else vs2_y][change_idx:end_idx],
+                y1=data[vs2_y if use_2 else vs1_y][change_idx:end_idx].to_numpy(),
+                y2=data[vs1_y if use_2 else vs2_y][change_idx:end_idx].to_numpy(),
                 hatch_color=colors[vshade[0] if use_2 else vshade[1]],
-                hatch_alpha=0.2, fill_alpha=0.0, hatch_pattern="/",
+                hatch_alpha=0.2,
+                fill_alpha=0.0,
+                hatch_pattern="/",
             )
 
     return plot
@@ -98,9 +109,9 @@ def scatter(
     data: pd.DataFrame,
     x: str,
     y: str,
-    size: str = None,
-    color: str = None,
-    palette: list = None,
+    size: str | None = None,
+    color: str | None = None,
+    palette: list | None = None,
     legend: bool = True,
     marker: str = "circle",
     **kwargs,
@@ -124,7 +135,7 @@ def scatter(
     """
 
     x_range = (data[x].min(), data[x].max() + 5)
-    plot: Figure = figure(x_range=x_range, **kwargs)
+    plot: Figure = figure(x_range=x_range, **kwargs)  # type: ignore[arg-type]
 
     source = ColumnDataSource(data)
 
@@ -140,16 +151,15 @@ def scatter(
         if not palette:
             raise ValueError("Must pass `palette` with `color`")
 
-        cmap = factor_cmap(
-            color, palette=palette, factors=data[color].unique()
-        )
+        factors = list(data[color].unique())
+        cmap = factor_cmap(color, palette=palette, factors=factors)
 
-        scatter_args["color"] = cmap
+        scatter_args["color"] = cmap  # type: ignore[assignment]
 
         if legend:
             scatter_args["legend_field"] = color
 
-    plot.scatter(**scatter_args)
+    plot.scatter(**scatter_args)  # type: ignore[arg-type]
 
     return plot
 
@@ -219,13 +229,10 @@ def add_labels(
             y_offset=5,
             x_offset=-15,
             source=source,
-            render_mode='canvas',
-            text_font_size={"value": "12px"}
+            text_font_size="12px",
         )
     )
 
-    plot.add_tools(HoverTool(
-        tooltips=[("Name", f"@{label}")]
-    ))
+    plot.add_tools(HoverTool(tooltips=[("Name", f"@{label}")]))
 
     return plot

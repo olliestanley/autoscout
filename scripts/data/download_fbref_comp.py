@@ -11,11 +11,9 @@ named `stats.json`, you can determine which stats and competitions are pulled.
 
 import argparse
 from pathlib import Path
-from typing import Dict
 
-from autoscout.data.fbref import comp
 from autoscout import util
-
+from autoscout.data.fbref import comp
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -29,7 +27,7 @@ if __name__ == "__main__":
     comps_json = util.load_json(config_dir / "comps.json")
     stats_json = util.load_json(config_dir / "stats.json")
 
-    comp_config: Dict[str, str] = comps_json[args.comp]
+    comp_config: dict[str, str] = comps_json[args.comp]
     url_top, url_end = comp_config["top"], comp_config["schedule_end"]
 
     df = comp.get_competition_data(

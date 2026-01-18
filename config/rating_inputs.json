@@ -3,7 +3,7 @@
         "progressive_passes",
         "passes_progressive_distance",
         "passes_into_final_third",
-        "dribbles",
+        "take_ons",
         "passes_switches"
     ],
     "create": [
@@ -17,7 +17,7 @@
         "npxg",
         "shots_on_target",
         "sca_shots",
-        "sca_dribbles",
+        "sca_take_ons",
         "sca_fouled",
         "touches_att_pen_area"
     ],
@@ -28,7 +28,7 @@
     "defend": [
         "tackles_def_3rd",
         "tackles_mid_3rd",
-        "dribble_tackles",
+        "challenge_tackles",
         "blocks",
         "interceptions",
         "ball_recoveries"

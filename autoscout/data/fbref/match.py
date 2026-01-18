@@ -1,4 +1,5 @@
-from typing import Any, Dict, Sequence
+from collections.abc import Sequence
+from typing import Any
 
 import pandas as pd
 
@@ -7,7 +8,7 @@ from autoscout.util import sleep_and_return
 
 
 def get_data(
-    config: Dict[str, Sequence[str]],
+    config: dict[str, Sequence[str]],
     top: str,
     end: str,
     name: str,
@@ -42,7 +43,7 @@ def get_data(
         axis=1,
     )
 
-    return df.loc[:, ~df.columns.duplicated()].assign(name=name)
+    return df.loc[:, ~df.columns.duplicated()].assign(name=name)  # type: ignore[no-any-return]
 
 
 def get_data_for_category(
@@ -71,14 +72,62 @@ def get_data_for_category(
     """
 
     url = top + category + end
-    tables = scrape.get_all_tables(url)
-    table = tables[1] if (team and vs and category != "schedule") else tables[0]
+    tables = scrape.get_tables_by_id(url)
+
+    # Determine which table to use based on team/vs flags
+    # fbref match log table IDs:
+    # - Player: matchlogs_all
+    # - Team for: matchlogs_for
+    # - Team against: matchlogs_against
+    table = get_match_table(tables, team=team, vs=vs)
+
+    if table is None:
+        raise ValueError(
+            f"Could not find match log table (team={team}, vs={vs}). "
+            f"Available tables: {list(tables.keys())}"
+        )
+
     return get_data_from_table(features, table)
 
 
-def get_data_from_table(
-    features: Sequence[str], table
-) -> pd.DataFrame:
+def get_match_table(
+    tables: dict[str, Any],
+    team: bool = False,
+    vs: bool = False,
+) -> Any | None:
+    """
+    Get the appropriate match log table.
+
+    fbref match log table IDs:
+    - Player: matchlogs_all
+    - Team for: matchlogs_for
+    - Team against: matchlogs_against
+
+    Args:
+        tables: Dict mapping table IDs to table elements.
+        team: Whether this is team-level data.
+        vs: Whether to get "against" stats for teams.
+
+    Returns:
+        The table element, or None if not found.
+    """
+    if team:
+        table_id = "matchlogs_against" if vs else "matchlogs_for"
+    else:
+        table_id = "matchlogs_all"
+
+    if table_id in tables:
+        return tables[table_id]
+
+    # Fallback: try to find any table with matchlogs in the ID
+    for tid, table in tables.items():
+        if "matchlogs" in tid:
+            return table
+
+    return None
+
+
+def get_data_from_table(features: Sequence[str], table) -> pd.DataFrame:
     """
     Extract data from a single HTML table on the fbref website.
 
@@ -90,7 +139,7 @@ def get_data_from_table(
         Extracted DataFrame from the table.
     """
 
-    pre_df: Dict[str, Sequence[Any]] = dict()
+    pre_df: dict[str, list[Any]] = {}
     rows = table.find_all("tr")
 
     for row in rows:
@@ -98,13 +147,21 @@ def get_data_from_table(
             continue
 
         goals_cell = row.find("td", {"data-stat": "goals_for"})
-        if goals_cell is not None and goals_cell.text.strip().encode().decode("utf-8") == "":
+        if (
+            goals_cell is not None
+            and goals_cell.text.strip().encode().decode("utf-8") == ""
+        ):
             continue
 
-        opponent, date = (
-            row.find(y, {"data-stat": x}).text.strip().encode().decode("utf-8")
-            for (x, y) in {"opponent": "td", "date": "th"}.items()
-        )
+        # Try to get opponent and date
+        opponent_cell = row.find("td", {"data-stat": "opponent"})
+        date_cell = row.find("th", {"data-stat": "date"})
+
+        if opponent_cell is None or date_cell is None:
+            continue
+
+        opponent = opponent_cell.text.strip().encode().decode("utf-8")
+        date = date_cell.text.strip().encode().decode("utf-8")
 
         if "opponent" in pre_df:
             pre_df["opponent"].append(opponent)
@@ -115,24 +172,36 @@ def get_data_from_table(
 
         for feat in features:
             cell = row.find("td", {"data-stat": feat})
-            text = cell.text.strip().encode().decode("utf-8")
 
-            if text == "":
-                text = "0"
-            if feat not in (
-                "date",
-                "start_time",
-                "comp",
-                "round",
-                "dayofweek",
-                "venue",
-                "result",
-                "opponent",
-                "match_report",
-                "game_started",
-                "position",
-            ):
-                text = float(text.replace(",", ""))
+            if cell is None:
+                # Feature not found - use default value
+                text: Any = 0 if feat not in (
+                    "date", "start_time", "comp", "round", "dayofweek",
+                    "venue", "result", "opponent", "match_report",
+                    "game_started", "position",
+                ) else ""
+            else:
+                text = cell.text.strip().encode().decode("utf-8")
+
+                if text == "":
+                    text = "0"
+                if feat not in (
+                    "date",
+                    "start_time",
+                    "comp",
+                    "round",
+                    "dayofweek",
+                    "venue",
+                    "result",
+                    "opponent",
+                    "match_report",
+                    "game_started",
+                    "position",
+                ):
+                    try:
+                        text = float(text.replace(",", ""))
+                    except ValueError:
+                        pass
 
             if feat in pre_df:
                 pre_df[feat].append(text)

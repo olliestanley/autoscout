@@ -50,7 +50,7 @@
             "high": 2.9,
             "low": 0.6
         },
-        "dribbles_completed": {
+        "take_ons_won": {
             "display": "Dribbles Completed",
             "normalize": true,
             "lower_is_better": false,

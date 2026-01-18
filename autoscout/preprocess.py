@@ -3,22 +3,22 @@ Load and preprocess player and team data from tabular (CSV) format.
 """
 
 import itertools
-from typing import Callable, Dict, Sequence, Union
+from collections.abc import Callable, Sequence
 
 import numpy as np
 import pandas as pd
 
 
 def combine_data(
-    data: Sequence[pd.DataFrame],
-    retain_nans=False,
+    dataframes: Sequence[pd.DataFrame],
+    retain_nans: bool = False,
 ) -> pd.DataFrame:
     """
     Combine tabular datasets by indices, for example to form a single DataFrame of
     datapoints from multiple competitions, or different seasons of one competition.
 
     Args:
-        data: Sequence of individual datasets.
+        dataframes: Sequence of individual datasets.
         retain_nans: Include columns which are not present in all individual datasets
             in the final output data.
 
@@ -26,9 +26,9 @@ def combine_data(
         Combined data.
     """
 
-    data = pd.concat(data, axis=0, join="outer" if retain_nans else "inner")
-    data = data.reset_index(drop=True)
-    return data
+    combined = pd.concat(dataframes, axis=0, join="outer" if retain_nans else "inner")
+    combined = combined.reset_index(drop=True)
+    return combined
 
 
 def rolling(
@@ -60,15 +60,10 @@ def rolling(
 
     columns_roll = [f"{col}_roll_{reduction}" for col in columns]
 
-    for col, col_roll in zip(columns, columns_roll):
-        roll = data[col].rolling(roll_length, min_periods=min_periods)
-
-        if reduction == "sum":
-            roll = roll.sum()
-        else:
-            roll = roll.mean()
-
-        data[col_roll] = roll.fillna(method="bfill")
+    for col, col_roll in zip(columns, columns_roll, strict=True):
+        rolling = data[col].rolling(roll_length, min_periods=min_periods)
+        rolled = rolling.sum() if reduction == "sum" else rolling.mean()
+        data[col_roll] = rolled.bfill()
 
     if dropna:
         data = data.dropna(subset=columns_roll).reset_index()
@@ -124,9 +119,7 @@ def adjust_per_90(
     return data
 
 
-def adjust_possession_def(
-    targets: np.ndarray, possessions: np.ndarray
-) -> np.ndarray:
+def adjust_possession_def(targets: np.ndarray, possessions: np.ndarray) -> np.ndarray:
     """
     Adjust `targets` for `possessions`, where targets is a matrix of defensive stats.
     Defensive stats are harder to accrue with more possession, so the output values are
@@ -194,8 +187,8 @@ def adjust_possession(
 
 def filter_categories(
     data: pd.DataFrame,
-    stats_config: Dict[str, Sequence[str]],
-    categories: Union[str, Sequence[str]],
+    stats_config: dict[str, Sequence[str]],
+    categories: str | Sequence[str],
     retain: bool = True,
 ) -> pd.DataFrame:
     """
@@ -213,7 +206,9 @@ def filter_categories(
     """
 
     stats = list(
-        itertools.chain([v for k, v in stats_config.items() if k in categories])
+        itertools.chain.from_iterable(
+            v for k, v in stats_config.items() if k in categories
+        )
     )
 
     return data[stats] if retain else data.drop(stats, axis=1)
@@ -222,4 +217,4 @@ def filter_categories(
 def _get_team_possession(player_match: pd.Series, team_data: pd.DataFrame) -> float:
     team_filtered = team_data[team_data["date"] == player_match["date"]]
     team_filtered = team_filtered[team_filtered["name"] == player_match["squad"]]
-    return float(team_filtered["possession"])
+    return float(team_filtered["possession"].iloc[0])

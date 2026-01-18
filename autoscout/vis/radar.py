@@ -1,4 +1,5 @@
-from typing import Any, Dict, Sequence, Tuple, Union
+from collections.abc import Sequence
+from typing import Any
 
 import matplotlib as mpl
 import pandas as pd
@@ -11,7 +12,7 @@ from autoscout.vis import constant
 
 def estimate_limits_by_position(
     data: pd.DataFrame, column: str, position: str, alpha: float = 0.1
-) -> Tuple[float, float]:
+) -> tuple[float, float]:
     """
     Estimate good outer limits on a radar chart for the given `column` by considering
     percentiles of players in the relevant `position`. For example, it is normal to set
@@ -30,17 +31,17 @@ def estimate_limits_by_position(
     """
 
     data = data[data["position"].str.startswith(position)]
-    values = data[column].squeeze()
-    return values.quantile(alpha), values.quantile(1 - alpha)
+    values = data[column]
+    return float(values.quantile(alpha)), float(values.quantile(1 - alpha))
 
 
 def plot_radar_from_config(
     data: pd.DataFrame,
-    config: Dict[str, Any],
-    index: Union[str, int],
-    index_compare: Union[str, int] = None,
+    config: dict[str, Any],
+    index: str | int,
+    index_compare: str | int | None = None,
     **kwargs,
-) -> Tuple[Radar, mpl.figure.Figure, mpl.axes.Axes]:
+) -> tuple[Radar, mpl.figure.Figure, mpl.axes.Axes]:
     """
     Plot a radar chart in `matplotlib` for a single row (team or player) in `data`,
     using specified `columns`. Radar limits are set by 5th and 95th percentile of the
@@ -92,14 +93,14 @@ def plot_radar_from_config(
 def plot_radar(
     data: pd.DataFrame,
     columns: Sequence[str],
-    index: Union[str, int],
-    index_compare: Union[str, int] = None,
-    columns_display: Sequence[str] = None,
-    lower_is_better: Sequence[str] = None,
-    min_values: Union[Sequence[float], str] = "auto",
-    max_values: Union[Sequence[float], str] = "auto",
+    index: str | int,
+    index_compare: str | int | None = None,
+    columns_display: Sequence[str] | None = None,
+    lower_is_better: Sequence[str] | None = None,
+    min_values: Sequence[float] | str = "auto",
+    max_values: Sequence[float] | str = "auto",
     **kwargs,
-) -> Tuple[Radar, mpl.figure.Figure, mpl.axes.Axes]:
+) -> tuple[Radar, mpl.figure.Figure, mpl.axes.Axes]:
     """
     Plot a radar chart in `matplotlib` for a single row (team or player) in `data`,
     using specified `columns`. Radar limits are set by 5th and 95th percentile of the
@@ -124,18 +125,20 @@ def plot_radar(
         Tuple of Radar, PyPlot Figure, and PyPlot Axes.
     """
 
+    columns = list(columns)
+
     if columns_display:
-        mapper = dict(zip(columns, columns_display))
+        mapper = dict(zip(columns, columns_display, strict=True))
         data = data.rename(mapper, axis=1)
-        columns = columns_display
+        columns = list(columns_display)
 
         if lower_is_better:
             lower_is_better = [mapper[v] for v in lower_is_better]
 
     if min_values == "auto":
-        min_values = data[columns].quantile(0.05)
+        min_values = data[columns].quantile(0.05).tolist()
     if max_values == "auto":
-        max_values = data[columns].quantile(0.95)
+        max_values = data[columns].quantile(0.95).tolist()
 
     radar = Radar(
         params=columns,
@@ -151,16 +154,16 @@ def plot_radar(
         ax=ax, facecolor=constant.RADAR_COLOURS[0], edgecolor=constant.RADAR_COLOURS[1]
     )
 
-    # Keep only the columns we want to plot
-    values = get_record(data, index)[columns].squeeze()
+    # Keep only the columns we want to plot - use iloc[0] to get Series reliably
+    values = get_record(data, index)[columns].iloc[0]
 
     if index_compare:
         if index_compare == "average":
             # Compute average of the plotting columns across the whole dataset
-            values_compare = data[columns].mean(axis=0).squeeze()
+            values_compare = data[columns].mean(axis=0)
 
         else:
-            values_compare = get_record(data, index_compare)[columns].squeeze()
+            values_compare = get_record(data, index_compare)[columns].iloc[0]
 
         radar.draw_radar_compare(
             values,

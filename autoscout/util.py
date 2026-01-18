@@ -1,14 +1,15 @@
 import json
+from collections.abc import Sequence
 from pathlib import Path
 from time import sleep
-from typing import Any, Dict, Sequence, Union
+from typing import Any
 
 import pandas as pd
 import polars as pl
 from sklearn.preprocessing import minmax_scale
 
 
-def get_record(data: pd.DataFrame, index: Union[str, int]) -> pd.DataFrame:
+def get_record(data: pd.DataFrame, index: str | int) -> pd.DataFrame:
     """
     Get a single row from the given DataFrame, based on a contextually interpreted
     `index` value.
@@ -27,13 +28,14 @@ def get_record(data: pd.DataFrame, index: Union[str, int]) -> pd.DataFrame:
     """
 
     if isinstance(index, int):
-        return data.iloc[index]
+        return data.iloc[[index]]
 
     player = "player" in data.columns
     data = data[data["player" if player else "team"] == index]
 
     if len(data.index) > 1:
-        return data.iloc[data["minutes"].argmax()]
+        # Use .to_numpy().argmax() for positional index with iloc (pandas 2.x compatibility)
+        return data.iloc[[int(data["minutes"].to_numpy().argmax())]]
 
     return data
 
@@ -69,23 +71,23 @@ def sleep_and_return(result: Any, sleep_seconds: float) -> Any:
 
 
 def load_json(
-    file_path: Union[str, Path],
-) -> Dict[str, Any]:
+    file_path: str | Path,
+) -> dict[str, Any]:
     """
     Load `file_path` from JSON to dict.
     """
 
     file_path = Path(file_path)
 
-    with open(file_path, "r") as f:
-        loaded_json = json.load(f)
+    with open(file_path) as f:
+        loaded_json: dict[str, Any] = json.load(f)
 
     return loaded_json
 
 
 def load_csv(
-    file_path: Union[str, Path], format: str = "pandas", **kwargs
-) -> Union[pd.DataFrame, pl.DataFrame]:
+    file_path: str | Path, format: str = "pandas", **kwargs
+) -> pd.DataFrame | pl.DataFrame:
     """
     Load `file_path` from CSV to DataFrame.
 
@@ -101,7 +103,7 @@ def load_csv(
 
 def write_csv(
     df: pd.DataFrame,
-    out_dir: Union[str, Path],
+    out_dir: str | Path,
     basename: str,
     **kwargs,
 ) -> Path:
